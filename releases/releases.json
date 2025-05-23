@@ -1,0 +1,435 @@
+{
+  "releases": [
+    {
+      "version": "1.12.0",
+      "releaseDate": "2025-05-11",
+      "title": "Feat: Refactor Dashboard Component",
+      "description": "Release 1.12.0",
+      "changes": [
+        {
+          "type": "feature",
+          "description": "Feat: Update release notes for v1.11.0"
+        },
+        {
+          "type": "feature",
+          "description": "Feat: Update release notes for v1.10.1"
+        },
+        {
+          "type": "feature",
+          "description": "Add prettier config and format all files with consistent code style"
+        },
+        {
+          "type": "feature",
+          "description": "Feat: Add Help Page Section (#55)"
+        },
+        {
+          "type": "feature",
+          "description": "Feat: Update release notes for v1.10.0"
+        },
+        {
+          "type": "feature",
+          "description": "Add initial Help Center with FAQ sections and question submission form"
+        },
+        {
+          "type": "feature",
+          "description": "Feat: Update Repo Version To 1.9.5 (#54)"
+        },
+        {
+          "type": "fix",
+          "description": "Add overflow-auto and padding styles to help tab in Dashboard component"
+        },
+        {
+          "type": "fix",
+          "description": "Fix scrolling issues and improve layout responsiveness across components"
+        },
+        {
+          "type": "fix",
+          "description": "ESLint errors and warnings"
+        }
+      ]
+    },
+    {
+      "version": "1.11.0",
+      "releaseDate": "2025-05-11",
+      "title": "Chore: Cosmetic Website Changes",
+      "description": "Release 1.11.0",
+      "changes": [
+        {
+          "type": "feature",
+          "description": "Feat: Update release notes for v1.10.1"
+        },
+        {
+          "type": "feature",
+          "description": "Add prettier config and format all files with consistent code style"
+        },
+        {
+          "type": "feature",
+          "description": "Feat: Add Help Page Section (#55)"
+        },
+        {
+          "type": "feature",
+          "description": "Feat: Update release notes for v1.10.0"
+        },
+        {
+          "type": "feature",
+          "description": "Add initial Help Center with FAQ sections and question submission form"
+        },
+        {
+          "type": "feature",
+          "description": "Feat: Update Repo Version To 1.9.5 (#54)"
+        },
+        {
+          "type": "fix",
+          "description": "Add overflow-auto and padding styles to help tab in Dashboard component"
+        },
+        {
+          "type": "fix",
+          "description": "Fix scrolling issues and improve layout responsiveness across components"
+        },
+        {
+          "type": "fix",
+          "description": "ESLint errors and warnings"
+        }
+      ]
+    },
+    {
+      "version": "1.10.1",
+      "releaseDate": "2025-05-11",
+      "title": "Chore: Prettify The Code",
+      "description": "Release 1.10.1",
+      "changes": [
+        {
+          "type": "feature",
+          "description": "Add prettier config and format all files with consistent code style"
+        },
+        {
+          "type": "feature",
+          "description": "Feat: Add Help Page Section (#55)"
+        },
+        {
+          "type": "feature",
+          "description": "Feat: Update release notes for v1.10.0"
+        },
+        {
+          "type": "feature",
+          "description": "Add initial Help Center with FAQ sections and question submission form"
+        },
+        {
+          "type": "feature",
+          "description": "Feat: Update Repo Version To 1.9.5 (#54)"
+        },
+        {
+          "type": "fix",
+          "description": "ESLint errors and warnings"
+        }
+      ]
+    },
+    {
+      "version": "1.10.0",
+      "releaseDate": "2025-05-11",
+      "title": "Feat: Add Help Page Section",
+      "description": "Release 1.10.0",
+      "changes": [
+        {
+          "type": "feature",
+          "description": "Add initial Help Center with FAQ sections and question submission form"
+        },
+        {
+          "type": "feature",
+          "description": "Feat: Update Repo Version To 1.9.5 (#54)"
+        },
+        {
+          "type": "fix",
+          "description": "ESLint errors and warnings"
+        }
+      ]
+    },
+    {
+      "version": "1.9.2",
+      "releaseDate": "2025-05-10",
+      "title": "Version 1.9.2 Release",
+      "description": "This release includes new features, improvements, and bug fixes.",
+      "changes": [
+        {
+          "type": "improvement",
+          "description": "improve type safety in LogViewer and add block scope to statusUtils"
+        }
+      ]
+    },
+    {
+      "version": "1.9.0",
+      "releaseDate": "2025-05-10",
+      "title": "Version 1.9.0 Release",
+      "description": "This release includes new features, improvements, and bug fixes.",
+      "changes": [
+        {
+          "type": "feature",
+          "description": "Feat: Project structure cleanup (#44)"
+        },
+        {
+          "type": "feature",
+          "description": "Feat: Update release notes for v1.8.9 (#43)"
+        }
+      ]
+    },
+    {
+      "version": "1.8.9",
+      "releaseDate": "2025-05-10",
+      "title": "Version 1.8.9 Release",
+      "description": "This release includes new features, improvements, and bug fixes.",
+      "changes": [
+        {
+          "type": "feature",
+          "description": "Add PR status check with fallback for missing PR number"
+        },
+        {
+          "type": "feature",
+          "description": "Feat: Update release notes for v1.8.8 (#42)"
+        }
+      ]
+    },
+    {
+      "version": "1.8.8",
+      "releaseDate": "2025-05-10",
+      "title": "Version 1.8.8 Release",
+      "description": "This release includes new features, improvements, and bug fixes.",
+      "changes": [
+        {
+          "type": "feature",
+          "description": "Feat: Update release notes for v1.8.7 (#41)"
+        }
+      ]
+    },
+    {
+      "version": "1.8.7",
+      "releaseDate": "2025-05-10",
+      "title": "Version 1.8.7 Release",
+      "description": "This release includes new features, improvements, and bug fixes.",
+      "changes": []
+    },
+    {
+      "version": "1.8.4",
+      "releaseDate": "2025-05-03",
+      "title": "Version 1.8.4 Release",
+      "description": "This release includes new features, improvements, and bug fixes.",
+      "changes": [
+        {
+          "type": "feature",
+          "description": "Add Mermaid.js support for diagram rendering in documentation"
+        },
+        {
+          "type": "feature",
+          "description": "Feat: Update release notes for v1.8.3 (#37)"
+        }
+      ]
+    },
+    {
+      "version": "1.8.3",
+      "releaseDate": "2025-05-03",
+      "title": "Version 1.8.3 Release",
+      "description": "This release includes new features, improvements, and bug fixes.",
+      "changes": [
+        {
+          "type": "feature",
+          "description": "Feat: Update release notes for v1.8.2 (#36)"
+        }
+      ]
+    },
+    {
+      "version": "1.8.2",
+      "releaseDate": "2025-05-01",
+      "title": "Version 1.8.2 Release",
+      "description": "This release includes new features, improvements, and bug fixes.",
+      "changes": [
+        {
+          "type": "feature",
+          "description": "Feat: Update release notes for v1.8.1 (#35)"
+        }
+      ]
+    },
+    {
+      "version": "1.8.1",
+      "releaseDate": "2025-05-01",
+      "title": "Version 1.8.1 Release",
+      "description": "This release includes new features, improvements, and bug fixes.",
+      "changes": [
+        {
+          "type": "feature",
+          "description": "Add error handling for PR branch updates in GitHub Actions workflow"
+        }
+      ]
+    },
+    {
+      "version": "1.7.0",
+      "releaseDate": "2025-05-01",
+      "title": "Version 1.7.0 Release",
+      "description": "This release includes new features, improvements, and bug fixes.",
+      "changes": [
+        {
+          "type": "feature",
+          "description": "Add SonarQube integration with Docker setup and configuration files"
+        },
+        {
+          "type": "feature",
+          "description": "Add documentation links and improve cross-referencing between docs"
+        },
+        {
+          "type": "feature",
+          "description": "Feat: Update release notes for v1.6.0"
+        }
+      ]
+    },
+    {
+      "version": "1.6.0",
+      "releaseDate": "2025-04-27",
+      "title": "Version 1.6.0 Release",
+      "description": "This release includes new features, improvements, and bug fixes.",
+      "changes": [
+        {
+          "type": "feature",
+          "description": "Add documenation for onboarding system"
+        },
+        {
+          "type": "feature",
+          "description": "Improve auth state management and guidance navigation across app"
+        },
+        {
+          "type": "feature",
+          "description": "Add user onboarding with interactive guidance tooltips"
+        },
+        {
+          "type": "feature",
+          "description": "Feat: Update release notes for v1.5.0"
+        },
+        {
+          "type": "fix",
+          "description": "Refactor test setup and mocks for improved test reliability and organization"
+        }
+      ]
+    },
+    {
+      "version": "1.5.0",
+      "releaseDate": "2025-04-26",
+      "title": "Version 1.5.0 Release",
+      "description": "This release includes new features, improvements, and bug fixes.",
+      "changes": [
+        {
+          "type": "feature",
+          "description": "Add service filters and monitoring dashboard components with tests"
+        },
+        {
+          "type": "feature",
+          "description": "Add metrics selector with persistent preferences and filtering capabilities"
+        },
+        {
+          "type": "feature",
+          "description": "Feat: Update release notes for v1.4.3"
+        },
+        {
+          "type": "fix",
+          "description": "Reset filters when switching projects or on localStorage parse error"
+        }
+      ]
+    },
+    {
+      "version": "1.4.3",
+      "releaseDate": "2025-04-26",
+      "title": "Version 1.4.3 Release",
+      "description": "This release includes new features, improvements, and bug fixes.",
+      "changes": [
+        {
+          "type": "fix",
+          "description": "add GitHub token authentication and write permissions for release workflow"
+        }
+      ]
+    },
+    {
+      "version": "1.3.0",
+      "releaseDate": "2025-04-26",
+      "title": "April 2025 Update",
+      "description": "This update brings several new features and improvements to the Poly Micro Manager.",
+      "changes": [
+        {
+          "type": "feature",
+          "description": "Added new microservice testing capabilities with improved UI"
+        },
+        {
+          "type": "feature",
+          "description": "Introduced automatic release management system"
+        },
+        {
+          "type": "improvement",
+          "description": "Enhanced dashboard performance and responsiveness"
+        },
+        {
+          "type": "fix",
+          "description": "Fixed authentication issues when logging in with certain email providers"
+        }
+      ]
+    },
+    {
+      "version": "1.2.0",
+      "releaseDate": "2025-04-25",
+      "title": "April 2025 Update",
+      "description": "This update brings several new features and improvements to the Poly Micro Manager.",
+      "changes": [
+        {
+          "type": "feature",
+          "description": "Added new microservice testing capabilities with improved UI"
+        },
+        {
+          "type": "feature",
+          "description": "Introduced automatic release management system"
+        },
+        {
+          "type": "improvement",
+          "description": "Enhanced dashboard performance and responsiveness"
+        },
+        {
+          "type": "fix",
+          "description": "Fixed authentication issues when logging in with certain email providers"
+        }
+      ]
+    },
+    {
+      "version": "1.1.0",
+      "releaseDate": "2025-03-15",
+      "title": "March 2025 Update",
+      "description": "This update focuses on improving the monitoring capabilities and fixing several bugs.",
+      "changes": [
+        {
+          "type": "feature",
+          "description": "Added real-time monitoring dashboard"
+        },
+        {
+          "type": "improvement",
+          "description": "Optimized microservice discovery process"
+        },
+        {
+          "type": "fix",
+          "description": "Fixed issue with project selection in the dashboard"
+        }
+      ]
+    },
+    {
+      "version": "1.0.0",
+      "releaseDate": "2025-02-01",
+      "title": "Initial Release",
+      "description": "The first stable release of Poly Micro Manager.",
+      "changes": [
+        {
+          "type": "feature",
+          "description": "Core microservice management functionality"
+        },
+        {
+          "type": "feature",
+          "description": "Basic authentication and user management"
+        },
+        {
+          "type": "feature",
+          "description": "Project configuration and setup"
+        }
+      ]
+    }
+  ]
+}

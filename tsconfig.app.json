@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "types": ["vitest/globals", "node", "@testing-library/jest-dom"],
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@components": ["./src/components/*"],
+      "@shared/*": ["./src/components/shared/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@types/*": ["./src/types/*"],
+      "@helpers/*": ["./src/helpers/*"],
+      "@constants": ["./src/helpers/constants.tsx"],
+      "@data/*": ["./src/data/*"],
+      "@tests/*": ["./src/__tests__/*"]
+    }
+  },
+  "include": ["src", "e2e", "src/__tests__"]
+}

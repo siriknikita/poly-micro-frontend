@@ -1,0 +1,42 @@
+[
+  {
+    "type": "feature",
+    "description": "Feat: Update release notes for v1.11.0"
+  },
+  {
+    "type": "feature",
+    "description": "Feat: Update release notes for v1.10.1"
+  },
+  {
+    "type": "feature",
+    "description": "Add prettier config and format all files with consistent code style"
+  },
+  {
+    "type": "feature",
+    "description": "Feat: Add Help Page Section (#55)"
+  },
+  {
+    "type": "feature",
+    "description": "Feat: Update release notes for v1.10.0"
+  },
+  {
+    "type": "feature",
+    "description": "Add initial Help Center with FAQ sections and question submission form"
+  },
+  {
+    "type": "feature",
+    "description": "Feat: Update Repo Version To 1.9.5 (#54)"
+  },
+  {
+    "type": "fix",
+    "description": "Add overflow-auto and padding styles to help tab in Dashboard component"
+  },
+  {
+    "type": "fix",
+    "description": "Fix scrolling issues and improve layout responsiveness across components"
+  },
+  {
+    "type": "fix",
+    "description": "ESLint errors and warnings"
+  }
+]
