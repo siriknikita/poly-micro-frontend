@@ -45,9 +45,9 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ title, faqs }) => {
             {expandedItems[faq.id] && (
               <div
                 id={`faq-answer-${faq.id}`}
-                className="mt-3 text-gray-600 dark:text-gray-300 text-sm bg-gray-50 dark:bg-gray-750 p-4 rounded-md"
+                className="mt-3 text-gray-700 dark:text-gray-200 text-sm bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-md border border-indigo-100 dark:border-indigo-800/30 shadow-sm"
               >
-                <p>{faq.answer}</p>
+                <p className="leading-relaxed">{faq.answer}</p>
               </div>
             )}
           </div>

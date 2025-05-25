@@ -33,7 +33,19 @@ function App() {
 
 function AppContent() {
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, refreshAuthState } = useAuth();
+  console.log('Auth state in AppContent:', user, isAuthenticated);
+  
+  // Listen for auth state changes from other components
+  useEffect(() => {
+    const handleAuthChange = () => {
+      console.log('Auth state change detected, refreshing...');
+      refreshAuthState();
+    };
+    
+    window.addEventListener('auth-state-changed', handleAuthChange);
+    return () => window.removeEventListener('auth-state-changed', handleAuthChange);
+  }, [refreshAuthState]);
 
   // Handle navigation after logout
   useEffect(() => {
@@ -52,7 +64,14 @@ function AppContent() {
     <ProjectProvider>
       <ToastProvider>
         <ReleaseProvider>
-          <GuidanceProvider currentUser={user}>
+          <GuidanceProvider currentUser={user ? {
+              username: user.username,
+              email: user.email,
+              businessName: user.full_name || 'User',
+              password: '', // We don't need the actual password for guidance
+              hasCompletedOnboarding: true, // Assume completed if they're logged in
+              id: user.id
+            } : null}>
             <Routes>
               <Route path="/register" element={<RegisterForm />} />
               <Route path="/login" element={<LoginForm />} />
@@ -62,6 +81,10 @@ function AppContent() {
               <Route path="/testing" element={<AppLayout />} />
               <Route path="/help" element={<AppLayout />} />
               <Route path="/" element={<Navigate to="/login" replace />} />
+              {/* Add a catch-all route that redirects to dashboard if authenticated, login otherwise */}
+              <Route path="*" element={
+                isAuthenticated ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />
+              } />
             </Routes>
             <ToastContainer />
             <ReleaseModal />

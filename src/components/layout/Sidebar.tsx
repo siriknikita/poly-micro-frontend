@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   // LayoutDashboard,
   Activity,
-  GitBranch,
+  // GitBranch, // Removed unused import
   TestTube2,
   ChevronLeft,
   ChevronRight,
@@ -27,11 +27,12 @@ const tabs: Tab[] = [
     name: 'Microservices',
     icon: Activity,
   },
-  {
-    id: 'cicd',
-    name: 'CI/CD Pipeline',
-    icon: GitBranch,
-  },
+  // CI/CD Pipeline tab hidden as requested
+  // {
+  //   id: 'cicd',
+  //   name: 'CI/CD Pipeline',
+  //   icon: GitBranch,
+  // },
   {
     id: 'testing',
     name: 'Automated Testing',
@@ -100,7 +101,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, user }
         <GuidanceTooltip
           step={OnboardingStep.SIDEBAR}
           title="Navigation Sidebar"
-          description="Use the sidebar to navigate between different sections of the application: Dashboard, Microservices, CI/CD Pipeline, and Automated Testing."
+          description="Use the sidebar to navigate between different sections of the application: Microservices and Automated Testing."
           position="right"
           className="space-y-4 sidebar-tabs"
         >

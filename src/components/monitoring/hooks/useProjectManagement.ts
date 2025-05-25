@@ -4,7 +4,7 @@ import { mockTestDataByProject } from '@data/mockTestData';
 import { useProject } from '@/context/useProject';
 import { useQuery } from '@tanstack/react-query';
 
-const API_BASE_URL = 'http://localhost:8000'; // Configure this to match your FastAPI server URL
+const API_BASE_URL = 'http://backend:8000'; // Configure this to match your FastAPI server URL
 
 /**
  * Custom hook for managing project selection and data

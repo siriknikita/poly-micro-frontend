@@ -1,5 +1,5 @@
 import React, { memo, useMemo } from 'react';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Zap } from 'lucide-react';
 import { BoxedWrapper, SectionHeader } from '@shared/index';
 import { usePagination } from '@hooks/index';
 import { Log, Service } from '@/types';
@@ -9,6 +9,8 @@ import { ServiceSelector, SeveritySelector, RowsPerPageSelector } from '../share
 import StatusBadge from '../shared/StatusBadge';
 import { GuidanceTooltip } from '@/components/guidance';
 import { OnboardingStep } from '@/context/GuidanceContext';
+import { useLogAnalysis } from '@/hooks/useLogAnalysis';
+import { LogAnalysisDialog } from './LogAnalysisDialog';
 
 interface LogViewerProps {
   logs: Log[];
@@ -17,10 +19,11 @@ interface LogViewerProps {
   onServiceChange: (service: string) => void;
   onSeverityChange: (severity: string) => void;
   services: Service[];
+  selectedProjectId: string;
 }
 
 export const LogViewer: React.FC<LogViewerProps> = memo(
-  ({ logs, selectedService, selectedSeverity, onServiceChange, onSeverityChange, services }) => {
+  ({ logs, selectedService, selectedSeverity, onServiceChange, onSeverityChange, services, selectedProjectId }) => {
     // Debug log information
     console.log('LogViewer - logs:', logs);
     console.log('LogViewer - services:', services);
@@ -71,6 +74,22 @@ export const LogViewer: React.FC<LogViewerProps> = memo(
       handleItemsPerPageChange,
     } = usePagination(filteredLogs, DEFAULT_ITEMS_PER_PAGE);
 
+    console.log('LogViewer - fuck me sideways:', filteredLogs);
+
+    // Log analysis state and handlers
+    const {
+      analyzeProjectLogs,
+      isAnalyzing,
+      analysisResult,
+      analysisError,
+      isDialogOpen,
+      closeDialog,
+    } = useLogAnalysis(selectedProjectId);
+    
+    console.log('LogViewer - analysisResult:', analysisResult);
+    console.log('LogViewer - analysisError:', analysisError);
+    console.log('LogViewer - isDialogOpen:', isDialogOpen);
+    
     return (
       <BoxedWrapper>
         <GuidanceTooltip
@@ -94,24 +113,36 @@ export const LogViewer: React.FC<LogViewerProps> = memo(
             </div>
           </div>
 
-          {/* Filter */}
-          <div className="mb-4 flex flex-wrap gap-4">
-            <ServiceSelector
-              selectedService={selectedService}
-              services={services}
-              onServiceSelect={onServiceChange}
-              showAllOption={true}
-            />
+          {/* Filter and Actions */}
+          <div className="mb-4 flex flex-wrap gap-4 justify-between">
+            <div className="flex flex-wrap gap-4">
+              <ServiceSelector
+                selectedService={selectedService}
+                services={services}
+                onServiceSelect={onServiceChange}
+                showAllOption={true}
+              />
 
-            <SeveritySelector
-              selectedSeverity={selectedSeverity}
-              onSeverityChange={onSeverityChange}
-            />
+              <SeveritySelector
+                selectedSeverity={selectedSeverity}
+                onSeverityChange={onSeverityChange}
+              />
 
-            <RowsPerPageSelector
-              itemsPerPage={itemsPerPage}
-              onItemsPerPageChange={handleItemsPerPageChange}
-            />
+              <RowsPerPageSelector
+                itemsPerPage={itemsPerPage}
+                onItemsPerPageChange={handleItemsPerPageChange}
+              />
+            </div>
+            
+            {/* AI Analysis Button */}
+            <button
+              onClick={analyzeProjectLogs}
+              disabled={!selectedProjectId || filteredLogs.length === 0 || isAnalyzing}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              <Zap className="h-4 w-4" />
+              {isAnalyzing ? 'Analyzing...' : 'Analyze Logs'}
+            </button>
           </div>
 
           {/* Logs Table */}
@@ -177,6 +208,16 @@ export const LogViewer: React.FC<LogViewerProps> = memo(
             </div>
           )}
         </GuidanceTooltip>
+        
+        {/* Log Analysis Dialog */}
+        <LogAnalysisDialog
+          isOpen={isDialogOpen}
+          onClose={closeDialog}
+          analysis={analysisResult?.analysis || null}
+          loading={isAnalyzing}
+          error={analysisError}
+          logCount={analysisResult?.log_count || 0}
+        />
       </BoxedWrapper>
     );
   },

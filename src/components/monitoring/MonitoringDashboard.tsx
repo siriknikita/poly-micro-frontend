@@ -55,6 +55,7 @@ export const MonitoringDashboard: React.FC<MonitoringDashboardProps> = memo(
           onServiceChange={setSelectedLogService}
           onSeverityChange={setSelectedSeverity}
           services={services || []}
+          selectedProjectId={selectedProjectId}
         />
       </div>
     );

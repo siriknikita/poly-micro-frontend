@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Send } from 'lucide-react';
 import { QUESTION_CATEGORIES } from './constants/faqData';
 import { QuestionSubmission } from './types';
+import { Dropdown } from '../shared/Dropdown';
 
 interface AskQuestionFormProps {
   onSubmit: (question: QuestionSubmission) => Promise<void>;
@@ -160,23 +161,29 @@ export const AskQuestionForm: React.FC<AskQuestionFormProps> = ({ onSubmit, isSu
         >
           Category
         </label>
-        <select
-          id="category"
-          name="category"
-          value={formData.category}
-          onChange={handleChange}
-          className={`w-full p-3 border ${errors.category ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} rounded-md bg-transparent focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:text-white`}
-          data-testid="question-category-select"
-        >
-          <option value="" className="bg-white dark:bg-gray-800">
-            Select a category
-          </option>
-          {QUESTION_CATEGORIES.map((category) => (
-            <option key={category.id} value={category.id} className="bg-white dark:bg-gray-800">
-              {category.name}
-            </option>
-          ))}
-        </select>
+        <div className={errors.category ? 'border border-red-500 rounded-md' : ''}>
+          <Dropdown
+            buttonLabel={formData.category ? QUESTION_CATEGORIES.find(c => c.id === formData.category)?.name || 'Select a category' : 'Select a category'}
+            selectedOption={formData.category}
+            sections={[
+              {
+                options: QUESTION_CATEGORIES.map(category => ({
+                  id: category.id,
+                  label: category.name,
+                  disabled: false
+                })),
+                onSelect: (id: string) => {
+                  handleChange({
+                    target: { name: 'category', value: id }
+                  } as React.ChangeEvent<HTMLSelectElement>)
+                }
+              }
+            ]}
+            className="w-full"
+            buttonClassName="py-3 text-base"
+            testId="question-category-select"
+          />
+        </div>
         {errors.category && <p className="mt-1 text-sm text-red-500">{errors.category}</p>}
       </div>
 

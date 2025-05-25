@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Log } from '@/types';
 
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = 'http://backend:8000/api';
 
 export default function useMonitoringData(selectedProjectId: string) {
   const {
@@ -70,7 +70,7 @@ export default function useMonitoringData(selectedProjectId: string) {
       (selectedSeverity === 'All' || log.severity === selectedSeverity),
   );
   console.log('logsData', logsData);
-  console.log('filteredLogs', filteredLogs);
+  console.log('filteredLogs FUCK ME SIDEWAYS', filteredLogs);
 
   return {
     cpuData: cpuData || [],
