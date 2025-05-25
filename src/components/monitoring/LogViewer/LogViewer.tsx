@@ -48,6 +48,14 @@ export const LogViewer: React.FC<LogViewerProps> = memo(
       return name;
     };
     
+    // Find the service ID corresponding to the selected service name
+    const selectedServiceId = useMemo(() => {
+      if (selectedService === 'All') return 'All';
+      // Find the service object that matches the selected service name
+      const service = services.find(svc => svc.name === selectedService);
+      return service?.id || selectedService; // Return the ID if found, otherwise the name itself
+    }, [selectedService, services]);
+
     // Filter logs based on selected service and severity
     const filteredLogs = useMemo(() => {
       if (!logs || !Array.isArray(logs)) {
@@ -55,14 +63,16 @@ export const LogViewer: React.FC<LogViewerProps> = memo(
         return [];
       }
       
+      console.log('Filtering logs with selectedServiceId:', selectedServiceId);
+      
       return logs.filter((log) => {
         if (!log) return false;
         
-        const serviceMatch = selectedService === 'All' || log.service_id === selectedService;
+        const serviceMatch = selectedServiceId === 'All' || log.service_id === selectedServiceId;
         const severityMatch = selectedSeverity === 'All' || log.severity === selectedSeverity;
         return serviceMatch && severityMatch;
       });
-    }, [logs, selectedService, selectedSeverity]);
+    }, [logs, selectedServiceId, selectedSeverity]);
 
     const {
       currentPage,
@@ -74,7 +84,7 @@ export const LogViewer: React.FC<LogViewerProps> = memo(
       handleItemsPerPageChange,
     } = usePagination(filteredLogs, DEFAULT_ITEMS_PER_PAGE);
 
-    console.log('LogViewer - fuck me sideways:', filteredLogs);
+    console.log('LogViewer - filtered logs:', filteredLogs);
 
     // Log analysis state and handlers
     const {
