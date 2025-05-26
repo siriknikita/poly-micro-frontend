@@ -13,12 +13,13 @@ interface TestListProps {
   onGenerateTest: (test: TestItemType) => void;
   functionResults: Record<string, string>;
   microserviceId: string;
+  testRunIds?: Record<string, string>;
 }
 
 import { useProject } from '@/context/useProject';
 
 export const TestList = memo<TestListProps>(
-  ({ tests, onRunTest, onGenerateTest, functionResults, microserviceId }) => {
+  ({ tests, onRunTest, onGenerateTest, functionResults, microserviceId, testRunIds = {} }) => {
     // State to track if all items are expanded
     const [areAllExpanded, setAreAllExpanded] = useState(false);
 
@@ -39,6 +40,7 @@ export const TestList = memo<TestListProps>(
       selectedTestId: hookSelectedTestId,
       closeOutputModal: hookCloseOutputModal,
       viewTestOutput,
+      analyzeTestResult,
     } = useTestItems(tests, project?.id || '', microserviceId);
 
     // Reset areAllExpanded state when microservice changes
@@ -73,6 +75,20 @@ export const TestList = memo<TestListProps>(
 
     // Check if there are any results to display
     const hasResults = Object.keys(functionResults).length > 0;
+    
+    // Handle analyze test click
+    const handleAnalyzeTest = (test: TestItemType) => {
+      // Show loading state
+      showInfo(`Analyzing test ${test.name}...`);
+      
+      if (analyzeTestResult) {
+        analyzeTestResult(test.id).then(() => {
+          showInfo(`Analysis for ${test.name} complete`);
+        }).catch((error: Error) => {
+          showError(`Failed to analyze test ${test.name}: ${error.message}`);
+        });
+      }
+    };
 
     /**
      * Recursively render test items and their children
@@ -81,6 +97,7 @@ export const TestList = memo<TestListProps>(
       const isExpanded = expandedItems[item.id];
       const hasChildren = item.children && item.children.length > 0;
       const result = functionResults[item.id];
+      const testRunId = testRunIds[item.id];
 
       return (
         <div key={item.id}>
@@ -99,6 +116,8 @@ export const TestList = memo<TestListProps>(
             onShowOutput={(testId) => {
               viewTestOutput(testId);
             }}
+            testRunId={testRunId}
+            onAnalyzeTest={handleAnalyzeTest}
           />
 
           {hasChildren && isExpanded && (
@@ -201,7 +220,7 @@ export const TestList = memo<TestListProps>(
         )}
 
         {/* Error state */}
-        {error && <div className="py-8 text-center text-red-600 dark:text-red-400">{error}</div>}
+        {error && <div className="py-8 text-center text-red-600 dark:text-red-400">{error.message || String(error)}</div>}
 
         {/* Empty state */}
         {!isLoading && !error && (!tests || tests.length === 0) && (

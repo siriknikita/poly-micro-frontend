@@ -1,8 +1,9 @@
 import { memo } from 'react';
-import { ChevronRight, ChevronDown, Zap, Play, Eye } from 'lucide-react';
+import { ChevronRight, ChevronDown, Zap, Play, Eye, BrainCircuit } from 'lucide-react';
 import { TestItem as TestItemType } from '@/types';
 import { CSS_CLASSES, TEST_ITEM_TYPES } from '../constants';
 import { IconButton } from './IconButton';
+import { TestAnalysis } from '../TestAnalysis';
 
 interface TestItemProps {
   item: TestItemType;
@@ -14,6 +15,8 @@ interface TestItemProps {
   result?: string;
   showResults?: boolean;
   onShowOutput?: (id: string) => void;
+  testRunId?: string;
+  onAnalyzeTest?: (test: TestItemType) => void;
 }
 
 /**
@@ -30,6 +33,8 @@ export const TestItemComponent = memo<TestItemProps>(
     result,
     showResults = true,
     onShowOutput,
+    testRunId,
+    onAnalyzeTest,
   }) => {
     const hasChildren = item.children && item.children.length > 0;
     const paddingLeft = `${depth * 1.25 + 0.5}rem`;
@@ -93,6 +98,16 @@ export const TestItemComponent = memo<TestItemProps>(
                     role="outputButton"
                   />
                 )}
+                {result && testRunId && onAnalyzeTest && (
+                  <IconButton
+                    onClick={() => onAnalyzeTest(item)}
+                    icon={<BrainCircuit className="h-4 w-4" />}
+                    title="AI Analysis"
+                    aria-label={`Analyze test results for ${item.name}`}
+                    className="text-purple-600 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900"
+                    role="analyzeButton"
+                  />
+                )}
               </div>
             )}
           </div>
@@ -100,6 +115,9 @@ export const TestItemComponent = memo<TestItemProps>(
           {showResult && (
             <div className="ml-6 mr-4 mb-3 p-3 bg-gray-100 dark:bg-gray-800 rounded font-mono text-sm whitespace-pre-wrap text-gray-700 dark:text-gray-300">
               {result}
+              {testRunId && item.type === TEST_ITEM_TYPES.FUNCTION && (
+                <TestAnalysis testId={item.id} testRunId={testRunId} />
+              )}
             </div>
           )}
         </div>

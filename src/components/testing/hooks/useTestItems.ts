@@ -1,46 +1,24 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { TestItem } from '@/types';
-
-// Define interfaces for better type safety
-interface StorageData {
-  [microserviceId: string]: unknown;
-}
-
-// Local storage key constants
-const STORAGE_KEYS = {
-  expandedItems: (projectId: string) => `poly-micro-manager-expanded-items:${projectId}`,
-  functionResults: (projectId: string) => `poly-micro-manager-function-results:${projectId}`,
-  showResults: (projectId: string) => `poly-micro-manager-show-results:${projectId}`,
-};
+import { testsApi } from '@/utils/api';
 
 /**
  * Helper functions for localStorage operations
  */
 const storage = {
-  /**
-   * Save data to localStorage with error handling
-   */
   save: (key: string, microserviceId: string | null, data: unknown): void => {
     if (!microserviceId) return;
 
     try {
-      // Get existing data or initialize empty object
       const existingData = localStorage.getItem(key) || '{}';
-      const parsedData = JSON.parse(existingData) as StorageData;
-
-      // Update data for specific microservice
+      const parsedData = JSON.parse(existingData) as Record<string, unknown>;
       parsedData[microserviceId] = data;
-
-      // Save back to localStorage
       localStorage.setItem(key, JSON.stringify(parsedData));
     } catch (error) {
       console.error(`Failed to save data to localStorage (${key}):`, error);
     }
   },
 
-  /**
-   * Load data from localStorage with error handling
-   */
   load: <T>(key: string, microserviceId: string | null, defaultValue: T): T => {
     if (!microserviceId) return defaultValue;
 
@@ -48,7 +26,7 @@ const storage = {
       const storedData = localStorage.getItem(key);
       if (!storedData) return defaultValue;
 
-      const parsedData = JSON.parse(storedData) as StorageData;
+      const parsedData = JSON.parse(storedData) as Record<string, unknown>;
       return microserviceId in parsedData ? (parsedData[microserviceId] as T) : defaultValue;
     } catch (error) {
       console.error(`Failed to load data from localStorage (${key}):`, error);
@@ -57,246 +35,216 @@ const storage = {
   },
 };
 
+const STORAGE_KEYS = {
+  expandedItems: (projectId: string) => `poly-micro-manager-expanded-items:${projectId}`,
+  functionResults: (projectId: string) => `poly-micro-manager-function-results:${projectId}`,
+  showResults: (projectId: string) => `poly-micro-manager-show-results:${projectId}`,
+};
+
 /**
- * Hook for managing test items and their expanded state
+ * Hook for managing test items, including execution and analysis
  */
 export const useTestItems = (
-  microservices: TestItem[] = [],
+  tests: TestItem[] = [],
   projectId: string,
-  initialMicroserviceId?: string,
+  microserviceId: string,
 ) => {
-  // State for test items management
+  // Create state for expanded items, function results, and results visibility
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({});
   const [functionResults, setFunctionResults] = useState<Record<string, string>>({});
   const [showResults, setShowResults] = useState<boolean>(true);
-  const [currentMicroserviceId, setCurrentMicroserviceId] = useState<string | null>(
-    initialMicroserviceId || null,
-  );
+
+  // State for the current microservice ID
+  const [currentMicroserviceId] = useState<string>(microserviceId);
+
+  // State for loading and error states
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error] = useState<string | null>(null);
+  const [error, setError] = useState<Error | null>(null);
+
+  // State for the output modal
   const [isOutputModalOpen, setIsOutputModalOpen] = useState<boolean>(false);
   const [selectedTestId, setSelectedTestId] = useState<string | null>(null);
-  const [runningTests, setRunningTests] = useState<Record<string, boolean>>({});
-  const [allTestsComplete, setAllTestsComplete] = useState<boolean>(false);
-  const totalTestsRunningRef = useRef<number>(0);
-  const completedTestsRef = useRef<number>(0);
+  const [runningTests, setRunningTests] = useState<string[]>([]);
+  const [allTestsComplete, setAllTestsComplete] = useState<boolean>(true);
+  const [testRunIds, setTestRunIds] = useState<Record<string, string>>({});
+  const [testAnalysis, setTestAnalysis] = useState<Record<string, any>>({});
+  const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
 
-  // Initialize state when project or microservices change
-  useEffect(() => {
-    // Reset state for new project
-    setExpandedItems({});
-    setFunctionResults({});
-    setShowResults(true);
-    setAllTestsComplete(false);
-    totalTestsRunningRef.current = 0;
-    completedTestsRef.current = 0;
+  // Setup for API requests
+  const pollIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-    // Set first microservice as current if available, or use initialMicroserviceId if provided
-    if (initialMicroserviceId) {
-      setCurrentMicroserviceId(initialMicroserviceId);
-    } else if (microservices.length > 0) {
-      setCurrentMicroserviceId(microservices[0].id);
-    } else {
-      setCurrentMicroserviceId(null);
-    }
-  }, [projectId, microservices, initialMicroserviceId]);
-
-  // Load saved state when current microservice changes
+  // Load saved state when component mounts
   useEffect(() => {
     if (!currentMicroserviceId) return;
 
-    // Load all state data for the current microservice
     const loadedExpandedItems = storage.load<Record<string, boolean>>(
       STORAGE_KEYS.expandedItems(projectId),
       currentMicroserviceId,
-      {},
+      {}
     );
 
     const loadedFunctionResults = storage.load<Record<string, string>>(
       STORAGE_KEYS.functionResults(projectId),
       currentMicroserviceId,
-      {},
+      {}
     );
 
     const loadedShowResults = storage.load<boolean>(
       STORAGE_KEYS.showResults(projectId),
       currentMicroserviceId,
-      true,
+      true
     );
 
-    // Update state with loaded data
     setExpandedItems(loadedExpandedItems);
     setFunctionResults(loadedFunctionResults);
     setShowResults(loadedShowResults);
   }, [currentMicroserviceId, projectId]);
 
   /**
-   * Toggle expanded state of a test item
+   * Poll for test completion
    */
-  const toggleExpand = useCallback(
-    (id: string) => {
-      setExpandedItems((prev) => {
-        const newState = {
-          ...prev,
-          [id]: !prev[id],
-        };
+  const pollForTestCompletion = useCallback((testId: string, testRunId: string) => {
+    if (pollIntervalRef.current) {
+      clearInterval(pollIntervalRef.current);
+    }
 
-        // Save to localStorage
-        storage.save(STORAGE_KEYS.expandedItems(projectId), currentMicroserviceId, newState);
+    let pollCount = 0;
+    const maxPolls = 30;
 
-        return newState;
-      });
-    },
-    [currentMicroserviceId, projectId],
-  );
-
-  /**
-   * Expand all items in the current microservice
-   */
-  const expandAll = useCallback(() => {
-    const expandedState: Record<string, boolean> = {};
-
-    // Helper function to recursively expand all items
-    const expandAllItems = (items: TestItem[]) => {
-      items.forEach((item) => {
-        expandedState[item.id] = true;
-        if (item.children && item.children.length > 0) {
-          expandAllItems(item.children);
-        }
-      });
-    };
-
-    // Expand all items in the microservices array
-    expandAllItems(microservices);
-
-    setExpandedItems(expandedState);
-
-    // Save to localStorage
-    storage.save(STORAGE_KEYS.expandedItems(projectId), currentMicroserviceId, expandedState);
-  }, [currentMicroserviceId, microservices, projectId]);
-
-  /**
-   * Collapse all items in the current microservice
-   */
-  const collapseAll = useCallback(() => {
-    const emptyState = {};
-    setExpandedItems(emptyState);
-
-    // Save to localStorage
-    storage.save(STORAGE_KEYS.expandedItems(projectId), currentMicroserviceId, emptyState);
-  }, [currentMicroserviceId, projectId]);
-
-  /**
-   * Run a single test function and generate results
-   */
-  const runTest = useCallback(
-    (test: TestItem) => {
-      if (!test || test.type !== 'function') return;
-
-      // Set this test as running
-      setRunningTests((prev) => ({ ...prev, [test.id]: true }));
-      setIsLoading(true);
-
-      // Set total tests count to 1 for individual test runs
-      if (totalTestsRunningRef.current === 0) {
-        totalTestsRunningRef.current = 1;
-        completedTestsRef.current = 0;
-      } else {
-        // Increment completed count if part of a batch run
-        completedTestsRef.current += 1;
-      }
-
+    pollIntervalRef.current = setInterval(async () => {
       try {
-        // In a real app, this would be an API call to run the test
-        // For now, we'll just simulate a test run
-        setTimeout(() => {
-          // Generate a random test result (success or failure)
-          const success = Math.random() > 0.3;
-          const result = success ? 'PASSED' : 'FAILED';
+        if (pollCount >= maxPolls) {
+          if (pollIntervalRef.current) {
+            clearInterval(pollIntervalRef.current);
+          }
+          setRunningTests((prev) => prev.filter(id => id !== testId));
+          setAllTestsComplete(true);
+          setIsLoading(false);
+          return;
+        }
 
-          // Update function results with status
+        const response = await testsApi.getTestRun(testRunId);
+        const testRun = response.data;
+
+        if (testRun.status !== 'pending' && testRun.status !== 'running') {
+          // Test has completed, update the results
+          const resultText = `Test ${testRun.name} ${testRun.status} (${testRun.passed || 0}/${testRun.total || 0} passed)`;
           setFunctionResults((prev) => {
-            // Current time stamp string
-            const timestamp = new Date().toISOString();
-            const newResults = {
-              ...prev,
-              [test.id]: `${result} - ${timestamp}`,
-            };
-
-            // Save to localStorage - this will now always happen for both individual and batch runs
-            if (currentMicroserviceId) {
-              const key = STORAGE_KEYS.functionResults(projectId);
-              // Get existing data or initialize empty object
-              const existingData = localStorage.getItem(key) || '{}';
-              const parsedData = JSON.parse(existingData) as StorageData;
-
-              // Update data for specific microservice
-              parsedData[currentMicroserviceId] = newResults;
-
-              // Save back to localStorage
-              localStorage.setItem(key, JSON.stringify(parsedData));
-            }
-
-            return newResults;
-          });
-
-          // Test is no longer running
-          setRunningTests((prev) => {
             const updated = { ...prev };
-            delete updated[test.id];
+            updated[testId] = resultText;
+            storage.save(STORAGE_KEYS.functionResults(projectId), currentMicroserviceId, updated);
             return updated;
           });
 
-          // Update completion tracking
-          if (completedTestsRef.current >= totalTestsRunningRef.current) {
-            setAllTestsComplete(true);
-            setIsLoading(false);
-            // Reset counters after completion
-            totalTestsRunningRef.current = 0;
-            completedTestsRef.current = 0;
+          // Clean up
+          if (pollIntervalRef.current) {
+            clearInterval(pollIntervalRef.current);
           }
+          setRunningTests((prev) => prev.filter(id => id !== testId));
+          setAllTestsComplete(true);
+          setIsLoading(false);
+        }
 
-          // Return results
-          return {
-            success,
-            test,
-            result,
-          };
-        }, 1000); // Simulate a delay
-      } catch (err) {
-        console.error('Test execution error:', err);
-
-        // Test failed - no longer running
-        setRunningTests((prev) => {
-          const updated = { ...prev };
-          delete updated[test.id];
-          return updated;
-        });
-
+        pollCount++;
+      } catch (error) {
+        console.error('Error polling test status:', error);
+        if (pollIntervalRef.current) {
+          clearInterval(pollIntervalRef.current);
+        }
+        setRunningTests((prev) => prev.filter(id => id !== testId));
+        setAllTestsComplete(true);
         setIsLoading(false);
-
-        // Return error info for toast notifications
-        return {
-          success: false,
-          test,
-          error: err instanceof Error ? err.message : 'Unknown error',
-        };
       }
+    }, 2000); // Poll every 2 seconds
+  }, [projectId, currentMicroserviceId]);
+
+  /**
+   * Execute a single test by ID
+   */
+  const executeTest = useCallback(async (testId: string): Promise<void> => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      setRunningTests((prev) => [...prev, testId]);
+      setAllTestsComplete(false);
+
+      const test = tests.find((t) => t.id === testId);
+
+      if (!test) {
+        throw new Error(`Test with ID ${testId} not found`);
+      }
+
+      const response = await testsApi.runTest({
+        project_id: projectId,
+        service_id: currentMicroserviceId,
+        test_path: `tests/${testId}.py`, // Required by API
+        test_id: testId
+      });
+
+      setTestRunIds((prev) => ({
+        ...prev,
+        [testId]: response.data.id
+      }));
+
+      pollForTestCompletion(testId, response.data.id);
+    } catch (error) {
+      console.error(`Error executing test ${testId}:`, error);
+      setError(error instanceof Error ? error : new Error(String(error)));
+      setRunningTests((prev) => prev.filter((id) => id !== testId));
+      setAllTestsComplete(true);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [tests, projectId, currentMicroserviceId, pollForTestCompletion]);
+
+  /**
+   * Run a single test by ID
+   */
+  const runTest = useCallback(
+    async (testId: string) => {
+      await executeTest(testId);
     },
-    [currentMicroserviceId, projectId, setFunctionResults, setRunningTests, setIsLoading],
+    [executeTest]
   );
 
   /**
-   * Run all tests for the current microservice
+   * Analyze test results using AI
    */
-  const runAllTests = useCallback(() => {
-    if (!currentMicroserviceId) return;
+  const analyzeTestResult = useCallback(async (testId: string) => {
+    try {
+      setIsAnalyzing(true);
 
-    // Find the current microservice
-    const microservice = microservices.find((ms) => ms.id === currentMicroserviceId);
-    if (!microservice) return;
+      const testRunId = testRunIds[testId];
+      if (!testRunId) {
+        throw new Error(`No test run ID found for test ${testId}`);
+      }
 
-    // Get all function test items
+      const response = await testsApi.analyzeTestRun({
+        test_run_id: testRunId,
+        include_logs: true
+      });
+
+      const analysisResult = response.data;
+
+      setTestAnalysis((prev) => ({
+        ...prev,
+        [testId]: analysisResult,
+      }));
+
+      return analysisResult;
+    } catch (error) {
+      console.error(`Error analyzing test ${testId}:`, error);
+      throw error;
+    } finally {
+      setIsAnalyzing(false);
+    }
+  }, [testRunIds]);
+
+  /**
+   * Run all automatable tests for the current microservice
+   */
+  const runAllTests = useCallback(async () => {
+    // Find all automatable function tests
     const getAllFunctions = (items: TestItem[]): TestItem[] => {
       let functions: TestItem[] = [];
 
@@ -305,7 +253,7 @@ export const useTestItems = (
           functions.push(item);
         }
 
-        if (item.children) {
+        if (item.children && item.children.length > 0) {
           functions = [...functions, ...getAllFunctions(item.children)];
         }
       });
@@ -313,117 +261,134 @@ export const useTestItems = (
       return functions;
     };
 
-    const functions = getAllFunctions([microservice]);
+    const functions = getAllFunctions(tests);
+    if (functions.length === 0) return;
 
-    // Reset completion trackers
     setAllTestsComplete(false);
-    totalTestsRunningRef.current = functions.length;
-    completedTestsRef.current = 0;
+    setIsLoading(true);
 
-    // Set all tests as running
-    const runningTestsObj: Record<string, boolean> = {};
-    functions.forEach((func) => {
-      runningTestsObj[func.id] = true;
-    });
-    setRunningTests(runningTestsObj);
+    try {
+      // Mark all as running
+      const testIds = functions.map(func => func.id);
+      setRunningTests(testIds);
 
-    if (functions.length > 0) {
-      setIsLoading(true);
-
-      // Return information for toast notifications
-      const result = {
-        success: true,
-        totalTests: functions.length,
-        microserviceName: microservice.name,
-      };
-
-      // Run each function test
-      functions.forEach((func) => {
-        runTest(func);
-      });
-
-      return result;
+      // Run all tests in parallel
+      await Promise.all(
+        functions.map(async (func) => {
+          try {
+            await executeTest(func.id);
+          } catch (error) {
+            console.error(`Error running test ${func.id}:`, error);
+          }
+        })
+      );
+    } catch (error) {
+      console.error('Error running all tests:', error);
+      setError(error instanceof Error ? error : new Error(String(error)));
+    } finally {
+      setIsLoading(false);
     }
-  }, [
-    currentMicroserviceId,
-    microservices,
-    runTest,
-    setAllTestsComplete,
-    setRunningTests,
-    setIsLoading,
-  ]);
+  }, [tests, executeTest]);
 
   /**
-   * Toggle visibility of test results and persist the setting
+   * Toggle the visibility of test results
    */
   const toggleResultsVisibility = useCallback(() => {
     if (!currentMicroserviceId) return;
-
+    
     setShowResults((prev) => {
       const next = !prev;
-
-      // Save to localStorage
       storage.save(STORAGE_KEYS.showResults(projectId), currentMicroserviceId, next);
-
       return next;
     });
   }, [currentMicroserviceId, projectId]);
 
   /**
-   * Set the current microservice and load its state
+   * Open the modal to view test output
    */
-  const setCurrentMicroservice = useCallback((microservice: TestItem | null) => {
-    if (!microservice) {
-      setCurrentMicroserviceId(null);
-      setExpandedItems({});
-      setFunctionResults({});
-      return;
-    }
-
-    // Make sure we reset test completion tracking when switching microservices
-    // This prevents showing completion toasts when just navigating
-    setAllTestsComplete(false);
-    totalTestsRunningRef.current = 0;
-    completedTestsRef.current = 0;
-
-    // Set the current microservice ID, which will trigger the useEffect to load state
-    setCurrentMicroserviceId(microservice?.id || null);
-  }, []);
-
   const viewTestOutput = useCallback((testId: string) => {
-    setIsOutputModalOpen(true);
     setSelectedTestId(testId);
+    setIsOutputModalOpen(true);
   }, []);
 
+  /**
+   * Close the output modal
+   */
   const closeOutputModal = useCallback(() => {
     setIsOutputModalOpen(false);
     setSelectedTestId(null);
   }, []);
 
-  // Return the state and actions
-  return {
-    // State
-    expandedItems,
-    functionResults,
-    showResults,
-    currentMicroserviceId,
-    isLoading,
-    error,
-    isOutputModalOpen,
-    selectedTestId,
-    runningTests,
-    allTestsComplete,
+  /**
+   * Toggle expansion state of a test item
+   */
+  const toggleExpand = useCallback(
+    (id: string) => {
+      setExpandedItems((prev) => {
+        const newState = {
+          ...prev,
+          [id]: !prev[id],
+        };
+        storage.save(STORAGE_KEYS.expandedItems(projectId), currentMicroserviceId, newState);
+        return newState;
+      });
+    },
+    [currentMicroserviceId, projectId]
+  );
 
-    // Actions
+  /**
+   * Expand all test items
+   */
+  const expandAll = useCallback(() => {
+    const expandedState: Record<string, boolean> = {};
+    const processItems = (items: TestItem[]) => {
+      items.forEach((item) => {
+        expandedState[item.id] = true;
+        if (item.children && item.children.length > 0) {
+          processItems(item.children);
+        }
+      });
+    };
+    processItems(tests);
+    setExpandedItems(expandedState);
+    storage.save(STORAGE_KEYS.expandedItems(projectId), currentMicroserviceId, expandedState);
+  }, [tests, currentMicroserviceId, projectId]);
+
+  /**
+   * Collapse all test items
+   */
+  const collapseAll = useCallback(() => {
+    setExpandedItems({});
+    storage.save(STORAGE_KEYS.expandedItems(projectId), currentMicroserviceId, {});
+  }, [currentMicroserviceId, projectId]);
+
+  // Clean up on unmount
+  useEffect(() => {
+    return () => {
+      if (pollIntervalRef.current) {
+        clearInterval(pollIntervalRef.current);
+      }
+    };
+  }, []);
+
+  return {
+    expandedItems,
     toggleExpand,
     expandAll,
     collapseAll,
+    showResults,
     toggleResultsVisibility,
+    functionResults,
+    currentMicroserviceId,
+    isLoading,
+    error,
     runTest,
-    viewTestOutput,
-    closeOutputModal,
-    setRunningTests,
-    setCurrentMicroservice,
     runAllTests,
+    isOutputModalOpen,
+    selectedTestId,
+    closeOutputModal,
+    viewTestOutput,
+    analyzeTestResult,
+    testRunIds,
   };
 };

@@ -1,3 +1,5 @@
+import { TestItem } from './testing';
+
 export interface CPUData {
   data: {
     time: string;
@@ -42,6 +44,7 @@ export interface Project {
   id: string;
   name: string;
   path: string;
+  microservices?: TestItem[];
 }
 
 export type Tab = {

@@ -199,3 +199,47 @@ export const metricsApi = {
     return api.get(url);
   },
 };
+
+// Test execution and analysis API endpoints
+export const testsApi = {
+  // Run a test in a Docker container
+  runTest: (testData: {
+    project_id: string;
+    service_id: string;
+    test_path: string;
+    test_id?: string;
+    environment?: Record<string, string>;
+    options?: Record<string, any>;
+  }) => {
+    return api.post('/tests/run', testData);
+  },
+  
+  // Get test run status
+  getTestRun: (testRunId: string) => {
+    return api.get(`/tests/run/${testRunId}`);
+  },
+  
+  // Get all test runs for a project
+  getProjectTestRuns: (projectId: string) => {
+    return api.get(`/tests/project/${projectId}`);
+  },
+  
+  // Get all test runs for a service
+  getServiceTestRuns: (serviceId: string) => {
+    return api.get(`/tests/service/${serviceId}`);
+  },
+  
+  // Analyze a test run with Gemini AI
+  analyzeTestRun: (analysisRequest: {
+    test_run_id: string;
+    include_logs?: boolean;
+    analysis_type?: string;
+  }) => {
+    return api.post('/tests/analyze', analysisRequest);
+  },
+  
+  // Get existing analysis for a test run
+  getTestAnalysis: (testRunId: string) => {
+    return api.get(`/tests/analyze/${testRunId}`);
+  },
+};

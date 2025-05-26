@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Project } from '@/types';
-import { mockTestDataByProject } from '@data/mockTestData';
 import { useProject } from '@/context/useProject';
 import { useQuery } from '@tanstack/react-query';
 
@@ -41,28 +40,26 @@ export function useProjectManagement(activeTab: string) {
     }
   }, [loading, projects]);
 
-  // Update project context when tab or selected project changes
+  // Update project context when selected project changes
   useEffect(() => {
     if (!selectedProject) return;
+    console.log('selectedProject', selectedProject);
 
-    // If we're on the testing tab, make sure the project has microservices data
-    if (activeTab === 'testing') {
-      // Get project-specific test data or fallback to an empty array
-      const projectTestData = mockTestDataByProject[selectedProject.id] || [];
-
-      const projectWithMicroservices = {
-        ...selectedProject,
-        microservices: projectTestData,
-      };
-
-      setProject(projectWithMicroservices);
-    } else {
-      // For other tabs, we don't need the microservices data
-      setProject({
-        ...selectedProject,
-        microservices: undefined,
-      });
-    }
+    // In a Tauri app, we should always have access to all project data
+    // So we'll use the real project microservices data rather than mocked data
+    
+    // Get the microservices from the project or other relevant source
+    // For now, we're assuming selectedProject might already have microservices
+    // If not, we can fetch them or derive them from other project data
+    
+    // Set the project with microservices data
+    setProject({
+      ...selectedProject,
+      // If the project already has microservices data, use it
+      // Otherwise, we can implement a function to derive or fetch it
+      // For now, if it doesn't exist, we'll use an empty array as a fallback
+      microservices: selectedProject.microservices || [],
+    });
   }, [activeTab, selectedProject, setProject]);
 
   // Handle project selection
