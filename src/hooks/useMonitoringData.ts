@@ -1,10 +1,25 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Log } from '@/types';
-
-const API_BASE_URL = 'http://backend:8000/api';
+import { metricsApi, servicesApi, logsApi } from '@/utils/api';
 
 export default function useMonitoringData(selectedProjectId: string) {
+  // Get the MongoDB ID from localStorage if available
+  const [mongoProjectId, setMongoProjectId] = useState<string>(selectedProjectId);
+  
+  useEffect(() => {
+    // If the selected project ID matches the one saved in localStorage, use the MongoDB ID
+    if (selectedProjectId === localStorage.getItem('lastSelectedProject')) {
+      const mongoId = localStorage.getItem('lastSelectedProjectMongoId');
+      if (mongoId) {
+        setMongoProjectId(mongoId);
+        console.log('Using MongoDB ID for API calls:', mongoId);
+      }
+    } else {
+      // Otherwise, use the provided ID (could be either format)
+      setMongoProjectId(selectedProjectId);
+    }
+  }, [selectedProjectId]);
   const {
     data: cpuData,
     isLoading: cpuLoading,
@@ -12,11 +27,16 @@ export default function useMonitoringData(selectedProjectId: string) {
   } = useQuery({
     queryKey: ['cpuData', selectedProjectId],
     queryFn: async () => {
-      const response = await fetch(`${API_BASE_URL}/metrics/cpu/project/${selectedProjectId}`);
-      if (!response.ok) throw new Error('Failed to fetch CPU data');
-      return response.json();
+      try {
+        const response = await metricsApi.getCpuMetrics(mongoProjectId);
+        if (!response || !response.data) throw new Error('Failed to fetch CPU data');
+        return response.data;
+      } catch (err) {
+        console.error('Error fetching CPU metrics:', err);
+        throw err;
+      }
     },
-    enabled: !!selectedProjectId,
+    enabled: !!mongoProjectId,
   });
   console.log('cpuData', cpuData);
 
@@ -27,11 +47,16 @@ export default function useMonitoringData(selectedProjectId: string) {
   } = useQuery({
     queryKey: ['services', selectedProjectId],
     queryFn: async () => {
-      const response = await fetch(`${API_BASE_URL}/services/project/${selectedProjectId}`);
-      if (!response.ok) throw new Error('Failed to fetch services');
-      return response.json();
+      try {
+        const response = await servicesApi.getServices(mongoProjectId);
+        if (!response || !response.data) throw new Error('Failed to fetch services');
+        return response.data;
+      } catch (err) {
+        console.error('Error fetching services:', err);
+        throw err;
+      }
     },
-    enabled: !!selectedProjectId,
+    enabled: !!mongoProjectId,
   });
   console.log('servicesData', servicesData);
 
@@ -42,16 +67,17 @@ export default function useMonitoringData(selectedProjectId: string) {
   } = useQuery({
     queryKey: ['logs', selectedProjectId],
     queryFn: async () => {
-      // If we have a selected project, fetch logs for that project specifically
-      const url = selectedProjectId
-        ? `${API_BASE_URL}/logs/project/${selectedProjectId}`
-        : `${API_BASE_URL}/logs`;
-      console.log('url', url);
-      const response = await fetch(url);
-      if (!response.ok) throw new Error('Failed to fetch logs');
-      return response.json();
+      try {
+        // If we have a selected project, fetch logs for that project specifically
+        const response = await logsApi.getLogs(mongoProjectId);
+        if (!response || !response.data) throw new Error('Failed to fetch logs');
+        return response.data;
+      } catch (err) {
+        console.error('Error fetching logs:', err);
+        throw err;
+      }
     },
-    enabled: !!selectedProjectId,
+    enabled: !!mongoProjectId,
   });
 
   const loading = cpuLoading || servicesLoading || logsLoading;

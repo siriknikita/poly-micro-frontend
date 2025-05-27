@@ -1,10 +1,11 @@
 import React from 'react';
-import { LogOut } from 'lucide-react';
+import { LogOut, RefreshCw } from 'lucide-react';
 import { ProjectSelector } from '../shared/selectors/ProjectSelector';
 import { ThemeToggle } from './ThemeToggle';
 import { Logo } from '../shared/Logo';
 import { Project } from '@/types';
 import { useProjectManagement } from '../monitoring/hooks/useProjectManagement';
+import { useRefreshCache } from '@/hooks';
 
 interface TopBarProps {
   darkMode: boolean;
@@ -14,6 +15,35 @@ interface TopBarProps {
   onLogout: () => void;
   activeTab?: string;
 }
+
+// Refresh button component
+const RefreshButton: React.FC = () => {
+  const { refreshAllData } = useRefreshCache();
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
+
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    refreshAllData();
+    
+    // Reset the animation after a short delay
+    setTimeout(() => {
+      setIsRefreshing(false);
+    }, 1000);
+  };
+
+  return (
+    <button
+      onClick={handleRefresh}
+      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600"
+      disabled={isRefreshing}
+      aria-label="Refresh all data"
+      title="Refresh all application data"
+    >
+      <RefreshCw className={`h-4 w-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
+      Refresh
+    </button>
+  );
+};
 
 export const TopBar: React.FC<TopBarProps> = ({
   darkMode,
@@ -42,6 +72,7 @@ export const TopBar: React.FC<TopBarProps> = ({
           </div>
           <div className="flex items-center space-x-4">
             <ThemeToggle darkMode={darkMode} onToggle={() => setDarkMode(!darkMode)} />
+            <RefreshButton />
             <button
               onClick={onLogout}
               className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600"

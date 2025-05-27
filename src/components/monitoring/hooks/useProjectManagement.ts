@@ -2,8 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Project } from '@/types';
 import { useProject } from '@/context/useProject';
 import { useQuery } from '@tanstack/react-query';
-
-const API_BASE_URL = 'http://backend:8000'; // Configure this to match your FastAPI server URL
+import { projectsApi } from '@/utils/api';
 
 /**
  * Custom hook for managing project selection and data
@@ -21,9 +20,20 @@ export function useProjectManagement(activeTab: string) {
   } = useQuery<Project[]>({
     queryKey: ['projects'],
     queryFn: async () => {
-      const response = await fetch(`${API_BASE_URL}/api/projects`);
-      if (!response.ok) throw new Error('Failed to fetch projects');
-      return response.json();
+      try {
+        const response = await projectsApi.getProjects();
+        if (!response || !response.data) throw new Error('Failed to fetch projects');
+        
+        // Ensure each project has the MongoDB _id mapped to the 'mongoId' property
+        // This will be used for backend calls while keeping 'id' for backward compatibility
+        return response.data.map((project: any) => ({
+          ...project,
+          mongoId: project._id || project.id // Store MongoDB ID as mongoId
+        }));
+      } catch (err) {
+        console.error('Error fetching projects:', err);
+        throw err;
+      }
     },
     staleTime: 5 * 60 * 1000, // Consider data fresh for 5 minutes
   });
@@ -65,7 +75,9 @@ export function useProjectManagement(activeTab: string) {
   // Handle project selection
   const handleSelectProject = useCallback((project: Project) => {
     setSelectedProject(project);
+    // Store both IDs for compatibility
     localStorage.setItem('lastSelectedProject', project.id);
+    localStorage.setItem('lastSelectedProjectMongoId', project.mongoId || project._id || project.id);
   }, []);
 
   return {
