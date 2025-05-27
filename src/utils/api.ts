@@ -7,7 +7,6 @@ const getApiUrl = (): string => {
   // First check for explicitly set API URL via environment variable
   const envApiUrl = import.meta.env.VITE_API_URL;
   if (envApiUrl) {
-    console.log('Using configured API URL:', envApiUrl);
     return envApiUrl;
   }
 
@@ -15,19 +14,16 @@ const getApiUrl = (): string => {
   if (isTauriEnvironment()) {
     // Primary: localhost (if Docker port is properly exposed)
     const url = 'http://backend:8000/api';
-    console.log('Tauri environment detected - using API URL:', url);
     return url;
   }
   
   // For browser environment inside Docker, we use localhost
   const browserUrl = 'http://backend:8000/api';
-  console.log('Browser environment detected - using API URL:', browserUrl);
   return browserUrl;
 };
 
 // Initialize API with explicit URL
 const API_URL = getApiUrl();
-console.log('API URL:', API_URL);
 
 // Create axios instance with base URL and increased timeout
 const api = axios.create({
@@ -241,5 +237,32 @@ export const testsApi = {
   // Get existing analysis for a test run
   getTestAnalysis: (testRunId: string) => {
     return api.get(`/tests/analyze/${testRunId}`);
+  },
+};
+
+// Questions API endpoints
+export const questionsApi = {
+  // Submit a new question
+  submitQuestion: (questionData: {
+    title: string;
+    content: string;
+    user_email?: string;
+  }) => {
+    return api.post('/questions', questionData);
+  },
+  
+  // Get all questions (admin only or user's own questions)
+  getQuestions: (all: boolean = false) => {
+    return api.get('/questions', { params: { all } });
+  },
+  
+  // Get a specific question by ID
+  getQuestion: (questionId: string) => {
+    return api.get(`/questions/${questionId}`);
+  },
+
+  // Update question status (admin only)
+  updateQuestionStatus: (questionId: string, status: string) => {
+    return api.patch(`/questions/${questionId}/status`, { status });
   },
 };

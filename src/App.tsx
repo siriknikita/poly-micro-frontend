@@ -24,9 +24,11 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Router>
-        <AppContent />
-      </Router>
+      <ToastProvider>
+        <Router>
+          <AppContent />
+        </Router>
+      </ToastProvider>
     </QueryClientProvider>
   );
 }
@@ -34,12 +36,10 @@ function App() {
 function AppContent() {
   const navigate = useNavigate();
   const { user, isAuthenticated, refreshAuthState } = useAuth();
-  console.log('Auth state in AppContent:', user, isAuthenticated);
   
   // Listen for auth state changes from other components
   useEffect(() => {
     const handleAuthChange = () => {
-      console.log('Auth state change detected, refreshing...');
       refreshAuthState();
     };
     
@@ -62,9 +62,8 @@ function AppContent() {
 
   return (
     <ProjectProvider>
-      <ToastProvider>
-        <ReleaseProvider>
-          <GuidanceProvider currentUser={user ? {
+      <ReleaseProvider>
+        <GuidanceProvider currentUser={user ? {
               username: user.username,
               email: user.email,
               businessName: user.full_name || 'User',
@@ -92,9 +91,8 @@ function AppContent() {
             <ReleaseDebug />
             <WelcomeGuidance />
             <CompletionGuidance />
-          </GuidanceProvider>
-        </ReleaseProvider>
-      </ToastProvider>
+        </GuidanceProvider>
+      </ReleaseProvider>
     </ProjectProvider>
   );
 }

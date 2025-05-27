@@ -24,18 +24,12 @@ interface LogViewerProps {
 
 export const LogViewer: React.FC<LogViewerProps> = memo(
   ({ logs, selectedService, selectedSeverity, onServiceChange, onSeverityChange, services, selectedProjectId }) => {
-    // Debug log information
-    console.log('LogViewer - logs:', logs);
-    console.log('LogViewer - services:', services);
-    console.log('LogViewer - selectedService:', selectedService);
-    
     // Create a mapping of service IDs to names for display purposes
     const serviceIdToNameMap = useMemo(() => {
       const map: Record<string, string> = {};
       services.forEach(service => {
         if (service.id) {
           map[service.id] = service.name;
-          console.log(`Mapping service ${service.id} to ${service.name}`);
         }
       });
       return map;
@@ -59,11 +53,8 @@ export const LogViewer: React.FC<LogViewerProps> = memo(
     // Filter logs based on selected service and severity
     const filteredLogs = useMemo(() => {
       if (!logs || !Array.isArray(logs)) {
-        console.error('Logs is not an array:', logs);
         return [];
       }
-      
-      console.log('Filtering logs with selectedServiceId:', selectedServiceId);
       
       return logs.filter((log) => {
         if (!log) return false;
@@ -84,8 +75,6 @@ export const LogViewer: React.FC<LogViewerProps> = memo(
       handleItemsPerPageChange,
     } = usePagination(filteredLogs, DEFAULT_ITEMS_PER_PAGE);
 
-    console.log('LogViewer - filtered logs:', filteredLogs);
-
     // Log analysis state and handlers
     const {
       analyzeProjectLogs,
@@ -95,10 +84,6 @@ export const LogViewer: React.FC<LogViewerProps> = memo(
       isDialogOpen,
       closeDialog,
     } = useLogAnalysis(selectedProjectId);
-    
-    console.log('LogViewer - analysisResult:', analysisResult);
-    console.log('LogViewer - analysisError:', analysisError);
-    console.log('LogViewer - isDialogOpen:', isDialogOpen);
     
     return (
       <BoxedWrapper>

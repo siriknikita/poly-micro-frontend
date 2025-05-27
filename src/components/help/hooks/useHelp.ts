@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useToast } from '@/context/useToast';
 import { QuestionSubmission } from '../types';
+import { questionsApi } from '@/utils/api';
 
 export const useHelp = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -10,12 +11,15 @@ export const useHelp = () => {
     setIsSubmitting(true);
 
     try {
-      // In a real application, this would be an API call to submit the question
-      // For demo purposes, we're simulating a successful submission after a delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Transform the frontend QuestionSubmission to match our backend API
+      const questionData = {
+        title: question.category,
+        content: question.question,
+        user_email: question.email
+      };
 
-      // Log the question to console for demo purposes
-      console.log('Question submitted:', question);
+      // Submit question to the backend API
+      await questionsApi.submitQuestion(questionData);
 
       showSuccess('Your question has been submitted successfully!');
       return Promise.resolve();

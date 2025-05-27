@@ -15,14 +15,12 @@ function StatusBadge({ status, className = '' }: StatusBadgeProps): JSX.Element 
 
   // First try to match with severity levels (lowercase)
   if (CLASSES_BY_SEVERITY[status.toLowerCase() as keyof typeof CLASSES_BY_SEVERITY]) {
-    console.log('Severity match:', status);
     styleClass = CLASSES_BY_SEVERITY[status.toLowerCase() as keyof typeof CLASSES_BY_SEVERITY];
     // For severity values, display in uppercase
     displayStatus = status.toUpperCase();
   }
   // Then try to match with service statuses (Running, Healthy, etc.)
   else if (SERVICE_STATUS_CLASSES[status as keyof typeof SERVICE_STATUS_CLASSES]) {
-    console.log('Service status match:', status);
     styleClass = SERVICE_STATUS_CLASSES[status as keyof typeof SERVICE_STATUS_CLASSES];
   }
   // For case-insensitive matching with service statuses

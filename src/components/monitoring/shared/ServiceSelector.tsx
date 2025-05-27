@@ -20,7 +20,6 @@ export const ServiceSelector: React.FC<ServiceSelectorProps> = ({
   showAllOption = false,
 }) => {
   // Transform services to dropdown options
-  console.log('services', services);
   const serviceOptions: DropdownOption[] = services
     ? services.map((service) => ({ id: service.name, label: service.name }))
     : [];

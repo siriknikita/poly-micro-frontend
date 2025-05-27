@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { authApi } from '@/utils/api';
-import { isTauriEnvironment, getPlatformInfo, getEnvironmentName } from '@/utils/platform';
-
+import { useToast } from '@/context/useToast';
 
 // Authentication state key in localStorage
 const AUTH_STATE_KEY = 'currentUser';
@@ -32,6 +31,7 @@ interface AuthState {
 }
 
 export function useAuth() {
+  const { showError, showSuccess, showInfo } = useToast();
   const [authState, setAuthState] = useState<AuthState>({
     user: null,
     isAuthenticated: false,
@@ -44,24 +44,26 @@ export function useAuth() {
     const checkAuth = async () => {
       try {
         const storedUser = localStorage.getItem(AUTH_STATE_KEY);
-        if (storedUser) {
-          const user = JSON.parse(storedUser);
-          const storedToken = localStorage.getItem('token');
-          setAuthState({
-            user,
-            isAuthenticated: true,
-            isLoading: false,
-            token: storedToken,
-          });
-        } else {
-          console.log('No user found in localStorage');
+        if (!storedUser) {
+          showInfo('No user found in localStorage');
           setAuthState({
             user: null,
             isAuthenticated: false,
             isLoading: false,
             token: null,
           });
+          return;
         }
+
+        const user = JSON.parse(storedUser);
+        const storedToken = localStorage.getItem('token');
+
+        setAuthState({
+          user,
+          isAuthenticated: true,
+          isLoading: false,
+          token: storedToken,
+        });
       } catch (error) {
         console.error('Auth check failed:', error);
         setAuthState({
@@ -88,27 +90,8 @@ export function useAuth() {
 
   const login = useCallback(async (username: string, password: string): Promise<boolean> => {
     try {
-      console.log('Attempting login with:', { username, password });
-      
-      // Log environment info for debugging
-      const environmentName = getEnvironmentName();
-      console.log(`Running in ${environmentName} environment`);
-      
-      // Get platform info if in Tauri environment
-      if (isTauriEnvironment()) {
-        const platformInfo = await getPlatformInfo();
-        if (platformInfo) {
-          console.log('Platform:', platformInfo);
-        }
-      }
-      
-      // Send login request using our API utility
       const response = await authApi.login(username, password);
-      console.log('Login response:', response);
-      
       const { access_token, user } = response.data;
-      
-      console.log('Login successful, storing user data');
       
       // Store user and token in localStorage
       localStorage.setItem(AUTH_STATE_KEY, JSON.stringify(user));
@@ -128,24 +111,19 @@ export function useAuth() {
       // Force a window event to ensure other components pick up the auth change
       window.dispatchEvent(new Event('auth-state-changed'));
       
-      console.log('Auth state updated manually', newAuthState);
-      
-      // Return success immediately without waiting for state update
       return true;
     } catch (error) {
-      console.error('Login failed:', error);
+      showError('Failed to login');
+      console.error('Failed to login:', error);
       return Promise.reject(new Error('Invalid username or password'));
     }
   }, []);
 
   const register = useCallback(async (userData: { username: string; email: string; password: string; full_name?: string }): Promise<void> => {
     try {
-      console.log('Attempting registration with:', { username: userData.username, email: userData.email });
-      console.log('API URL being used:', authApi.getApiUrl());
-      
-      // Send registration request using our API utility
       await authApi.register(userData);
-      console.log('Registration successful');
+      showSuccess('Registration successful');
+
       return Promise.resolve();
     } catch (error: any) {
       console.error('Registration failed:', error);
@@ -179,11 +157,8 @@ export function useAuth() {
     localStorage.removeItem(AUTH_STATE_KEY);
     localStorage.removeItem('token');
 
-    console.log('Logging out');
-
     // Update auth state
-    setAuthState((prev) => {
-      console.log('Updating auth state in logout, prev', prev);
+    setAuthState(() => {
       return {
         user: null,
         isAuthenticated: false,
@@ -198,41 +173,41 @@ export function useAuth() {
     try {
       const storedUser = localStorage.getItem(AUTH_STATE_KEY);
       const storedToken = localStorage.getItem('token');
-      console.log('Refreshing auth state');
+      if (!storedUser || !storedToken) {
+        return false;
+      }
       
-      if (storedUser && storedToken) {
-        console.log('Found user and token in localStorage');
-        try {
-          // Validate token by fetching user profile using our API utility
-          const response = await authApi.getCurrentUser();
-          if (!response.data) {
-            console.log('User profile not found');
-          } else {
-          console.log('User profile fetched successfully');
-          }
-          
-          const user = response.data;
-          
-          // Update stored user data
-          localStorage.setItem(AUTH_STATE_KEY, JSON.stringify(user));
-          
-          setAuthState(() => ({
-            user,
-            isAuthenticated: true,
-            isLoading: false,
-            token: storedToken,
-          }));
-          return true;
-        } catch (err) {
-          // If token is invalid, logout
-          console.error('Token validation failed:', err);
-          logout();
+      try {
+        // Validate token by fetching user profile using our API utility
+        const response = await authApi.getCurrentUser();
+        if (!response.data) {
           return false;
         }
+        
+        const user = response.data;
+        if (!user) {
+          return false;
+        }
+        
+        // Update stored user data
+        localStorage.setItem(AUTH_STATE_KEY, JSON.stringify(user));
+        
+        setAuthState(() => ({
+          user,
+          isAuthenticated: true,
+          isLoading: false,
+          token: storedToken,
+        }));
+
+        return true;
+      } catch (err) {
+        showError('Failed to validate token');
+        console.error('Failed to validate token:', err);
+        logout();
+        return false;
       }
-      console.log('No user and token found in localStorage');
-      return false;
     } catch (error) {
+      showError('Failed to refresh auth state');
       console.error('Failed to refresh auth state:', error);
       logout();
       return false;

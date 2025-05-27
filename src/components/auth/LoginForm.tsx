@@ -3,25 +3,24 @@ import { LogIn } from 'lucide-react';
 import { AuthLayout, Button, FormInput } from './components';
 import { useAuth, useForm } from './hooks';
 import { useEffect, useState } from 'react';
+import { useToast } from '@/context/useToast';
 
 export default function LoginForm() {
   const navigate = useNavigate();
-  const { login, isAuthenticated, refreshAuthState } = useAuth();
+  const { login, refreshAuthState } = useAuth();
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const { showError, showSuccess } = useToast();
   
-  // Effect to handle navigation after successful login
   useEffect(() => {
-    // Check if we've logged in successfully
-    if (loginSuccess) {
-      // Try to refresh auth state immediately after login success
-      refreshAuthState().then(success => {
-        console.log('Auth state refresh result:', success, 'isAuthenticated:', isAuthenticated);
-        if (success) {
-          console.log('Auth state confirmed, navigating to dashboard');
-          navigate('/dashboard');
-        }
-      });
-    }
+    if (!loginSuccess) return;
+
+    refreshAuthState().then(() => {
+      showSuccess('Login successful');
+      navigate('/dashboard');
+    }).catch(error => {
+      showError('Failed to refresh auth state after login');
+      console.error('Error refreshing auth state:', error);
+    });
   }, [loginSuccess, refreshAuthState, navigate]);
   
   // Form validation rules
@@ -40,28 +39,22 @@ export default function LoginForm() {
   const handleLoginSubmit = async (values: { username: string; password: string }) => {
     try {
       // Login and get the authentication result
-      const success = await login(values.username, values.password);
-      console.log('Login success:', success);
-      
-      // If login is successful, set the success flag to trigger our effect
-      if (success) {
-        console.log('Login successful, setting success flag');
+      await login(values.username, values.password);
+      showSuccess('Login successful');
+
+      // Set flag to trigger the effect that handles navigation
+      setLoginSuccess(true);
         
-        // Set flag to trigger the effect that handles navigation
-        setLoginSuccess(true);
-        
-        // Trigger auth state check after a short delay
-        setTimeout(() => {
-          // Force auth state refresh
-          refreshAuthState().then(refreshSuccess => {
-            console.log('Manual refresh result:', refreshSuccess);
-            if (refreshSuccess) {
-              console.log('Auth confirmed after refresh, navigating...');
-              navigate('/dashboard');
-            }
-          });
-        }, 100);
-      }
+      // Trigger auth state check after a short delay
+      setTimeout(() => {
+        // Force auth state refresh
+        refreshAuthState().then(() => {
+          navigate('/dashboard');
+        }).catch(error => {
+          showError('Failed to refresh auth state after login');
+          console.error('Error refreshing auth state:', error);
+        });
+      }, 100);
     } catch (error) {
       // Error will be handled by the form submission error handler
       console.error('Login submission error:', error);

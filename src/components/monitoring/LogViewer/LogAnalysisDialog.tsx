@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Loader2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -21,7 +21,6 @@ export const LogAnalysisDialog: React.FC<LogAnalysisDialogProps> = ({
   error,
   logCount,
 }) => {
-  console.log('LogAnalysisDialog props:', { isOpen, analysis, loading, error, logCount });
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-800">
@@ -30,6 +29,12 @@ export const LogAnalysisDialog: React.FC<LogAnalysisDialogProps> = ({
             Log Analysis Report
           </DialogTitle>
         </DialogHeader>
+        
+        <DialogDescription>
+          <p className="text-gray-800 dark:text-gray-200">
+            Analyze the logs to identify potential issues and suggest solutions.
+          </p>
+        </DialogDescription>
         
         <div className="mt-4">
           {loading ? (

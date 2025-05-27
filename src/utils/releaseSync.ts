@@ -19,31 +19,22 @@ interface ReleaseFileData {
  */
 export const fetchReleaseData = async (
   source: 'local' | 'github',
-  path: string = '/releases/releases.json',
+  path: string = 'siriknikita/poly-micro-frontend-demo/main/releases/releases.json',
 ): Promise<ReleaseFileData> => {
   try {
-    if (source === 'local') {
-      // Fetch from local file
-      const response = await fetch(path);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch release data: ${response.statusText}`);
-      }
-      return await response.json();
-    } else {
-      // Fetch from GitHub
-      // Format for path: 'owner/repo/branch/path/to/releases.json'
-      const [owner, repo, branch, ...filePath] = path.split('/');
-      const filePathStr = filePath.join('/');
+    // Fetch from GitHub
+    // Format for path: 'owner/repo/branch/path/to/releases.json'
+    const [owner, repo, branch, ...filePath] = path.split('/');
+    const filePathStr = filePath.join('/');
 
-      const url = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${filePathStr}`;
-      const response = await fetch(url);
+    const url = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${filePathStr}`;
+    const response = await fetch(url);
 
-      if (!response.ok) {
-        throw new Error(`Failed to fetch release data from GitHub: ${response.statusText}`);
-      }
-
-      return await response.json();
+    if (!response.ok) {
+      throw new Error(`Failed to fetch release data from GitHub: ${response.statusText}`);
     }
+
+    return await response.json();
   } catch (error) {
     console.error('Error fetching release data:', error);
     // Return empty release data as fallback
@@ -121,8 +112,6 @@ export const syncReleasesToDatabase = async (
 
       const id = await db.releases.add(releaseToAdd);
       addedIds.push(id);
-
-      console.log(`Added release ${release.version} with ID ${id}`);
     }
 
     // If we didn't add the latest version (it already existed), make sure it's marked as latest
@@ -144,22 +133,8 @@ export const syncReleasesToDatabase = async (
  */
 export const autoSyncReleases = async (): Promise<void> => {
   try {
-    // First try to sync from local file
-    const localIds = await syncReleasesToDatabase('local');
-
-    if (localIds.length === 0) {
-      // If no local releases, try GitHub as fallback
-      // You can configure this with your GitHub repository information
-      console.log('No local releases found, trying GitHub...');
-
-      // Replace with your GitHub repository information
-      // Format: 'owner/repo/branch/path/to/releases.json'
-      const githubPath = 'siriknikita/poly-micro-frontend-demo/main/releases/releases.json';
-
-      await syncReleasesToDatabase('github', githubPath);
-    }
-
-    console.log('Release sync completed successfully');
+    const githubPath = 'siriknikita/poly-micro-frontend-demo/main/releases/releases.json';
+    await syncReleasesToDatabase('github', githubPath);
   } catch (error) {
     console.error('Auto sync failed:', error);
   }

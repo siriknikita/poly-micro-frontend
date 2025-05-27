@@ -7,17 +7,24 @@ import { Dropdown } from '../shared/Dropdown';
 interface AskQuestionFormProps {
   onSubmit: (question: QuestionSubmission) => Promise<void>;
   isSubmitting: boolean;
+  username?: string;
+  userEmail?: string;
 }
 
-export const AskQuestionForm: React.FC<AskQuestionFormProps> = ({ onSubmit, isSubmitting }) => {
+export const AskQuestionForm: React.FC<AskQuestionFormProps> = ({ onSubmit, isSubmitting, username, userEmail }) => {
+  if (!username || !userEmail) {
+    return null;
+  }
+
   const [formData, setFormData] = useState<QuestionSubmission>({
-    name: '',
-    email: '',
+    name: username,
+    email: userEmail,
     category: '',
     question: '',
   });
+
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
@@ -72,18 +79,18 @@ export const AskQuestionForm: React.FC<AskQuestionFormProps> = ({ onSubmit, isSu
     try {
       await onSubmit(formData);
       setFormData({
-        name: '',
-        email: '',
+        name: username,
+        email: userEmail,
         category: '',
         question: '',
       });
-      setSubmitted(true);
+      setIsSubmitted(true);
     } catch (error) {
       console.error('Failed to submit question:', error);
     }
   };
 
-  if (submitted) {
+  if (isSubmitted) {
     return (
       <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-6 text-center">
         <h3 className="text-xl font-semibold text-green-700 dark:text-green-400 mb-2">
@@ -93,7 +100,7 @@ export const AskQuestionForm: React.FC<AskQuestionFormProps> = ({ onSubmit, isSu
           Your question has been submitted successfully. We'll get back to you as soon as possible.
         </p>
         <button
-          onClick={() => setSubmitted(false)}
+          onClick={() => setIsSubmitted(false)}
           className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
         >
           Ask Another Question

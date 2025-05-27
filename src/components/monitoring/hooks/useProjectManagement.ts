@@ -53,7 +53,6 @@ export function useProjectManagement(activeTab: string) {
   // Update project context when selected project changes
   useEffect(() => {
     if (!selectedProject) return;
-    console.log('selectedProject', selectedProject);
 
     // In a Tauri app, we should always have access to all project data
     // So we'll use the real project microservices data rather than mocked data
