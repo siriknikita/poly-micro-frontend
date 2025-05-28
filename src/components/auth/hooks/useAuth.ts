@@ -45,7 +45,6 @@ export function useAuth() {
       try {
         const storedUser = localStorage.getItem(AUTH_STATE_KEY);
         if (!storedUser) {
-          showInfo('No user found in localStorage');
           setAuthState({
             user: null,
             isAuthenticated: false,
