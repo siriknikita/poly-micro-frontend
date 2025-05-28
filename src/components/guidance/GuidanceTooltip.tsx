@@ -34,7 +34,10 @@ export const GuidanceTooltip: React.FC<GuidanceTooltipProps> = ({
     completeGuidance,
   } = useGuidance();
 
-  const [tooltipPosition, setTooltipPosition] = useState<TooltipPosition>({ top: 0, left: 0 });
+  const [tooltipPosition, setTooltipPosition] = useState<TooltipPosition>({
+    top: 0,
+    left: 0,
+  });
   const [isDarkMode, setIsDarkMode] = useState(false);
   const targetRef = useRef<HTMLDivElement>(null);
 
@@ -50,7 +53,10 @@ export const GuidanceTooltip: React.FC<GuidanceTooltipProps> = ({
     detectTheme();
 
     const observer = new MutationObserver(detectTheme);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     mediaQuery.addEventListener('change', detectTheme);
@@ -77,8 +83,12 @@ export const GuidanceTooltip: React.FC<GuidanceTooltipProps> = ({
       // Position based on the specified position
       switch (position) {
         case 'left':
-          newPosition.top = targetRect.top + targetRect.height / 2 - tooltipHeight / 2;
-          newPosition.left = Math.max(padding, targetRect.left - tooltipWidth - padding);
+          newPosition.top =
+            targetRect.top + targetRect.height / 2 - tooltipHeight / 2;
+          newPosition.left = Math.max(
+            padding,
+            targetRect.left - tooltipWidth - padding,
+          );
 
           // If would go off screen left, flip to right
           if (newPosition.left < padding) {
@@ -87,18 +97,26 @@ export const GuidanceTooltip: React.FC<GuidanceTooltipProps> = ({
           break;
 
         case 'right':
-          newPosition.top = targetRect.top + targetRect.height / 2 - tooltipHeight / 2;
+          newPosition.top =
+            targetRect.top + targetRect.height / 2 - tooltipHeight / 2;
           newPosition.left = targetRect.right + padding;
 
           // If would go off screen right, flip to left
           if (newPosition.left + tooltipWidth > window.innerWidth - padding) {
-            newPosition.left = Math.max(padding, targetRect.left - tooltipWidth - padding);
+            newPosition.left = Math.max(
+              padding,
+              targetRect.left - tooltipWidth - padding,
+            );
           }
           break;
 
         case 'top':
-          newPosition.top = Math.max(padding, targetRect.top - tooltipHeight - padding);
-          newPosition.left = targetRect.left + targetRect.width / 2 - tooltipWidth / 2;
+          newPosition.top = Math.max(
+            padding,
+            targetRect.top - tooltipHeight - padding,
+          );
+          newPosition.left =
+            targetRect.left + targetRect.width / 2 - tooltipWidth / 2;
 
           // If would go off screen top, flip to bottom
           if (newPosition.top < padding) {
@@ -108,11 +126,15 @@ export const GuidanceTooltip: React.FC<GuidanceTooltipProps> = ({
 
         case 'bottom':
           newPosition.top = targetRect.bottom + padding;
-          newPosition.left = targetRect.left + targetRect.width / 2 - tooltipWidth / 2;
+          newPosition.left =
+            targetRect.left + targetRect.width / 2 - tooltipWidth / 2;
 
           // If would go off screen bottom, flip to top
           if (newPosition.top + tooltipHeight > window.innerHeight - padding) {
-            newPosition.top = Math.max(padding, targetRect.top - tooltipHeight - padding);
+            newPosition.top = Math.max(
+              padding,
+              targetRect.top - tooltipHeight - padding,
+            );
           }
           break;
       }
@@ -254,7 +276,10 @@ export const GuidanceTooltip: React.FC<GuidanceTooltipProps> = ({
                 onClick={prevStep}
                 className={`flex items-center justify-center px-2 py-1 border rounded-md text-xs font-medium ${isDarkMode ? 'border-gray-600 text-gray-200 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
               >
-                <ArrowLeft size={12} className="mr-1" />
+                <ArrowLeft
+                  size={12}
+                  className="mr-1"
+                />
                 Prev
               </button>
             )}
@@ -265,7 +290,10 @@ export const GuidanceTooltip: React.FC<GuidanceTooltipProps> = ({
                 className="flex items-center justify-center px-2 py-1 bg-indigo-600 border border-transparent rounded-md text-xs font-medium text-white hover:bg-indigo-700"
               >
                 Next
-                <ArrowRight size={12} className="ml-1" />
+                <ArrowRight
+                  size={12}
+                  className="ml-1"
+                />
               </button>
             ) : (
               <button
@@ -273,7 +301,10 @@ export const GuidanceTooltip: React.FC<GuidanceTooltipProps> = ({
                 className="flex items-center justify-center px-2 py-1 bg-green-600 border border-transparent rounded-md text-xs font-medium text-white hover:bg-green-700"
               >
                 Done
-                <CheckCircle size={12} className="ml-1" />
+                <CheckCircle
+                  size={12}
+                  className="ml-1"
+                />
               </button>
             )}
           </div>
@@ -284,7 +315,10 @@ export const GuidanceTooltip: React.FC<GuidanceTooltipProps> = ({
   };
 
   return (
-    <div ref={targetRef} className={className}>
+    <div
+      ref={targetRef}
+      className={className}
+    >
       {children}
       {renderTooltip()}
     </div>
@@ -308,7 +342,10 @@ export const WelcomeGuidance: React.FC = () => {
     detectTheme();
 
     const observer = new MutationObserver(detectTheme);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     mediaQuery.addEventListener('change', detectTheme);
@@ -333,10 +370,12 @@ export const WelcomeGuidance: React.FC = () => {
           <X size={20} />
         </button>
 
-        <h2 className="text-2xl font-bold mb-4">Welcome to Poly Micro Manager!</h2>
+        <h2 className="text-2xl font-bold mb-4">
+          Welcome to Poly Micro Manager!
+        </h2>
         <p className="mb-6">
-          This quick tour will help you understand how to use the application effectively. You can
-          replay this guide anytime from your user menu.
+          This quick tour will help you understand how to use the application
+          effectively. You can replay this guide anytime from your user menu.
         </p>
 
         <div className="flex justify-end">
@@ -345,7 +384,10 @@ export const WelcomeGuidance: React.FC = () => {
             className="flex items-center justify-center px-3 py-2 bg-indigo-600 border border-transparent rounded-md text-sm font-medium text-white hover:bg-indigo-700"
           >
             Start Tour
-            <ArrowRight size={16} className="ml-2" />
+            <ArrowRight
+              size={16}
+              className="ml-2"
+            />
           </button>
         </div>
       </div>
@@ -371,7 +413,10 @@ export const CompletionGuidance: React.FC = () => {
     detectTheme();
 
     const observer = new MutationObserver(detectTheme);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     mediaQuery.addEventListener('change', detectTheme);
@@ -391,8 +436,9 @@ export const CompletionGuidance: React.FC = () => {
       >
         <h2 className="text-2xl font-bold mb-4">You're all set!</h2>
         <p className="mb-6">
-          You're now ready to use Poly Micro Manager. If you need to see this guide again, click on
-          your profile at the bottom of the sidebar and select "Show Guide".
+          You're now ready to use Poly Micro Manager. If you need to see this
+          guide again, click on your profile at the bottom of the sidebar and
+          select "Show Guide".
         </p>
 
         <div className="flex justify-end">
@@ -401,7 +447,10 @@ export const CompletionGuidance: React.FC = () => {
             className="flex items-center justify-center px-3 py-2 bg-green-600 border border-transparent rounded-md text-sm font-medium text-white hover:bg-green-700"
           >
             Complete
-            <CheckCircle size={16} className="ml-2" />
+            <CheckCircle
+              size={16}
+              className="ml-2"
+            />
           </button>
         </div>
       </div>

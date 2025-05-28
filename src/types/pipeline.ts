@@ -1,5 +1,12 @@
 interface ConfigSchemaField {
-  type: 'string' | 'number' | 'select' | 'array' | 'cron' | 'expression' | 'command';
+  type:
+    | 'string'
+    | 'number'
+    | 'select'
+    | 'array'
+    | 'cron'
+    | 'expression'
+    | 'command';
   label: string;
   default: string | number | boolean | string[];
   options?: string[];

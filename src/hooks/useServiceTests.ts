@@ -24,37 +24,42 @@ export interface ServiceTestsResponse {
 
 export function useServiceTests(serviceId: string | undefined) {
   const [error, setError] = useState<string | null>(null);
-  
-  const { 
+
+  const {
     data: testsData,
-    isLoading, 
+    isLoading,
     isError,
-    refetch 
+    refetch,
   } = useQuery<ServiceTestsResponse>({
     queryKey: ['servicetests', serviceId],
     queryFn: async () => {
       if (!serviceId) {
         throw new Error('Service ID is required');
       }
-      
+
       try {
-        const response = await fetch(`${API_BASE_URL}/api/services/tests/${serviceId}`);
-        
+        const response = await fetch(
+          `${API_BASE_URL}/api/services/tests/${serviceId}`,
+        );
+
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({}));
-          throw new Error(errorData.detail || `Failed to fetch tests: ${response.status}`);
+          throw new Error(
+            errorData.detail || `Failed to fetch tests: ${response.status}`,
+          );
         }
-        
+
         return await response.json();
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
+        const errorMessage =
+          err instanceof Error ? err.message : 'Unknown error occurred';
         setError(errorMessage);
         throw err;
       }
     },
     enabled: !!serviceId, // Only run the query if serviceId is provided
   });
-  
+
   return {
     testsData,
     isLoading,

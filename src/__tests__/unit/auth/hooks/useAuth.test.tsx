@@ -71,7 +71,9 @@ describe('useAuth', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockLocalStorage.clear();
-    (useNavigate as unknown as ReturnType<typeof vi.fn>).mockReturnValue(mockNavigate);
+    (useNavigate as unknown as ReturnType<typeof vi.fn>).mockReturnValue(
+      mockNavigate,
+    );
   });
 
   it('initializes with loading state and no user', () => {
@@ -111,9 +113,9 @@ describe('useAuth', () => {
     };
 
     // Mock db.users.where().equals().first() to return our test user
-    vi.mocked(db.users.where('username').equals('testuser').first).mockResolvedValueOnce(
-      testUser as User,
-    );
+    vi.mocked(
+      db.users.where('username').equals('testuser').first,
+    ).mockResolvedValueOnce(testUser as User);
 
     const { result } = renderHook(() => useAuth());
 
@@ -124,19 +126,24 @@ describe('useAuth', () => {
 
     expect(result.current.isAuthenticated).toBe(true);
     expect(result.current.user).toEqual(testUser);
-    expect(mockLocalStorage.setItem).toHaveBeenCalledWith('currentUser', JSON.stringify(testUser));
+    expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
+      'currentUser',
+      JSON.stringify(testUser),
+    );
   });
 
   it('handles login failure with invalid credentials', async () => {
     // Mock db.users.where().equals().first() to return null (user not found)
-    vi.mocked(db.users.where('username').equals('wronguser').first).mockResolvedValueOnce(null);
+    vi.mocked(
+      db.users.where('username').equals('wronguser').first,
+    ).mockResolvedValueOnce(null);
 
     const { result } = renderHook(() => useAuth());
 
     // Mock failed login
-    await expect(result.current.login('wronguser', 'wrongpassword')).rejects.toThrow(
-      'Invalid username or password',
-    );
+    await expect(
+      result.current.login('wronguser', 'wrongpassword'),
+    ).rejects.toThrow('Invalid username or password');
 
     expect(result.current.isAuthenticated).toBe(false);
     expect(result.current.user).toBe(null);
@@ -144,7 +151,9 @@ describe('useAuth', () => {
 
   it('handles login failure with correct username but wrong password', async () => {
     // Mock db.users.where().equals().first() to return a user with different password
-    vi.mocked(db.users.where('username').equals('testuser').first).mockResolvedValueOnce({
+    vi.mocked(
+      db.users.where('username').equals('testuser').first,
+    ).mockResolvedValueOnce({
       id: 1,
       username: 'testuser',
       password: 'correctpassword', // Different from what we'll try to login with
@@ -155,9 +164,9 @@ describe('useAuth', () => {
     const { result } = renderHook(() => useAuth());
 
     // Mock failed login
-    await expect(result.current.login('testuser', 'wrongpassword')).rejects.toThrow(
-      'Invalid username or password',
-    );
+    await expect(
+      result.current.login('testuser', 'wrongpassword'),
+    ).rejects.toThrow('Invalid username or password');
 
     expect(result.current.isAuthenticated).toBe(false);
     expect(result.current.user).toBe(null);
@@ -165,7 +174,9 @@ describe('useAuth', () => {
 
   it('handles registration success', async () => {
     // Mock db.users.where().equals().first() to return null (username doesn't exist)
-    vi.mocked(db.users.where('username').equals('newuser').first).mockResolvedValueOnce(null);
+    vi.mocked(
+      db.users.where('username').equals('newuser').first,
+    ).mockResolvedValueOnce(null);
 
     const { result } = renderHook(() => useAuth());
 
@@ -185,7 +196,9 @@ describe('useAuth', () => {
 
   it('handles registration failure when username exists', async () => {
     // Mock db.users.where().equals().first() to return a user (username exists)
-    vi.mocked(db.users.where('username').equals('testuser').first).mockResolvedValueOnce({
+    vi.mocked(
+      db.users.where('username').equals('testuser').first,
+    ).mockResolvedValueOnce({
       id: 1,
       username: 'testuser',
       password: 'password123',
@@ -202,7 +215,9 @@ describe('useAuth', () => {
       businessName: 'New Business',
     };
 
-    await expect(result.current.register(newUser)).rejects.toThrow('Username already exists');
+    await expect(result.current.register(newUser)).rejects.toThrow(
+      'Username already exists',
+    );
 
     expect(db.users.add).not.toHaveBeenCalled();
   });

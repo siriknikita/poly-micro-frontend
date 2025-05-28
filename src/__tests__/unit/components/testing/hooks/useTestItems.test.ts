@@ -31,13 +31,17 @@ describe('useTestItems', () => {
   });
 
   it('should initialize with empty expanded items', () => {
-    const { result } = renderHook(() => useTestItems(mockTestItems, 'project1', 'ms1'));
+    const { result } = renderHook(() =>
+      useTestItems(mockTestItems, 'project1', 'ms1'),
+    );
 
     expect(result.current.expandedItems).toEqual({});
   });
 
   it('should toggle expanded state for a single item', () => {
-    const { result } = renderHook(() => useTestItems(mockTestItems, 'project1', 'ms1'));
+    const { result } = renderHook(() =>
+      useTestItems(mockTestItems, 'project1', 'ms1'),
+    );
 
     act(() => {
       result.current.toggleExpand('func1');
@@ -53,7 +57,9 @@ describe('useTestItems', () => {
   });
 
   it('should expand all items when expandAll is called', () => {
-    const { result } = renderHook(() => useTestItems(mockTestItems, 'project1', 'ms1'));
+    const { result } = renderHook(() =>
+      useTestItems(mockTestItems, 'project1', 'ms1'),
+    );
 
     act(() => {
       result.current.expandAll();
@@ -64,7 +70,10 @@ describe('useTestItems', () => {
 
     // Helper function to recursively add all items and their children to expectedExpandedItems
     // Define a recursive type for test items
-    type TestItemWithChildren = { id: string; children?: TestItemWithChildren[] };
+    type TestItemWithChildren = {
+      id: string;
+      children?: TestItemWithChildren[];
+    };
     const addAllItems = (items: TestItemWithChildren[]) => {
       items.forEach((item) => {
         expectedExpandedItems[item.id] = true;
@@ -80,7 +89,9 @@ describe('useTestItems', () => {
   });
 
   it('should collapse all items when collapseAll is called', () => {
-    const { result } = renderHook(() => useTestItems(mockTestItems, 'project1', 'ms1'));
+    const { result } = renderHook(() =>
+      useTestItems(mockTestItems, 'project1', 'ms1'),
+    );
 
     // First expand all items
     act(() => {
@@ -96,7 +107,9 @@ describe('useTestItems', () => {
   });
 
   it('should save expanded state to localStorage', () => {
-    const { result } = renderHook(() => useTestItems(mockTestItems, 'project1', 'ms1'));
+    const { result } = renderHook(() =>
+      useTestItems(mockTestItems, 'project1', 'ms1'),
+    );
 
     act(() => {
       result.current.toggleExpand('func1');
@@ -115,7 +128,9 @@ describe('useTestItems', () => {
   });
 
   it('should handle multiple expanded items correctly', () => {
-    const { result } = renderHook(() => useTestItems(mockTestItems, 'project1', 'ms1'));
+    const { result } = renderHook(() =>
+      useTestItems(mockTestItems, 'project1', 'ms1'),
+    );
 
     act(() => {
       result.current.toggleExpand('func1');

@@ -60,7 +60,9 @@ export const ServiceFilterDialog: React.FC<ServiceFilterDialogProps> = ({
   services,
   initialFilterGroup,
 }) => {
-  const [operator, setOperator] = useState<FilterOperator>(initialFilterGroup?.operator || 'AND');
+  const [operator, setOperator] = useState<FilterOperator>(
+    initialFilterGroup?.operator || 'AND',
+  );
   const [conditions, setConditions] = useState<FilterCondition[]>(
     initialFilterGroup?.conditions || [{ field: 'status', value: '' }],
   );
@@ -100,7 +102,11 @@ export const ServiceFilterDialog: React.FC<ServiceFilterDialogProps> = ({
   };
 
   // Update a condition
-  const updateCondition = (index: number, field: keyof FilterCondition, value: string) => {
+  const updateCondition = (
+    index: number,
+    field: keyof FilterCondition,
+    value: string,
+  ) => {
     const updatedConditions = [...conditions];
     updatedConditions[index] = {
       ...updatedConditions[index],
@@ -194,7 +200,10 @@ export const ServiceFilterDialog: React.FC<ServiceFilterDialogProps> = ({
 
         <div className="space-y-3 mb-4">
           {conditions.map((condition, index) => (
-            <div key={index} className="flex items-center space-x-2">
+            <div
+              key={index}
+              className="flex items-center space-x-2"
+            >
               <Dropdown
                 buttonLabel="Field"
                 selectedOption={condition.field}
@@ -215,7 +224,8 @@ export const ServiceFilterDialog: React.FC<ServiceFilterDialogProps> = ({
                         colorClass: 'text-purple-600 dark:text-purple-400',
                       },
                     ],
-                    onSelect: (id) => updateCondition(index, 'field', id as FilterField),
+                    onSelect: (id) =>
+                      updateCondition(index, 'field', id as FilterField),
                   },
                 ]}
               />

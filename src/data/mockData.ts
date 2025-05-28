@@ -212,7 +212,11 @@ const servicesDefinitions: Service[] = [
 const services = _.keyBy(servicesDefinitions, 'name');
 
 export const mockServices: MockedServices = {
-  '1': [services['User Service'], services['Payment Service'], services['Inventory Service']],
+  '1': [
+    services['User Service'],
+    services['Payment Service'],
+    services['Inventory Service'],
+  ],
   '2': [
     services['User Service'],
     services['Payment Service'],

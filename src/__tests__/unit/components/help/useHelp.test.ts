@@ -84,7 +84,9 @@ describe('useHelp Hook', () => {
     });
 
     // Success message should be shown
-    expect(mockShowSuccess).toHaveBeenCalledWith('Your question has been submitted successfully!');
+    expect(mockShowSuccess).toHaveBeenCalledWith(
+      'Your question has been submitted successfully!',
+    );
   });
 
   it('logs the submitted question to console', async () => {
@@ -101,7 +103,10 @@ describe('useHelp Hook', () => {
     await result.current.submitQuestion(testQuestion);
 
     // Question should be logged to console
-    expect(console.log).toHaveBeenCalledWith('Question submitted:', testQuestion);
+    expect(console.log).toHaveBeenCalledWith(
+      'Question submitted:',
+      testQuestion,
+    );
   });
 
   it('handles submission errors correctly', async () => {
@@ -139,7 +144,9 @@ describe('useHelp Hook', () => {
       });
 
     // Verify showError was called with the expected message
-    expect(mockShowError).toHaveBeenCalledWith('Failed to submit your question. Please try again.');
+    expect(mockShowError).toHaveBeenCalledWith(
+      'Failed to submit your question. Please try again.',
+    );
 
     // Restore the original setTimeout
     global.setTimeout = originalSetTimeout;

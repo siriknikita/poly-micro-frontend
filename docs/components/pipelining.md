@@ -2,9 +2,10 @@
 
 ## Overview
 
-The Pipelining feature provides CI/CD (Continuous Integration/Continuous Deployment) pipeline
-management for microservices. It allows users to create, configure, and execute deployment pipelines
-with a visual interface, manage pipeline variables, and monitor pipeline execution.
+The Pipelining feature provides CI/CD (Continuous Integration/Continuous
+Deployment) pipeline management for microservices. It allows users to create,
+configure, and execute deployment pipelines with a visual interface, manage
+pipeline variables, and monitor pipeline execution.
 
 ## Components Structure
 
@@ -29,8 +30,8 @@ src/components/pipelining/
 
 ### CICDPipeline.tsx
 
-The main container component for the pipelining feature. It integrates all pipeline components and
-manages the overall state of the pipeline interface.
+The main container component for the pipelining feature. It integrates all
+pipeline components and manages the overall state of the pipeline interface.
 
 **Key Features:**
 
@@ -96,9 +97,10 @@ Panel for managing pipeline variables and environment configurations.
 ## Integration with Other Features
 
 - **Testing**: Tests can be integrated into CI/CD pipelines
-- **Monitoring**: Pipeline execution is monitored and results are displayed in the monitoring
-  dashboard
-- **Authentication**: User permissions determine pipeline access and execution rights
+- **Monitoring**: Pipeline execution is monitored and results are displayed in
+  the monitoring dashboard
+- **Authentication**: User permissions determine pipeline access and execution
+  rights
 
 ## Usage Examples
 

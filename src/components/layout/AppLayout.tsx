@@ -8,7 +8,11 @@ import { MainContent } from './MainContent';
 import { TABS, TabName } from './constants';
 
 // Import custom hooks
-import { useTabNavigation, useProjectManagement, useAuthManagement } from '../monitoring/hooks';
+import {
+  useTabNavigation,
+  useProjectManagement,
+  useAuthManagement,
+} from '../monitoring/hooks';
 
 /**
  * AppLayout component
@@ -21,14 +25,18 @@ export const AppLayout = memo(function AppLayout() {
 
   // Use custom hooks to manage different aspects of the application
   const { activeTab, setActiveTab } = useTabNavigation();
-  const { selectedProject, handleSelectProject } = useProjectManagement(activeTab);
-  const { user, handleLogout, getLastSelectedService, refreshAuthState } = useAuthManagement();
+  const { selectedProject, handleSelectProject } =
+    useProjectManagement(activeTab);
+  const { user, handleLogout, getLastSelectedService, refreshAuthState } =
+    useAuthManagement();
 
   // Check for force testing tab flag from guidance navigation
   useEffect(() => {
     const forceTestingTab = sessionStorage.getItem('forceTestingTab');
     if (forceTestingTab === 'true') {
-      console.log('AppLayout detected forceTestingTab flag, setting active tab to testing');
+      console.log(
+        'AppLayout detected forceTestingTab flag, setting active tab to testing',
+      );
       setActiveTab(TABS.TESTING);
       // Clear the flag to prevent infinite redirects
       sessionStorage.removeItem('forceTestingTab');
@@ -42,14 +50,11 @@ export const AppLayout = memo(function AppLayout() {
     const isGuidanceNavigation = urlParams.get('guidance') === 'true';
 
     if (isGuidanceNavigation) {
-      console.log('Detected guidance navigation, ensuring auth state is preserved...');
-      // Force refresh the auth state
       refreshAuthState();
     }
 
     // Always refresh auth state when tab changes
     if (activeTab === TABS.TESTING) {
-      console.log('Testing tab active, refreshing auth state...');
       refreshAuthState();
     }
   }, [activeTab, refreshAuthState]);

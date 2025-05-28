@@ -57,7 +57,10 @@ describe('Button', () => {
   it('does not call onClick when disabled', () => {
     const handleClick = vi.fn();
     render(
-      <Button onClick={handleClick} disabled>
+      <Button
+        onClick={handleClick}
+        disabled
+      >
         Disabled Button
       </Button>,
     );
@@ -71,7 +74,10 @@ describe('Button', () => {
   it('does not call onClick when loading', () => {
     const handleClick = vi.fn();
     render(
-      <Button onClick={handleClick} isLoading>
+      <Button
+        onClick={handleClick}
+        isLoading
+      >
         Loading Button
       </Button>,
     );

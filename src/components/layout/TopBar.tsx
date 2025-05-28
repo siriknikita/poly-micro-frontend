@@ -24,7 +24,7 @@ const RefreshButton: React.FC = () => {
   const handleRefresh = () => {
     setIsRefreshing(true);
     refreshAllData();
-    
+
     // Reset the animation after a short delay
     setTimeout(() => {
       setIsRefreshing(false);
@@ -39,7 +39,9 @@ const RefreshButton: React.FC = () => {
       aria-label="Refresh all data"
       title="Refresh all application data"
     >
-      <RefreshCw className={`h-4 w-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
+      <RefreshCw
+        className={`h-4 w-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`}
+      />
       Refresh
     </button>
   );
@@ -71,7 +73,10 @@ export const TopBar: React.FC<TopBarProps> = ({
             </div>
           </div>
           <div className="flex items-center space-x-4">
-            <ThemeToggle darkMode={darkMode} onToggle={() => setDarkMode(!darkMode)} />
+            <ThemeToggle
+              darkMode={darkMode}
+              onToggle={() => setDarkMode(!darkMode)}
+            />
             <RefreshButton />
             <button
               onClick={onLogout}

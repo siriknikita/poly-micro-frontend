@@ -1,5 +1,11 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+} from 'react';
 import { User, db } from '@/db/db';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,7 +23,9 @@ interface GuidanceContextType {
   shouldShowTooltipForStep: (step: number) => boolean;
 }
 
-const GuidanceContext = createContext<GuidanceContextType | undefined>(undefined);
+const GuidanceContext = createContext<GuidanceContextType | undefined>(
+  undefined,
+);
 
 interface GuidanceProviderProps {
   children: React.ReactNode;
@@ -41,7 +49,10 @@ export enum OnboardingStep {
   COMPLETION = 10,
 }
 
-export const GuidanceProvider: React.FC<GuidanceProviderProps> = ({ children, currentUser }) => {
+export const GuidanceProvider: React.FC<GuidanceProviderProps> = ({
+  children,
+  currentUser,
+}) => {
   const navigate = useNavigate();
   const [isGuidanceVisible, setIsGuidanceVisible] = useState<boolean>(false);
   const [isOnboarding, setIsOnboarding] = useState<boolean>(false);
@@ -52,7 +63,8 @@ export const GuidanceProvider: React.FC<GuidanceProviderProps> = ({ children, cu
   useEffect(() => {
     const checkOnboardingStatus = async () => {
       if (currentUser && currentUser.id) {
-        const isFirstTimeUser = currentUser.hasCompletedOnboarding === undefined;
+        const isFirstTimeUser =
+          currentUser.hasCompletedOnboarding === undefined;
         setIsOnboarding(isFirstTimeUser);
 
         // If user is in first-time onboarding, we'll store this information
@@ -67,7 +79,11 @@ export const GuidanceProvider: React.FC<GuidanceProviderProps> = ({ children, cu
         if (stepParam) {
           console.log('Found step parameter in URL:', stepParam);
           const stepNumber = parseInt(stepParam, 10);
-          if (!isNaN(stepNumber) && stepNumber >= 0 && stepNumber < TOTAL_GUIDANCE_STEPS) {
+          if (
+            !isNaN(stepNumber) &&
+            stepNumber >= 0 &&
+            stepNumber < TOTAL_GUIDANCE_STEPS
+          ) {
             console.log('Applying step from URL parameter:', stepNumber);
             setCurrentStep(stepNumber);
             setIsGuidanceVisible(true);
@@ -81,9 +97,16 @@ export const GuidanceProvider: React.FC<GuidanceProviderProps> = ({ children, cu
           // Check for any pending guidance step from a previous navigation in sessionStorage
           const pendingStep = sessionStorage.getItem('pendingGuidanceStep');
           if (pendingStep) {
-            console.log('Found pending guidance step in sessionStorage:', pendingStep);
+            console.log(
+              'Found pending guidance step in sessionStorage:',
+              pendingStep,
+            );
             const stepNumber = parseInt(pendingStep, 10);
-            if (!isNaN(stepNumber) && stepNumber >= 0 && stepNumber < TOTAL_GUIDANCE_STEPS) {
+            if (
+              !isNaN(stepNumber) &&
+              stepNumber >= 0 &&
+              stepNumber < TOTAL_GUIDANCE_STEPS
+            ) {
               // Apply the pending step and ensure guidance is visible
               console.log('Applying pending step:', stepNumber);
               setCurrentStep(stepNumber);
@@ -293,7 +316,9 @@ export const GuidanceProvider: React.FC<GuidanceProviderProps> = ({ children, cu
             ? parseInt(storedStep, 10)
             : OnboardingStep.AUTOMATED_TESTING;
 
-        console.log(`Force showing guidance for testing tab with step ${stepToUse}`);
+        console.log(
+          `Force showing guidance for testing tab with step ${stepToUse}`,
+        );
 
         // Force guidance to be visible with the appropriate step
         setCurrentStep(stepToUse);
@@ -307,8 +332,14 @@ export const GuidanceProvider: React.FC<GuidanceProviderProps> = ({ children, cu
       // Otherwise, check if we should restore from localStorage
       else if (storedVisible === 'true' && storedStep) {
         const stepNumber = parseInt(storedStep, 10);
-        if (!isNaN(stepNumber) && stepNumber >= 0 && stepNumber < TOTAL_GUIDANCE_STEPS) {
-          console.log(`Restoring guidance on testing tab with step ${stepNumber}`);
+        if (
+          !isNaN(stepNumber) &&
+          stepNumber >= 0 &&
+          stepNumber < TOTAL_GUIDANCE_STEPS
+        ) {
+          console.log(
+            `Restoring guidance on testing tab with step ${stepNumber}`,
+          );
           setCurrentStep(stepNumber);
           setIsGuidanceVisible(true);
           setIsOnboarding(true);
@@ -319,7 +350,11 @@ export const GuidanceProvider: React.FC<GuidanceProviderProps> = ({ children, cu
     else if (!isGuidanceVisible && storedVisible === 'true' && storedStep) {
       console.log('Restoring guidance state from localStorage');
       const stepNumber = parseInt(storedStep, 10);
-      if (!isNaN(stepNumber) && stepNumber >= 0 && stepNumber < TOTAL_GUIDANCE_STEPS) {
+      if (
+        !isNaN(stepNumber) &&
+        stepNumber >= 0 &&
+        stepNumber < TOTAL_GUIDANCE_STEPS
+      ) {
         setCurrentStep(stepNumber);
         setIsGuidanceVisible(true);
         setIsOnboarding(true);
@@ -331,7 +366,8 @@ export const GuidanceProvider: React.FC<GuidanceProviderProps> = ({ children, cu
   const shouldShowTooltipForStep = useCallback(
     (step: number) => {
       // Check both the current state and localStorage as a fallback
-      const isVisible = isGuidanceVisible || localStorage.getItem('guidanceVisible') === 'true';
+      const isVisible =
+        isGuidanceVisible || localStorage.getItem('guidanceVisible') === 'true';
       const currentStepValue = currentStep;
       const storedStep = localStorage.getItem('guidanceCurrentStep');
       const storedStepValue = storedStep ? parseInt(storedStep, 10) : -1;
@@ -350,7 +386,9 @@ export const GuidanceProvider: React.FC<GuidanceProviderProps> = ({ children, cu
           `Checking if should show tooltip for step ${step}, current: ${currentStepValue}, stored: ${storedStepValue}`,
         );
 
-        return isVisible && (currentStepValue === step || storedStepValue === step);
+        return (
+          isVisible && (currentStepValue === step || storedStepValue === step)
+        );
       }
 
       // Normal case - strict equality check

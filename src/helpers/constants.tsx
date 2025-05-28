@@ -1,4 +1,11 @@
-import { Timer, Terminal, GitBranch, XCircle, Bot, RotateCw } from 'lucide-react';
+import {
+  Timer,
+  Terminal,
+  GitBranch,
+  XCircle,
+  Bot,
+  RotateCw,
+} from 'lucide-react';
 
 export const AVAILABLE_BLOCKS_MAP = {
   'Timer': Timer,
@@ -50,9 +57,12 @@ export const SERVICE_STATUS_CLASSES = {
   Online: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
 
   // Warning states
-  Warning: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
-  Degraded: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
-  Unstable: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+  Warning:
+    'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+  Degraded:
+    'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+  Unstable:
+    'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
 
   // Error states
   Error: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',

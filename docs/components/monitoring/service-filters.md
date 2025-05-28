@@ -2,16 +2,18 @@
 
 ## Overview
 
-The Service Filters feature allows users to filter microservices based on their status and health
-properties. Filters are project-specific, meaning each project can have its own set of filters that
-are persisted across sessions.
+The Service Filters feature allows users to filter microservices based on their
+status and health properties. Filters are project-specific, meaning each project
+can have its own set of filters that are persisted across sessions.
 
 ## Key Features
 
-- **Flexible Filtering**: Filter services by status, health, or both using logical operators (AND,
-  OR, NOT)
-- **Project-specific Persistence**: Filter settings are saved per project and restored automatically
-- **Multiple Filter Groups**: Create complex filtering scenarios with multiple filter groups
+- **Flexible Filtering**: Filter services by status, health, or both using
+  logical operators (AND, OR, NOT)
+- **Project-specific Persistence**: Filter settings are saved per project and
+  restored automatically
+- **Multiple Filter Groups**: Create complex filtering scenarios with multiple
+  filter groups
 - **Edit Existing Filters**: Easily modify existing filters by clicking on them
 - **Clear Filters**: Remove all filters with a single click
 
@@ -19,8 +21,8 @@ are persisted across sessions.
 
 ### ServiceFilters
 
-The main component that displays active filters and provides controls to add, edit, remove, and
-clear filters.
+The main component that displays active filters and provides controls to add,
+edit, remove, and clear filters.
 
 **Props:**
 
@@ -107,11 +109,12 @@ Click the "Clear all" button to remove all filters.
 
 ## Persistence
 
-Filters are automatically saved to localStorage using the key `serviceFilters_${projectId}` and
-restored when the component mounts. This ensures that filter settings persist across page reloads
-and browser sessions.
+Filters are automatically saved to localStorage using the key
+`serviceFilters_${projectId}` and restored when the component mounts. This
+ensures that filter settings persist across page reloads and browser sessions.
 
 ## Default Behavior
 
-When no filters are applied, all services are displayed. If filters are applied but no services
-match the criteria, a message is displayed indicating that no services match the current filters.
+When no filters are applied, all services are displayed. If filters are applied
+but no services match the criteria, a message is displayed indicating that no
+services match the current filters.

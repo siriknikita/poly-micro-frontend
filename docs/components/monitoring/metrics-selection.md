@@ -2,9 +2,10 @@
 
 ## Overview
 
-The metrics selection functionality allows users to customize which metrics are displayed on
-monitoring charts. This feature has been refactored to follow SOLID principles with a modular
-architecture that emphasizes separation of concerns and reusability.
+The metrics selection functionality allows users to customize which metrics are
+displayed on monitoring charts. This feature has been refactored to follow SOLID
+principles with a modular architecture that emphasizes separation of concerns
+and reusability.
 
 ## Components Structure
 
@@ -26,8 +27,8 @@ src/components/monitoring/
 
 ### MetricsSelector
 
-The main component that integrates all metrics selection functionality. It provides a dropdown
-interface for selecting which metrics to display on charts.
+The main component that integrates all metrics selection functionality. It
+provides a dropdown interface for selecting which metrics to display on charts.
 
 **Props:**
 
@@ -44,14 +45,17 @@ interface for selecting which metrics to display on charts.
     { id: 'memory', name: 'Memory Usage %', selected: true },
     { id: 'threads', name: 'Active Threads', selected: false },
   ]}
-  onMetricsChange={(selectedIds) => console.log('Selected metrics:', selectedIds)}
+  onMetricsChange={(selectedIds) =>
+    console.log('Selected metrics:', selectedIds)
+  }
   className="custom-metrics-selector"
 />
 ```
 
 ### MetricsToggleButton
 
-Button component that shows the count of selected metrics and toggles the dropdown visibility.
+Button component that shows the count of selected metrics and toggles the
+dropdown visibility.
 
 **Props:**
 
@@ -84,7 +88,8 @@ Component that displays a list of available metrics with toggle functionality.
 
 ### useMetricsSelection
 
-This hook manages the state of selected metrics and persists user preferences to localStorage.
+This hook manages the state of selected metrics and persists user preferences to
+localStorage.
 
 **Parameters:**
 
@@ -101,21 +106,40 @@ This hook manages the state of selected metrics and persists user preferences to
 **Example:**
 
 ```jsx
-const { metrics, selectedMetricIds, updateMetricSelection } = useMetricsSelection({
-  projectId: 'project1',
-  serviceName: 'service1',
-  defaultMetrics: [
-    { id: 'load', name: 'CPU Load %', dataKey: 'load', color: '#4f46e5', selected: true },
-    { id: 'memory', name: 'Memory Usage %', dataKey: 'memory', color: '#059669', selected: true },
-    { id: 'threads', name: 'Active Threads', dataKey: 'threads', color: '#db2777', selected: true },
-  ],
-});
+const { metrics, selectedMetricIds, updateMetricSelection } =
+  useMetricsSelection({
+    projectId: 'project1',
+    serviceName: 'service1',
+    defaultMetrics: [
+      {
+        id: 'load',
+        name: 'CPU Load %',
+        dataKey: 'load',
+        color: '#4f46e5',
+        selected: true,
+      },
+      {
+        id: 'memory',
+        name: 'Memory Usage %',
+        dataKey: 'memory',
+        color: '#059669',
+        selected: true,
+      },
+      {
+        id: 'threads',
+        name: 'Active Threads',
+        dataKey: 'threads',
+        color: '#db2777',
+        selected: true,
+      },
+    ],
+  });
 ```
 
 ### useMetricsDropdown
 
-This hook manages the dropdown UI state, search functionality, and keyboard navigation for the
-MetricsSelector component.
+This hook manages the dropdown UI state, search functionality, and keyboard
+navigation for the MetricsSelector component.
 
 **Parameters:**
 
@@ -137,7 +161,8 @@ MetricsSelector component.
 
 ## User Preferences Persistence
 
-The metrics selection state is persisted to localStorage using the following structure:
+The metrics selection state is persisted to localStorage using the following
+structure:
 
 ```javascript
 {
@@ -153,34 +178,56 @@ The metrics selection state is persisted to localStorage using the following str
 }
 ```
 
-This allows the application to remember user preferences for each project and service combination,
-providing a personalized experience across sessions.
+This allows the application to remember user preferences for each project and
+service combination, providing a personalized experience across sessions.
 
 ## Accessibility Features
 
 The metrics selection components include several accessibility features:
 
-1. **Keyboard Navigation**: Users can navigate the dropdown using Tab, Enter, and Escape keys
-2. **Focus Management**: Focus is automatically set to the search input when the dropdown opens
+1. **Keyboard Navigation**: Users can navigate the dropdown using Tab, Enter,
+   and Escape keys
+2. **Focus Management**: Focus is automatically set to the search input when the
+   dropdown opens
 3. **ARIA Attributes**: Appropriate ARIA attributes are used for screen readers
-4. **Clickaway Detection**: Dropdown closes when clicking outside, preventing modal traps
+4. **Clickaway Detection**: Dropdown closes when clicking outside, preventing
+   modal traps
 
 ## Integration with CPUChart
 
-The MetricsSelector component is integrated with the CPUChart component to allow users to customize
-which metrics are displayed on the chart:
+The MetricsSelector component is integrated with the CPUChart component to allow
+users to customize which metrics are displayed on the chart:
 
 ```jsx
 // Inside CPUChart.tsx
-const { metrics, selectedMetricIds, updateMetricSelection } = useMetricsSelection({
-  projectId: selectedProjectId,
-  serviceName: selectedService,
-  defaultMetrics: [
-    { id: 'load', name: 'CPU Load %', dataKey: 'load', color: '#4f46e5', selected: true },
-    { id: 'memory', name: 'Memory Usage %', dataKey: 'memory', color: '#059669', selected: true },
-    { id: 'threads', name: 'Active Threads', dataKey: 'threads', color: '#db2777', selected: true },
-  ],
-});
+const { metrics, selectedMetricIds, updateMetricSelection } =
+  useMetricsSelection({
+    projectId: selectedProjectId,
+    serviceName: selectedService,
+    defaultMetrics: [
+      {
+        id: 'load',
+        name: 'CPU Load %',
+        dataKey: 'load',
+        color: '#4f46e5',
+        selected: true,
+      },
+      {
+        id: 'memory',
+        name: 'Memory Usage %',
+        dataKey: 'memory',
+        color: '#059669',
+        selected: true,
+      },
+      {
+        id: 'threads',
+        name: 'Active Threads',
+        dataKey: 'threads',
+        color: '#db2777',
+        selected: true,
+      },
+    ],
+  });
 
 return (
   <div className="cpu-chart">
@@ -192,9 +239,15 @@ return (
 
     {selectedService && data ? (
       <>
-        <MetricsSelector metrics={metrics} onMetricsChange={updateMetricSelection} />
+        <MetricsSelector
+          metrics={metrics}
+          onMetricsChange={updateMetricSelection}
+        />
 
-        <ResponsiveContainer width="100%" height={400}>
+        <ResponsiveContainer
+          width="100%"
+          height={400}
+        >
           <LineChart data={data}>
             {metrics
               .filter((metric) => metric.selected)

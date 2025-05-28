@@ -2,9 +2,9 @@
 
 ## Introduction
 
-Welcome to the Poly Micro Manager user guide! This document provides comprehensive guidance on using
-the application's features, with a focus on the recently refactored testing components and the new
-test suite.
+Welcome to the Poly Micro Manager user guide! This document provides
+comprehensive guidance on using the application's features, with a focus on the
+recently refactored testing components and the new test suite.
 
 ## Table of Contents
 
@@ -27,14 +27,16 @@ test suite.
 
 ## Testing Feature
 
-The Testing feature has been completely refactored to improve usability, performance, and code
-organization. This section guides you through using the enhanced testing interface.
+The Testing feature has been completely refactored to improve usability,
+performance, and code organization. This section guides you through using the
+enhanced testing interface.
 
 ### Navigating the Testing Interface
 
 The testing interface consists of several key areas:
 
-1. **Navigation Bar**: Located at the top, allows you to switch between microservices
+1. **Navigation Bar**: Located at the top, allows you to switch between
+   microservices
 2. **Test List Panel**: Shows all available tests for the selected microservice
 3. **Test Details Panel**: Displays details of the selected test
 4. **Action Buttons**: Run, Edit, Delete, and other actions for tests
@@ -43,8 +45,10 @@ The testing interface consists of several key areas:
 
 1. Use the search input in the navigation bar to quickly find microservices
 2. Click on a microservice name to select it
-3. Use the navigation controls (arrows) to move between recently viewed microservices
-4. The test list will update automatically when you select a different microservice
+3. Use the navigation controls (arrows) to move between recently viewed
+   microservices
+4. The test list will update automatically when you select a different
+   microservice
 
 ### Running Tests
 
@@ -54,7 +58,8 @@ To run a test:
 2. Find the test you want to run in the test list
 3. Click the "Run" button (play icon) next to the test name
 4. A toast notification will appear showing the test progress
-5. When the test completes, a notification will show the result (success/failure)
+5. When the test completes, a notification will show the result
+   (success/failure)
 6. Click "View Details" in the notification to see the full test output
 
 **Batch Running Tests:**
@@ -78,14 +83,15 @@ The AI assistance feature helps you create tests quickly:
 5. Make any necessary adjustments
 6. Click "Save Test" to add it to your test list
 
-**Pro Tip**: For best results, be specific in your prompt about what the test should verify and any
-edge cases to consider.
+**Pro Tip**: For best results, be specific in your prompt about what the test
+should verify and any edge cases to consider.
 
 ### Using Resizable Panels
 
 The testing interface features resizable panels for a customized workspace:
 
-1. Hover your cursor between panels to see the resize handle (cursor will change)
+1. Hover your cursor between panels to see the resize handle (cursor will
+   change)
 2. Click and drag the handle to resize panels
 3. Double-click the handle to reset to the default size
 4. The system will remember your preferred panel sizes between sessions
@@ -118,7 +124,8 @@ After running a test:
    - Test output (console logs, errors)
    - Test coverage information
    - History of previous runs
-3. Click the "View Full Output" button to open the Test Output Modal for a larger view
+3. Click the "View Full Output" button to open the Test Output Modal for a
+   larger view
 4. In the Test Output Modal:
    - Toggle between "Raw Output" and "Formatted" views
    - Copy output to clipboard
@@ -170,8 +177,8 @@ If you forget your password:
 
 ### Running the Test Suite
 
-The application includes a comprehensive test suite for both the testing feature components and the
-authentication components:
+The application includes a comprehensive test suite for both the testing feature
+components and the authentication components:
 
 ```bash
 # Run all tests
@@ -189,7 +196,8 @@ npm test -- components/testing/hooks/useResizablePanel.test.tsx
 
 ### Understanding the Component Structure
 
-The application follows a modular architecture with components organized by feature:
+The application follows a modular architecture with components organized by
+feature:
 
 1. **Feature-based organization**:
 
@@ -204,11 +212,13 @@ The application follows a modular architecture with components organized by feat
 
 3. **Reusable components**:
    - Shared components are in the `components/shared` directory
-   - Feature-specific reusable components are in `components/[feature]/components`
+   - Feature-specific reusable components are in
+     `components/[feature]/components`
 
 ### Using Custom Hooks
 
-The application provides several custom hooks that you can use in your components:
+The application provides several custom hooks that you can use in your
+components:
 
 1. **Testing hooks**:
 
@@ -226,11 +236,17 @@ The application provides several custom hooks that you can use in your component
 import { useResizablePanel } from 'components/testing/hooks';
 
 const MyComponent = () => {
-  const { panelSize, handleResize, resetSize } = useResizablePanel('leftPanel', 300);
+  const { panelSize, handleResize, resetSize } = useResizablePanel(
+    'leftPanel',
+    300,
+  );
 
   return (
     <div style={{ width: `${panelSize}px` }}>
-      <ResizeHandle onResize={handleResize} onDoubleClick={resetSize} />
+      <ResizeHandle
+        onResize={handleResize}
+        onDoubleClick={resetSize}
+      />
       {/* Panel content */}
     </div>
   );
@@ -267,9 +283,9 @@ When contributing to the project, please follow these guidelines:
 
 ## Conclusion
 
-This user guide provides an overview of the key features and how to use them effectively. For more
-detailed information about specific components, please refer to the component documentation in the
-`docs/components/` directory.
+This user guide provides an overview of the key features and how to use them
+effectively. For more detailed information about specific components, please
+refer to the component documentation in the `docs/components/` directory.
 
-If you have any questions or need further assistance, please contact the development team or open an
-issue on the project repository.
+If you have any questions or need further assistance, please contact the
+development team or open an issue on the project repository.

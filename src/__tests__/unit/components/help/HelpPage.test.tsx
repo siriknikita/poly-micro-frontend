@@ -9,8 +9,12 @@ describe('HelpPage Component', () => {
 
     // Check for main elements
     expect(screen.getByText('Help Center')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Search for help topics...')).toBeInTheDocument();
-    expect(screen.getByText("Didn't find what you're looking for?")).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText('Search for help topics...'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Didn't find what you're looking for?"),
+    ).toBeInTheDocument();
 
     // Check for FAQ categories
     expect(screen.getByText('General Questions')).toBeInTheDocument();
@@ -25,14 +29,20 @@ describe('HelpPage Component', () => {
     const { user } = render(<HelpPage />);
 
     // Search for a specific term
-    const searchInput = screen.getByPlaceholderText('Search for help topics...');
+    const searchInput = screen.getByPlaceholderText(
+      'Search for help topics...',
+    );
     await user.type(searchInput, 'password');
 
     // Only password-related FAQs should be visible
-    expect(screen.getByText('How do I change my account password?')).toBeInTheDocument();
+    expect(
+      screen.getByText('How do I change my account password?'),
+    ).toBeInTheDocument();
 
     // Other FAQs should not be visible
-    expect(screen.queryByText('What is Poly Micro Manager?')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('What is Poly Micro Manager?'),
+    ).not.toBeInTheDocument();
 
     // Clear search to show all FAQs again
     await user.clear(searchInput);
@@ -43,7 +53,9 @@ describe('HelpPage Component', () => {
     const { user } = render(<HelpPage />);
 
     // Search for a term that doesn't exist in any FAQ
-    const searchInput = screen.getByPlaceholderText('Search for help topics...');
+    const searchInput = screen.getByPlaceholderText(
+      'Search for help topics...',
+    );
     await user.type(searchInput, 'nonexistentterm123');
 
     // No results message should be shown

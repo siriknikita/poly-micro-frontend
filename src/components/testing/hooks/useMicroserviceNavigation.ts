@@ -1,9 +1,9 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
-import { TestItem } from '@/types';
+import { Service } from '@/types';
 
 interface UseMicroserviceNavigationProps {
-  microservices: TestItem[];
-  initialMicroservice?: TestItem | null;
+  microservices: Service[];
+  initialMicroservice?: Service | null;
 }
 
 /**
@@ -13,9 +13,11 @@ export const useMicroserviceNavigation = ({
   microservices,
   initialMicroservice,
 }: UseMicroserviceNavigationProps) => {
-  const [selectedMicroservice, setSelectedMicroservice] = useState<TestItem | null>(
-    initialMicroservice || (microservices.length > 0 ? microservices[0] : null),
-  );
+  const [selectedMicroservice, setSelectedMicroservice] =
+    useState<Service | null>(
+      initialMicroservice ||
+        (microservices.length > 0 ? microservices[0] : null),
+    );
   const [searchQuery, setSearchQuery] = useState('');
 
   // Force reset the selected microservice when microservices array changes
@@ -37,7 +39,10 @@ export const useMicroserviceNavigation = ({
 
   // Filter microservices based on search query
   const filteredMicroservices = useMemo(
-    () => microservices.filter((ms) => ms.name.toLowerCase().includes(searchQuery.toLowerCase())),
+    () =>
+      microservices.filter((ms) =>
+        ms.name.toLowerCase().includes(searchQuery.toLowerCase()),
+      ),
     [microservices, searchQuery],
   );
 
@@ -58,7 +63,8 @@ export const useMicroserviceNavigation = ({
 
       const newIndex =
         direction === 'up'
-          ? (currentIndex - 1 + filteredMicroservices.length) % filteredMicroservices.length
+          ? (currentIndex - 1 + filteredMicroservices.length) %
+            filteredMicroservices.length
           : (currentIndex + 1) % filteredMicroservices.length;
 
       setSelectedMicroservice(filteredMicroservices[newIndex]);
@@ -70,12 +76,15 @@ export const useMicroserviceNavigation = ({
   const getPreviousMicroserviceName = useCallback(() => {
     if (!selectedMicroservice || filteredMicroservices.length <= 1) return '';
 
-    const currentIndex = filteredMicroservices.findIndex((ms) => ms.id === selectedMicroservice.id);
+    const currentIndex = filteredMicroservices.findIndex(
+      (ms) => ms.id === selectedMicroservice.id,
+    );
 
     if (currentIndex === -1) return '';
 
     const prevIndex =
-      (currentIndex - 1 + filteredMicroservices.length) % filteredMicroservices.length;
+      (currentIndex - 1 + filteredMicroservices.length) %
+      filteredMicroservices.length;
     return filteredMicroservices[prevIndex].name;
   }, [selectedMicroservice, filteredMicroservices]);
 
@@ -83,7 +92,9 @@ export const useMicroserviceNavigation = ({
   const getNextMicroserviceName = useCallback(() => {
     if (!selectedMicroservice || filteredMicroservices.length <= 1) return '';
 
-    const currentIndex = filteredMicroservices.findIndex((ms) => ms.id === selectedMicroservice.id);
+    const currentIndex = filteredMicroservices.findIndex(
+      (ms) => ms.id === selectedMicroservice.id,
+    );
 
     if (currentIndex === -1) return '';
 

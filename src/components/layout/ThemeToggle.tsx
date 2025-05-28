@@ -6,7 +6,10 @@ interface ThemeToggleProps {
   onToggle: () => void;
 }
 
-export const ThemeToggle: React.FC<ThemeToggleProps> = ({ darkMode, onToggle }) => {
+export const ThemeToggle: React.FC<ThemeToggleProps> = ({
+  darkMode,
+  onToggle,
+}) => {
   return (
     <button
       onClick={onToggle}

@@ -10,7 +10,10 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { ValueType, NameType } from 'recharts/types/component/DefaultTooltipContent';
+import {
+  ValueType,
+  NameType,
+} from 'recharts/types/component/DefaultTooltipContent';
 import { Activity } from 'lucide-react';
 import { CPUData, Service, Metric } from '@/types';
 import { BoxedWrapper, SectionHeader } from '@shared/index';
@@ -27,7 +30,10 @@ const CustomTooltip = memo(
         <div className="bg-white dark:bg-gray-800 p-2 rounded text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600">
           <p className="label">{`Time: ${label}`}</p>
           {payload.map((entry, index) => (
-            <p key={`item-${index}`} style={{ color: entry.color }}>
+            <p
+              key={`item-${index}`}
+              style={{ color: entry.color }}
+            >
               {`${entry.name}: ${entry.value}`}
             </p>
           ))}
@@ -52,7 +58,13 @@ export const CPUChart: React.FC<CPUChartProps> = memo(
     // Define default metrics
     const defaultMetrics = useMemo<Metric[]>(
       () => [
-        { id: 'load', name: 'CPU Load %', dataKey: 'load', color: '#4f46e5', selected: true },
+        {
+          id: 'load',
+          name: 'CPU Load %',
+          dataKey: 'load',
+          color: '#4f46e5',
+          selected: true,
+        },
         {
           id: 'memory',
           name: 'Memory Usage %',
@@ -95,7 +107,10 @@ export const CPUChart: React.FC<CPUChartProps> = memo(
                 iconClassName="h-5 w-5 mr-2 text-indigo-600 dark:text-indigo-400"
               />
               {selectedService && data && (
-                <MetricsSelector metrics={metrics} onMetricsChange={updateMetricSelection} />
+                <MetricsSelector
+                  metrics={metrics}
+                  onMetricsChange={updateMetricSelection}
+                />
               )}
             </div>
             <ServiceSelector
@@ -115,9 +130,18 @@ export const CPUChart: React.FC<CPUChartProps> = memo(
             </div>
           ) : (
             <div className="h-80">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" className="dark:stroke-gray-700" />
+              <ResponsiveContainer
+                width="100%"
+                height="100%"
+              >
+                <LineChart
+                  data={data}
+                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                >
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    className="dark:stroke-gray-700"
+                  />
                   <XAxis
                     dataKey="time"
                     className="text-gray-900 dark:text-gray-400"

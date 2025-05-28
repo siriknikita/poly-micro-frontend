@@ -18,23 +18,26 @@ export default function RegisterForm() {
 
   // Form validation rules
   const validationRules = {
-    businessName: (value: string) => {
-      if (!value.trim()) return 'Business name is required';
+    businessName: (value: unknown) => {
+      if (typeof value !== 'string' || !value.trim())
+        return 'Business name is required';
       return undefined;
     },
-    email: (value: string) => {
-      if (!value.trim()) return 'Email is required';
+    email: (value: unknown) => {
+      if (typeof value !== 'string' || !value.trim())
+        return 'Email is required';
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(value)) return 'Please enter a valid email address';
       return undefined;
     },
-    username: (value: string) => {
-      if (!value.trim()) return 'Username is required';
+    username: (value: unknown) => {
+      if (typeof value !== 'string' || !value.trim())
+        return 'Username is required';
       if (value.length < 3) return 'Username must be at least 3 characters';
       return undefined;
     },
-    password: (value: string) => {
-      if (!value) return 'Password is required';
+    password: (value: unknown) => {
+      if (typeof value !== 'string' || !value) return 'Password is required';
       if (value.length < 6) return 'Password must be at least 6 characters';
       return undefined;
     },
@@ -42,23 +45,38 @@ export default function RegisterForm() {
 
   // Handle form submission
   const handleRegisterSubmit = async (values: Omit<User, 'id'>) => {
-    await register(values);
+    // Map businessName to full_name for backend compatibility
+    const userData = {
+      username: values.username,
+      email: values.email,
+      password: values.password,
+      full_name: values.businessName,
+    };
+    await register(userData);
     navigate('/login');
   };
 
   // Use our custom form hook
-  const { values, errors, isSubmitting, submitError, handleChange, handleSubmit } = useForm(
-    initialValues,
-    validationRules,
-    handleRegisterSubmit,
-  );
+  const {
+    values,
+    errors,
+    isSubmitting,
+    submitError,
+    handleChange,
+    handleSubmit,
+  } = useForm(initialValues, validationRules, handleRegisterSubmit);
 
   return (
     <AuthLayout
       title="Register your business"
-      icon={<UserPlus className="h-12 w-12 text-indigo-600 dark:text-indigo-400" />}
+      icon={
+        <UserPlus className="h-12 w-12 text-indigo-600 dark:text-indigo-400" />
+      }
     >
-      <form className="space-y-6" onSubmit={handleSubmit}>
+      <form
+        className="space-y-6"
+        onSubmit={handleSubmit}
+      >
         <FormInput
           id="businessName"
           name="businessName"
@@ -103,10 +121,18 @@ export default function RegisterForm() {
           required
         />
 
-        {submitError && <div className="text-red-600 dark:text-red-400 text-sm">{submitError}</div>}
+        {submitError && (
+          <div className="text-red-600 dark:text-red-400 text-sm">
+            {submitError}
+          </div>
+        )}
 
         <div>
-          <Button type="submit" fullWidth isLoading={isSubmitting}>
+          <Button
+            type="submit"
+            fullWidth
+            isLoading={isSubmitting}
+          >
             Register
           </Button>
         </div>

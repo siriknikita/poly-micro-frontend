@@ -32,7 +32,10 @@ export const EmptyState = memo<EmptyStateProps>(
         >
           {message}
         </h3>
-        <p className="text-gray-500 dark:text-gray-400" data-testid="empty-state-description">
+        <p
+          className="text-gray-500 dark:text-gray-400"
+          data-testid="empty-state-description"
+        >
           {description}
         </p>
       </div>

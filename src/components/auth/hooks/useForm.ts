@@ -74,7 +74,11 @@ export function useForm<T extends Record<string, unknown>>(
       try {
         await onSubmit(values);
       } catch (error) {
-        setSubmitError(error instanceof Error ? error.message : 'An unexpected error occurred');
+        setSubmitError(
+          error instanceof Error
+            ? error.message
+            : 'An unexpected error occurred',
+        );
       } finally {
         setIsSubmitting(false);
       }

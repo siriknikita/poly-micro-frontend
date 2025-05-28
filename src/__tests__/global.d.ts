@@ -1,6 +1,15 @@
 // Type definitions for test files
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { vi, expect, describe, it, beforeEach, afterEach, beforeAll, afterAll } from 'vitest';
+import {
+  vi,
+  expect,
+  describe,
+  it,
+  beforeEach,
+  afterEach,
+  beforeAll,
+  afterAll,
+} from 'vitest';
 
 // Extend the global namespace to make Jest types available
 declare global {

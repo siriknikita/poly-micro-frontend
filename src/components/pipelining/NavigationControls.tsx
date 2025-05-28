@@ -11,11 +11,14 @@ interface NavigationControlsProps {
 
 export const NavigationControls = memo<NavigationControlsProps>(
   ({ onNavigate, currentService, services }) => {
-    const currentIndex = services.findIndex((s) => s.name === currentService.name);
+    const currentIndex = services.findIndex(
+      (s) => s.name === currentService.name,
+    );
 
     // Get the previous service name
     const getPreviousServiceName = useCallback(() => {
-      return services[(currentIndex - 1 + services.length) % services.length].name;
+      return services[(currentIndex - 1 + services.length) % services.length]
+        .name;
     }, [currentIndex, services]);
 
     // Get the next service name

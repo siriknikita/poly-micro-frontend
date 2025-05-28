@@ -9,10 +9,14 @@ describe('Testing Constants', () => {
 
     expect(constants.CHAT_PANEL.MIN_WIDTH).toBeTypeOf('number');
     expect(constants.CHAT_PANEL.MIN_WIDTH).toBeGreaterThan(0);
-    expect(constants.CHAT_PANEL.MIN_WIDTH).toBeLessThan(constants.CHAT_PANEL.DEFAULT_WIDTH);
+    expect(constants.CHAT_PANEL.MIN_WIDTH).toBeLessThan(
+      constants.CHAT_PANEL.DEFAULT_WIDTH,
+    );
 
     expect(constants.CHAT_PANEL.MAX_WIDTH).toBeTypeOf('number');
-    expect(constants.CHAT_PANEL.MAX_WIDTH).toBeGreaterThan(constants.CHAT_PANEL.DEFAULT_WIDTH);
+    expect(constants.CHAT_PANEL.MAX_WIDTH).toBeGreaterThan(
+      constants.CHAT_PANEL.DEFAULT_WIDTH,
+    );
   });
 
   it('defines CSS classes correctly', () => {
@@ -22,7 +26,9 @@ describe('Testing Constants', () => {
 
     // Check depth styles
     expect(constants.CSS_CLASSES.DEPTH_STYLES).toBeTypeOf('object');
-    expect(Object.keys(constants.CSS_CLASSES.DEPTH_STYLES).length).toBeGreaterThan(0);
+    expect(
+      Object.keys(constants.CSS_CLASSES.DEPTH_STYLES).length,
+    ).toBeGreaterThan(0);
   });
 
   it('defines button variants correctly', () => {

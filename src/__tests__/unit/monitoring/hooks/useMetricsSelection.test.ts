@@ -27,9 +27,27 @@ Object.defineProperty(window, 'localStorage', {
 
 describe('useMetricsSelection Hook', () => {
   const defaultMetrics: Metric[] = [
-    { id: 'load', name: 'CPU Load %', dataKey: 'load', color: '#4f46e5', selected: true },
-    { id: 'memory', name: 'Memory Usage %', dataKey: 'memory', color: '#059669', selected: true },
-    { id: 'threads', name: 'Active Threads', dataKey: 'threads', color: '#db2777', selected: true },
+    {
+      id: 'load',
+      name: 'CPU Load %',
+      dataKey: 'load',
+      color: '#4f46e5',
+      selected: true,
+    },
+    {
+      id: 'memory',
+      name: 'Memory Usage %',
+      dataKey: 'memory',
+      color: '#059669',
+      selected: true,
+    },
+    {
+      id: 'threads',
+      name: 'Active Threads',
+      dataKey: 'threads',
+      color: '#db2777',
+      selected: true,
+    },
   ];
 
   const projectId = 'project1';
@@ -50,7 +68,11 @@ describe('useMetricsSelection Hook', () => {
     );
 
     expect(result.current.metrics).toEqual(defaultMetrics);
-    expect(result.current.selectedMetricIds).toEqual(['load', 'memory', 'threads']);
+    expect(result.current.selectedMetricIds).toEqual([
+      'load',
+      'memory',
+      'threads',
+    ]);
   });
 
   it('should load stored preferences when they exist', () => {
@@ -60,7 +82,10 @@ describe('useMetricsSelection Hook', () => {
         [serviceName]: ['load', 'memory'], // Only load and memory are selected
       },
     };
-    mockLocalStorage.setItem('metrics-selection-preferences', JSON.stringify(storedPreferences));
+    mockLocalStorage.setItem(
+      'metrics-selection-preferences',
+      JSON.stringify(storedPreferences),
+    );
 
     const { result } = renderHook(() =>
       useMetricsSelection({
@@ -72,8 +97,20 @@ describe('useMetricsSelection Hook', () => {
 
     // Verify metrics have correct selected state based on stored preferences
     expect(result.current.metrics).toEqual([
-      { id: 'load', name: 'CPU Load %', dataKey: 'load', color: '#4f46e5', selected: true },
-      { id: 'memory', name: 'Memory Usage %', dataKey: 'memory', color: '#059669', selected: true },
+      {
+        id: 'load',
+        name: 'CPU Load %',
+        dataKey: 'load',
+        color: '#4f46e5',
+        selected: true,
+      },
+      {
+        id: 'memory',
+        name: 'Memory Usage %',
+        dataKey: 'memory',
+        color: '#059669',
+        selected: true,
+      },
       {
         id: 'threads',
         name: 'Active Threads',
@@ -95,7 +132,11 @@ describe('useMetricsSelection Hook', () => {
     );
 
     // Initially all metrics are selected
-    expect(result.current.selectedMetricIds).toEqual(['load', 'memory', 'threads']);
+    expect(result.current.selectedMetricIds).toEqual([
+      'load',
+      'memory',
+      'threads',
+    ]);
 
     // Update to only have 'load' selected
     act(() => {
@@ -104,7 +145,13 @@ describe('useMetricsSelection Hook', () => {
 
     // Check that metrics state is updated
     expect(result.current.metrics).toEqual([
-      { id: 'load', name: 'CPU Load %', dataKey: 'load', color: '#4f46e5', selected: true },
+      {
+        id: 'load',
+        name: 'CPU Load %',
+        dataKey: 'load',
+        color: '#4f46e5',
+        selected: true,
+      },
       {
         id: 'memory',
         name: 'Memory Usage %',
@@ -156,11 +203,20 @@ describe('useMetricsSelection Hook', () => {
         service2: ['threads'],
       },
     };
-    mockLocalStorage.setItem('metrics-selection-preferences', JSON.stringify(storedPreferences));
+    mockLocalStorage.setItem(
+      'metrics-selection-preferences',
+      JSON.stringify(storedPreferences),
+    );
 
     // Initial render with service1
     const { result, rerender } = renderHook(
-      ({ projectId, serviceName }: { projectId: string; serviceName: string | null }) =>
+      ({
+        projectId,
+        serviceName,
+      }: {
+        projectId: string;
+        serviceName: string | null;
+      }) =>
         useMetricsSelection({
           projectId,
           serviceName,

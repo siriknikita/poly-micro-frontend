@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Send } from 'lucide-react';
 import { QUESTION_CATEGORIES } from './constants/faqData';
+import { QUESTION_TEMPLATES } from './constants/questionTemplates';
 import { QuestionSubmission } from './types';
 import { Dropdown } from '../shared/Dropdown';
 
@@ -11,7 +12,12 @@ interface AskQuestionFormProps {
   userEmail?: string;
 }
 
-export const AskQuestionForm: React.FC<AskQuestionFormProps> = ({ onSubmit, isSubmitting, username, userEmail }) => {
+export const AskQuestionForm: React.FC<AskQuestionFormProps> = ({
+  onSubmit,
+  isSubmitting,
+  username,
+  userEmail,
+}) => {
   if (!username || !userEmail) {
     return null;
   }
@@ -25,6 +31,7 @@ export const AskQuestionForm: React.FC<AskQuestionFormProps> = ({ onSubmit, isSu
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isManualSubmit, setIsManualSubmit] = useState(false);
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
@@ -54,7 +61,9 @@ export const AskQuestionForm: React.FC<AskQuestionFormProps> = ({ onSubmit, isSu
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -72,7 +81,22 @@ export const AskQuestionForm: React.FC<AskQuestionFormProps> = ({ onSubmit, isSu
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    // Ensure we prevent the default form submission
+    if (e && e.preventDefault) {
+      e.preventDefault();
+    }
+    
+    // Only allow submission if the submit button was clicked
+    if (!isManualSubmit) {
+      console.log('Prevented automatic form submission');
+      return;
+    }
+    
+    // Reset the manual submit flag
+    setIsManualSubmit(false);
+    
+    // Log submission attempt for debugging
+    console.log('Form submission initiated by user');
 
     if (!validateForm()) return;
 
@@ -97,7 +121,8 @@ export const AskQuestionForm: React.FC<AskQuestionFormProps> = ({ onSubmit, isSu
           Thank You!
         </h3>
         <p className="text-green-600 dark:text-green-300 mb-4">
-          Your question has been submitted successfully. We'll get back to you as soon as possible.
+          Your question has been submitted successfully. We'll get back to you
+          as soon as possible.
         </p>
         <button
           onClick={() => setIsSubmitted(false)}
@@ -132,7 +157,9 @@ export const AskQuestionForm: React.FC<AskQuestionFormProps> = ({ onSubmit, isSu
             placeholder="Your name"
             data-testid="question-name-input"
           />
-          {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
+          {errors.name && (
+            <p className="mt-1 text-sm text-red-500">{errors.name}</p>
+          )}
         </div>
 
         <div>
@@ -154,7 +181,10 @@ export const AskQuestionForm: React.FC<AskQuestionFormProps> = ({ onSubmit, isSu
             aria-invalid={errors.email ? 'true' : 'false'}
           />
           {errors.email && (
-            <p className="mt-1 text-sm text-red-500" data-testid="email-error">
+            <p
+              className="mt-1 text-sm text-red-500"
+              data-testid="email-error"
+            >
               {errors.email}
             </p>
           )}
@@ -168,30 +198,53 @@ export const AskQuestionForm: React.FC<AskQuestionFormProps> = ({ onSubmit, isSu
         >
           Category
         </label>
-        <div className={errors.category ? 'border border-red-500 rounded-md' : ''}>
+        <div
+          className={errors.category ? 'border border-red-500 rounded-md' : ''}
+        >
           <Dropdown
-            buttonLabel={formData.category ? QUESTION_CATEGORIES.find(c => c.id === formData.category)?.name || 'Select a category' : 'Select a category'}
+            buttonLabel={
+              formData.category
+                ? QUESTION_CATEGORIES.find((c) => c.id === formData.category)
+                    ?.name || 'Select a category'
+                : 'Select a category'
+            }
             selectedOption={formData.category}
             sections={[
               {
-                options: QUESTION_CATEGORIES.map(category => ({
+                options: QUESTION_CATEGORIES.map((category) => ({
                   id: category.id,
                   label: category.name,
-                  disabled: false
+                  disabled: false,
                 })),
                 onSelect: (id: string) => {
+                  // Prevent default behavior to ensure form doesn't submit
+                  // Update category selection
                   handleChange({
-                    target: { name: 'category', value: id }
-                  } as React.ChangeEvent<HTMLSelectElement>)
-                }
-              }
+                    target: { name: 'category', value: id },
+                    preventDefault: () => {}, // Mock preventDefault to ensure no submission occurs
+                  } as React.ChangeEvent<HTMLSelectElement>);
+                  
+                  // Apply template for the selected category after a short delay
+                  // This prevents any potential race condition with form submission
+                  setTimeout(() => {
+                    if (QUESTION_TEMPLATES[id]) {
+                      handleChange({
+                        target: { name: 'question', value: QUESTION_TEMPLATES[id] },
+                        preventDefault: () => {}, // Mock preventDefault to ensure no submission occurs
+                      } as React.ChangeEvent<HTMLTextAreaElement>);
+                    }
+                  }, 0);
+                },
+              },
             ]}
             className="w-full"
             buttonClassName="py-3 text-base"
             testId="question-category-select"
           />
         </div>
-        {errors.category && <p className="mt-1 text-sm text-red-500">{errors.category}</p>}
+        {errors.category && (
+          <p className="mt-1 text-sm text-red-500">{errors.category}</p>
+        )}
       </div>
 
       <div className="mb-6">
@@ -211,7 +264,9 @@ export const AskQuestionForm: React.FC<AskQuestionFormProps> = ({ onSubmit, isSu
           placeholder="Please describe your question in detail..."
           data-testid="question-text-input"
         />
-        {errors.question && <p className="mt-1 text-sm text-red-500">{errors.question}</p>}
+        {errors.question && (
+          <p className="mt-1 text-sm text-red-500">{errors.question}</p>
+        )}
       </div>
 
       <div className="flex justify-end">
@@ -220,6 +275,7 @@ export const AskQuestionForm: React.FC<AskQuestionFormProps> = ({ onSubmit, isSu
           disabled={isSubmitting}
           className="flex items-center space-x-2 px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors dark:bg-indigo-700 dark:hover:bg-indigo-600"
           data-testid="submit-question-button"
+          onClick={() => setIsManualSubmit(true)}
         >
           <span>Submit Question</span>
           <Send className="h-4 w-4 ml-2" />

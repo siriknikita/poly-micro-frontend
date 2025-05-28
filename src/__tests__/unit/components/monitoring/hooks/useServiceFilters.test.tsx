@@ -1,5 +1,8 @@
 import { renderHook, act } from '@testing-library/react';
-import { useServiceFilters, FilterGroup } from '@/components/monitoring/hooks/useServiceFilters';
+import {
+  useServiceFilters,
+  FilterGroup,
+} from '@/components/monitoring/hooks/useServiceFilters';
 import { Service } from '@/types';
 
 // Mock localStorage
@@ -265,7 +268,10 @@ describe('useServiceFilters', () => {
     };
 
     // Set up localStorage with saved filter
-    localStorageMock.setItem(`serviceFilters_${projectId}`, JSON.stringify([savedFilter]));
+    localStorageMock.setItem(
+      `serviceFilters_${projectId}`,
+      JSON.stringify([savedFilter]),
+    );
 
     const { result } = renderHook(
       () => useServiceFilters({ projectId, services: mockServices }),
@@ -287,7 +293,9 @@ describe('useServiceFilters', () => {
       localStorageMock.setItem(`serviceFilters_${projectId}`, 'invalid-json');
 
       // Spy on console.error
-      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleSpy = jest
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
 
       const { result } = renderHook(
         () => useServiceFilters({ projectId, services: mockServices }),
@@ -296,7 +304,9 @@ describe('useServiceFilters', () => {
 
       // Should log error and remove the invalid item
       expect(consoleSpy).toHaveBeenCalled();
-      expect(localStorageMock.removeItem).toHaveBeenCalledWith(`serviceFilters_${projectId}`);
+      expect(localStorageMock.removeItem).toHaveBeenCalledWith(
+        `serviceFilters_${projectId}`,
+      );
 
       // Should still work with default empty filters
       expect(result.current.filterGroups).toEqual([]);

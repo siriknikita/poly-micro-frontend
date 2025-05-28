@@ -117,7 +117,11 @@ vi.mock('@/context/ToastContext', async () => {
   return {
     ToastContext,
     ToastProvider: ({ children }: { children: React.ReactNode }) =>
-      React.createElement(ToastContext.Provider, { value: toastMock }, children),
+      React.createElement(
+        ToastContext.Provider,
+        { value: toastMock },
+        children,
+      ),
     useToast: () => React.useContext(ToastContext),
   };
 });

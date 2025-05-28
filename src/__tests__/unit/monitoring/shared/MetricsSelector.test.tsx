@@ -23,7 +23,11 @@ vi.mock('../../../../components/monitoring/hooks', () => ({
       const updatedMetrics = metrics.map((m: Metric) =>
         m.id === id ? { ...m, selected: !m.selected } : m,
       );
-      onMetricsChange(updatedMetrics.filter((m: Metric) => m.selected).map((m: Metric) => m.id));
+      onMetricsChange(
+        updatedMetrics
+          .filter((m: Metric) => m.selected)
+          .map((m: Metric) => m.id),
+      );
     },
     handleSearchChange: vi.fn(),
     handleKeyDown: vi.fn(),
@@ -116,7 +120,12 @@ describe('MetricsSelector Component', () => {
   });
 
   it('renders correctly with all subcomponents', () => {
-    render(<MetricsSelector metrics={mockMetrics} onMetricsChange={mockOnMetricsChange} />);
+    render(
+      <MetricsSelector
+        metrics={mockMetrics}
+        onMetricsChange={mockOnMetricsChange}
+      />,
+    );
 
     // Toggle button should be rendered
     expect(screen.getByTestId('metrics-toggle-button')).toBeInTheDocument();
@@ -132,26 +141,47 @@ describe('MetricsSelector Component', () => {
   });
 
   it('shows correct selected state for metrics', () => {
-    render(<MetricsSelector metrics={mockMetrics} onMetricsChange={mockOnMetricsChange} />);
+    render(
+      <MetricsSelector
+        metrics={mockMetrics}
+        onMetricsChange={mockOnMetricsChange}
+      />,
+    );
 
     // Check selected state
-    expect(screen.getByTestId('metric-item-load').getAttribute('data-selected')).toBe('true');
-    expect(screen.getByTestId('metric-item-memory').getAttribute('data-selected')).toBe('true');
-    expect(screen.getByTestId('metric-item-threads').getAttribute('data-selected')).toBe('false');
+    expect(
+      screen.getByTestId('metric-item-load').getAttribute('data-selected'),
+    ).toBe('true');
+    expect(
+      screen.getByTestId('metric-item-memory').getAttribute('data-selected'),
+    ).toBe('true');
+    expect(
+      screen.getByTestId('metric-item-threads').getAttribute('data-selected'),
+    ).toBe('false');
   });
 
   it('shows correct selected count in toggle button', () => {
-    render(<MetricsSelector metrics={mockMetrics} onMetricsChange={mockOnMetricsChange} />);
+    render(
+      <MetricsSelector
+        metrics={mockMetrics}
+        onMetricsChange={mockOnMetricsChange}
+      />,
+    );
 
     // Toggle button should show 2 selected metrics
-    expect(screen.getByTestId('metrics-toggle-button').getAttribute('data-selected-count')).toBe(
-      '2',
-    );
+    expect(
+      screen
+        .getByTestId('metrics-toggle-button')
+        .getAttribute('data-selected-count'),
+    ).toBe('2');
   });
 
   it('calls onMetricsChange when a metric is toggled', async () => {
     const { user } = render(
-      <MetricsSelector metrics={mockMetrics} onMetricsChange={mockOnMetricsChange} />,
+      <MetricsSelector
+        metrics={mockMetrics}
+        onMetricsChange={mockOnMetricsChange}
+      />,
     );
 
     // Click on the 'load' metric to toggle it off
@@ -167,7 +197,11 @@ describe('MetricsSelector Component', () => {
     await user.click(screen.getByTestId('metric-item-threads'));
 
     // onMetricsChange should be called with the latest state
-    expect(mockOnMetricsChange).toHaveBeenCalledWith(['load', 'memory', 'threads']);
+    expect(mockOnMetricsChange).toHaveBeenCalledWith([
+      'load',
+      'memory',
+      'threads',
+    ]);
   });
 
   it('applies custom className when provided', () => {
@@ -180,7 +214,9 @@ describe('MetricsSelector Component', () => {
     );
 
     // The root div should have the custom class
-    const rootElement = screen.getByTestId('metrics-toggle-button').closest('div');
+    const rootElement = screen
+      .getByTestId('metrics-toggle-button')
+      .closest('div');
     expect(rootElement).toHaveClass('custom-class');
   });
 });

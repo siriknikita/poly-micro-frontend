@@ -24,7 +24,10 @@ interface UseServiceFiltersProps {
   services: Service[];
 }
 
-export const useServiceFilters = ({ projectId, services }: UseServiceFiltersProps) => {
+export const useServiceFilters = ({
+  projectId,
+  services,
+}: UseServiceFiltersProps) => {
   const [filterGroups, setFilterGroups] = useState<FilterGroup[]>([]);
   const [filteredServices, setFilteredServices] = useState<Service[]>(services);
 
@@ -50,7 +53,10 @@ export const useServiceFilters = ({ projectId, services }: UseServiceFiltersProp
   // Save filters to localStorage when they change
   useEffect(() => {
     if (filterGroups.length > 0) {
-      localStorage.setItem(`serviceFilters_${projectId}`, JSON.stringify(filterGroups));
+      localStorage.setItem(
+        `serviceFilters_${projectId}`,
+        JSON.stringify(filterGroups),
+      );
     } else {
       // Remove item if no filters
       localStorage.removeItem(`serviceFilters_${projectId}`);

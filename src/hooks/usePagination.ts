@@ -7,12 +7,16 @@ const usePagination = (logs: Log[], itemsPerPageDefaultValue: number) => {
   });
 
   const [itemsPerPage, setItemsPerPage] = useState(() => {
-    return Number(localStorage.getItem('logViewerItemsPerPage')) || itemsPerPageDefaultValue;
+    return (
+      Number(localStorage.getItem('logViewerItemsPerPage')) ||
+      itemsPerPageDefaultValue
+    );
   });
 
   const totalPages = Math.ceil(logs.length / itemsPerPage);
   const paginatedLogs = useMemo(
-    () => logs.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage),
+    () =>
+      logs.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage),
     [logs, currentPage, itemsPerPage],
   );
 
@@ -31,7 +35,10 @@ const usePagination = (logs: Log[], itemsPerPageDefaultValue: number) => {
   }, []);
 
   const handlePageChange = (page: number) => {
-    const nextPageLogs = logs.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+    const nextPageLogs = logs.slice(
+      (page - 1) * itemsPerPage,
+      page * itemsPerPage,
+    );
     if (nextPageLogs.length > paginatedLogs.length) {
       setCurrentPage(page);
       setTimeout(() => {
@@ -45,7 +52,9 @@ const usePagination = (logs: Log[], itemsPerPageDefaultValue: number) => {
     }
   };
 
-  const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleItemsPerPageChange = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
     const newItemsPerPage = Number(e.target.value);
     const nextPageLogs = logs.slice(0, newItemsPerPage);
     if (nextPageLogs.length > paginatedLogs.length) {

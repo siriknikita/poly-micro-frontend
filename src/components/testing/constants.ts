@@ -23,8 +23,10 @@ export const CSS_CLASSES = {
 export const BUTTON_VARIANTS = {
   PRIMARY:
     'bg-indigo-600 text-white dark:bg-indigo-500 hover:bg-indigo-700 dark:hover:bg-indigo-600',
-  OUTLINE: 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700',
-  ACTIVE: 'bg-indigo-100 text-indigo-600 dark:bg-indigo-900 dark:text-indigo-400',
+  OUTLINE:
+    'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700',
+  ACTIVE:
+    'bg-indigo-100 text-indigo-600 dark:bg-indigo-900 dark:text-indigo-400',
 };
 
 // Test item types

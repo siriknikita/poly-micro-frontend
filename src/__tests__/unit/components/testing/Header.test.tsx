@@ -35,14 +35,18 @@ describe('Header Component', () => {
   it('has a button to toggle chat visibility', () => {
     render(<Header {...mockProps} />);
 
-    const chatButton = screen.getByRole('button', { name: /show test assistant/i });
+    const chatButton = screen.getByRole('button', {
+      name: /show test assistant/i,
+    });
     expect(chatButton).toBeInTheDocument();
   });
 
   it('calls setShowChat when chat button is clicked', async () => {
     const { user } = render(<Header {...mockProps} />);
 
-    const chatButton = screen.getByRole('button', { name: /show test assistant/i });
+    const chatButton = screen.getByRole('button', {
+      name: /show test assistant/i,
+    });
     await user.click(chatButton);
 
     expect(mockProps.setShowChat).toHaveBeenCalledWith(true);
@@ -56,7 +60,9 @@ describe('Header Component', () => {
 
     render(<Header {...visibleChatProps} />);
 
-    const chatButton = screen.getByRole('button', { name: /hide test assistant/i });
+    const chatButton = screen.getByRole('button', {
+      name: /hide test assistant/i,
+    });
     expect(chatButton).toBeInTheDocument();
   });
 
@@ -64,7 +70,9 @@ describe('Header Component', () => {
     const { user, rerender } = render(<Header {...mockProps} />);
 
     // Initially hidden
-    let chatButton = screen.getByRole('button', { name: /show test assistant/i });
+    let chatButton = screen.getByRole('button', {
+      name: /show test assistant/i,
+    });
     await user.click(chatButton);
     expect(mockProps.setShowChat).toHaveBeenCalledWith(true);
 

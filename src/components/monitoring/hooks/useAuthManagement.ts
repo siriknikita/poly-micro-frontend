@@ -26,10 +26,13 @@ export function useAuthManagement() {
   }, [logout, navigate]);
 
   // Get the last selected service for the current tab and project
-  const getLastSelectedService = useCallback((projectId: string, tabName: string) => {
-    const key = `lastSelected_${tabName}_${projectId}`;
-    return localStorage.getItem(key);
-  }, []);
+  const getLastSelectedService = useCallback(
+    (projectId: string, tabName: string) => {
+      const key = `lastSelected_${tabName}_${projectId}`;
+      return localStorage.getItem(key);
+    },
+    [],
+  );
 
   return {
     user,

@@ -2,9 +2,10 @@
 
 ## Overview
 
-The Authentication feature provides user authentication and registration functionality for the Poly
-Micro Manager application. It handles user login, registration, and session management to secure
-access to the application's features.
+The Authentication feature provides user authentication and registration
+functionality for the Poly Micro Manager application. It handles user login,
+registration, and session management to secure access to the application's
+features.
 
 ## Components Structure
 
@@ -114,20 +115,22 @@ Handles form state, validation, and submission.
 
 ## Authentication Flow
 
-1. **User Access**: When a user accesses the application, they are directed to the login page if not
-   authenticated
+1. **User Access**: When a user accesses the application, they are directed to
+   the login page if not authenticated
 2. **Login/Register**: User enters credentials or registers a new account
 3. **Validation**: The application validates the credentials against the backend
 4. **Session Management**: Upon successful authentication, a session is created
-5. **Access Control**: The authenticated user is granted access to protected features
+5. **Access Control**: The authenticated user is granted access to protected
+   features
 
 ## Integration with Other Features
 
-- **All Protected Features**: Authentication is required to access testing, monitoring, and
-  pipelining features
-- **User-specific Data**: User authentication determines what projects and microservices are
-  accessible
-- **Dark Mode Support**: Authentication components support the application's dark mode toggle
+- **All Protected Features**: Authentication is required to access testing,
+  monitoring, and pipelining features
+- **User-specific Data**: User authentication determines what projects and
+  microservices are accessible
+- **Dark Mode Support**: Authentication components support the application's
+  dark mode toggle
 
 ## Security Considerations
 
@@ -139,21 +142,27 @@ Handles form state, validation, and submission.
 
 ## Testing
 
-The authentication module has comprehensive test coverage using Vitest and React Testing Library:
+The authentication module has comprehensive test coverage using Vitest and React
+Testing Library:
 
 ### Hook Tests
 
-- **useAuth.test.tsx**: Tests for authentication state management, login, registration, and logout
-  functionality
-- **useForm.test.tsx**: Tests for form state management, validation, submission, and error handling
+- **useAuth.test.tsx**: Tests for authentication state management, login,
+  registration, and logout functionality
+- **useForm.test.tsx**: Tests for form state management, validation, submission,
+  and error handling
 
 ### Component Tests
 
-- **LoginForm.test.tsx**: Tests for rendering, validation, submission, and error handling
-- **RegisterForm.test.tsx**: Tests for rendering, validation, submission, and error handling
+- **LoginForm.test.tsx**: Tests for rendering, validation, submission, and error
+  handling
+- **RegisterForm.test.tsx**: Tests for rendering, validation, submission, and
+  error handling
 - **AuthLayout.test.tsx**: Tests for layout rendering and styling
-- **Button.test.tsx**: Tests for button states (default, loading, disabled) and event handling
-- **FormInput.test.tsx**: Tests for input rendering, validation, and error states
+- **Button.test.tsx**: Tests for button states (default, loading, disabled) and
+  event handling
+- **FormInput.test.tsx**: Tests for input rendering, validation, and error
+  states
 
 ## Usage Examples
 
@@ -170,4 +179,5 @@ The authentication module has comprehensive test coverage using Vitest and React
 2. Enter required information (name, email, password)
 3. Confirm password
 4. Click "Register" button
-5. Upon successful registration, user is either logged in automatically or directed to login
+5. Upon successful registration, user is either logged in automatically or
+   directed to login

@@ -51,8 +51,12 @@ describe('RegisterForm', () => {
     expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/username/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /register/i })).toBeInTheDocument();
-    expect(screen.getByText(/already have an account\? sign in!/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /register/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/already have an account\? sign in!/i),
+    ).toBeInTheDocument();
   });
 
   it('validates required fields', async () => {
@@ -101,7 +105,9 @@ describe('RegisterForm', () => {
 
     // Check for username validation error
     await waitFor(() => {
-      expect(screen.getByText('Username must be at least 3 characters')).toBeInTheDocument();
+      expect(
+        screen.getByText('Username must be at least 3 characters'),
+      ).toBeInTheDocument();
     });
 
     // Register should not be called
@@ -123,7 +129,9 @@ describe('RegisterForm', () => {
 
     // Check for password validation error
     await waitFor(() => {
-      expect(screen.getByText('Password must be at least 6 characters')).toBeInTheDocument();
+      expect(
+        screen.getByText('Password must be at least 6 characters'),
+      ).toBeInTheDocument();
     });
 
     // Register should not be called
@@ -184,7 +192,9 @@ describe('RegisterForm', () => {
     await user.type(screen.getByLabelText(/business name/i), 'Test Business');
 
     // Verify input value is updated
-    expect(screen.getByLabelText(/business name/i)).toHaveValue('Test Business');
+    expect(screen.getByLabelText(/business name/i)).toHaveValue(
+      'Test Business',
+    );
   });
 
   it('has a working link to the login page', () => {

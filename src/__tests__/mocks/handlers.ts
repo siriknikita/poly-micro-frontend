@@ -10,7 +10,12 @@ export const handlers = [
       data: [
         { id: 'ms1', name: 'Auth Service', type: 'microservice', children: [] },
         { id: 'ms2', name: 'User Service', type: 'microservice', children: [] },
-        { id: 'ms3', name: 'Payment Service', type: 'microservice', children: [] },
+        {
+          id: 'ms3',
+          name: 'Payment Service',
+          type: 'microservice',
+          children: [],
+        },
       ],
     });
   }),
@@ -21,7 +26,12 @@ export const handlers = [
 
     const microservice = {
       id,
-      name: id === 'ms1' ? 'Auth Service' : id === 'ms2' ? 'User Service' : 'Payment Service',
+      name:
+        id === 'ms1'
+          ? 'Auth Service'
+          : id === 'ms2'
+            ? 'User Service'
+            : 'Payment Service',
       type: 'microservice',
       children: mockTestItems.filter((item) => item.type === 'function'),
     };
@@ -62,7 +72,11 @@ export const handlers = [
   http.all('*', ({ request }) => {
     console.error(`Unhandled request: ${request.method} ${request.url}`);
     return HttpResponse.json(
-      { success: false, error: 'An error occurred', message: 'Failed to fetch data' },
+      {
+        success: false,
+        error: 'An error occurred',
+        message: 'Failed to fetch data',
+      },
       { status: 500 },
     );
   }),

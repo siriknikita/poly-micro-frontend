@@ -49,8 +49,12 @@ describe('LoginForm', () => {
     expect(screen.getByText('Sign in to your account')).toBeInTheDocument();
     expect(screen.getByLabelText(/username/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /sign in/i })).toBeInTheDocument();
-    expect(screen.getByText(/don't have an account\? sign up!/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /sign in/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/don't have an account\? sign up!/i),
+    ).toBeInTheDocument();
   });
 
   it('validates required fields', async () => {
@@ -98,7 +102,9 @@ describe('LoginForm', () => {
 
     // Check for error message
     await waitFor(() => {
-      expect(screen.getByText('Invalid username or password')).toBeInTheDocument();
+      expect(
+        screen.getByText('Invalid username or password'),
+      ).toBeInTheDocument();
     });
   });
 

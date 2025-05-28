@@ -3,7 +3,9 @@ import { toast } from 'react-toastify';
 import { ToastContextType, defaultOptions } from './toastTypes';
 
 // Create the context with a default value
-export const ToastContext = createContext<ToastContextType | undefined>(undefined);
+export const ToastContext = createContext<ToastContextType | undefined>(
+  undefined,
+);
 
 // Toast provider component
 export function ToastProvider({ children }: { children: React.ReactNode }) {
@@ -25,7 +27,9 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <ToastContext.Provider value={{ showSuccess, showError, showInfo, showWarning }}>
+    <ToastContext.Provider
+      value={{ showSuccess, showError, showInfo, showWarning }}
+    >
       {children}
     </ToastContext.Provider>
   );

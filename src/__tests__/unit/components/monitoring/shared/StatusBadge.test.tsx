@@ -32,7 +32,12 @@ describe('StatusBadge', () => {
 
   it('should apply additional className if provided', () => {
     const customClass = 'custom-test-class';
-    render(<StatusBadge status="warn" className={customClass} />);
+    render(
+      <StatusBadge
+        status="warn"
+        className={customClass}
+      />,
+    );
     const badge = screen.getByText('WARN');
 
     expect(badge).toHaveClass(customClass);
@@ -42,7 +47,8 @@ describe('StatusBadge', () => {
     render(<StatusBadge status="success" />);
     const badge = screen.getByText('success');
 
-    const baseClasses = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium';
+    const baseClasses =
+      'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium';
     const baseClassList = baseClasses.split(' ');
 
     baseClassList.forEach((className) => {

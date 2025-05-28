@@ -1,6 +1,10 @@
 import React from 'react';
 import { Service } from '@/types';
-import { Dropdown, DropdownOption, DropdownSectionProps } from '@/components/shared/Dropdown';
+import {
+  Dropdown,
+  DropdownOption,
+  DropdownSectionProps,
+} from '@/components/shared/Dropdown';
 
 interface ServiceSelectorProps {
   selectedService: string | null;

@@ -17,10 +17,6 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
     id: 'testing',
     name: 'Automated Testing',
   },
-  {
-    id: 'account',
-    name: 'Account & Settings',
-  },
 ];
 
 export const QUESTION_CATEGORIES: QuestionCategory[] = [
@@ -47,10 +43,6 @@ export const QUESTION_CATEGORIES: QuestionCategory[] = [
   {
     id: 'testing',
     name: 'Automated Testing Help',
-  },
-  {
-    id: 'account',
-    name: 'Account & Settings',
   },
 ];
 
@@ -121,7 +113,8 @@ export const FAQS: FAQ[] = [
   {
     id: 'testing-1',
     category: 'testing',
-    question: 'What types of tests can I run with the Automated Testing feature?',
+    question:
+      'What types of tests can I run with the Automated Testing feature?',
     answer:
       'You can run various types of tests including unit tests, integration tests, API tests, end-to-end tests, and performance tests. The platform supports popular testing frameworks and provides a unified interface to manage and monitor all your tests.',
   },

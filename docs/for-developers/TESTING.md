@@ -1,7 +1,7 @@
 # Poly Micro Manager Testing Guide
 
-This document provides an overview of the testing strategy and instructions for running tests in the
-Poly Micro Manager frontend application.
+This document provides an overview of the testing strategy and instructions for
+running tests in the Poly Micro Manager frontend application.
 
 ## Testing Strategy
 
@@ -9,21 +9,22 @@ We use a comprehensive testing approach with three main levels:
 
 ### 1. Unit Tests
 
-Unit tests verify individual components, hooks, and utility functions in isolation. They're located
-in `src/__tests__/unit/`.
+Unit tests verify individual components, hooks, and utility functions in
+isolation. They're located in `src/__tests__/unit/`.
 
 Key unit test suites:
 
-- Component tests (IconButton, TestItem, ResizeHandle, CPUChart, MetricsSelector, etc.)
-- Custom hooks tests (useResizablePanel, useTestItems, useMicroserviceNavigation,
-  useMetricsSelection, useMetricsDropdown)
+- Component tests (IconButton, TestItem, ResizeHandle, CPUChart,
+  MetricsSelector, etc.)
+- Custom hooks tests (useResizablePanel, useTestItems,
+  useMicroserviceNavigation, useMetricsSelection, useMetricsDropdown)
 - Utility function tests
 - Constants validation
 
 ### 2. Integration Tests
 
-Integration tests verify how components interact with each other. They're located in
-`src/__tests__/integration/`.
+Integration tests verify how components interact with each other. They're
+located in `src/__tests__/integration/`.
 
 Key integration test suites:
 
@@ -33,7 +34,8 @@ Key integration test suites:
 
 ### 3. End-to-End (E2E) Tests
 
-E2E tests verify complete user workflows across the application. They're located in `e2e/`.
+E2E tests verify complete user workflows across the application. They're located
+in `e2e/`.
 
 Key E2E test suites:
 
@@ -115,13 +117,23 @@ import { IconButton } from '../../../../components/testing/components/IconButton
 
 describe('IconButton Component', () => {
   it('renders correctly with icon and text', () => {
-    render(<IconButton icon={<Icon />} label="Test" />);
+    render(
+      <IconButton
+        icon={<Icon />}
+        label="Test"
+      />,
+    );
     expect(screen.getByText('Test')).toBeInTheDocument();
   });
 
   it('calls onClick handler when clicked', async () => {
     const mockOnClick = vi.fn();
-    const { user } = render(<IconButton icon={<Icon />} onClick={mockOnClick} />);
+    const { user } = render(
+      <IconButton
+        icon={<Icon />}
+        onClick={mockOnClick}
+      />,
+    );
     await user.click(screen.getByRole('button'));
     expect(mockOnClick).toHaveBeenCalledTimes(1);
   });
@@ -168,9 +180,9 @@ test('app loads with correct title', async ({ page }) => {
 
 ## Monitoring Components Testing
 
-The monitoring section includes specialized components for displaying system metrics. The
-architecture has been refactored to follow a more modular approach with shared components, custom
-hooks, and clear separation of concerns.
+The monitoring section includes specialized components for displaying system
+metrics. The architecture has been refactored to follow a more modular approach
+with shared components, custom hooks, and clear separation of concerns.
 
 ### Component Structure
 
@@ -182,30 +194,36 @@ The monitoring feature is organized as follows:
 
 2. **Shared Components**:
 
-   - `ServiceSelector`: Allows users to select a microservice to view its metrics
-   - `MetricsSelector`: A dropdown component for selecting which metrics to display
+   - `ServiceSelector`: Allows users to select a microservice to view its
+     metrics
+   - `MetricsSelector`: A dropdown component for selecting which metrics to
+     display
    - `MetricsToggleButton`: Button to open/close the metrics selection dropdown
    - `MetricsSearch`: Search input for filtering available metrics
-   - `MetricsList`: Displays the list of available metrics with toggle functionality
+   - `MetricsList`: Displays the list of available metrics with toggle
+     functionality
 
 3. **Custom Hooks**:
-   - `useMetricsSelection`: Manages the state of selected metrics and persists user preferences
-   - `useMetricsDropdown`: Manages the dropdown UI state, search functionality, and keyboard
-     navigation
+   - `useMetricsSelection`: Manages the state of selected metrics and persists
+     user preferences
+   - `useMetricsDropdown`: Manages the dropdown UI state, search functionality,
+     and keyboard navigation
 
 ### CPUChart Component Tests
 
-The `CPUChart` component tests (`src/__tests__/unit/monitoring/CPUChart.test.tsx`) verify:
+The `CPUChart` component tests
+(`src/__tests__/unit/monitoring/CPUChart.test.tsx`) verify:
 
 - Correct rendering of the chart when data is available
-- Proper display of placeholder messages when no service is selected or no data is available
+- Proper display of placeholder messages when no service is selected or no data
+  is available
 - Proper interaction with the service selector
 - Correct rendering of metric lines based on selected metrics
 - Integration with the metrics selector component
 
-The tests use mocks for the Recharts library components and related hooks to isolate the component's
-behavior. This approach allows us to test the component's logic without being dependent on the
-actual chart rendering.
+The tests use mocks for the Recharts library components and related hooks to
+isolate the component's behavior. This approach allows us to test the
+component's logic without being dependent on the actual chart rendering.
 
 ### Metrics Selection Hook Tests
 
@@ -219,8 +237,8 @@ The `useMetricsSelection` hook tests
 - Persistence of user preferences across sessions
 - Default behavior when no stored preferences exist
 
-The tests include a mock implementation of localStorage to simulate browser storage without actually
-affecting the test environment.
+The tests include a mock implementation of localStorage to simulate browser
+storage without actually affecting the test environment.
 
 ### Metrics Dropdown Hook Tests
 
@@ -245,55 +263,67 @@ The `MetricsSelector` component tests
 - Correct display of selected metrics count
 - Proper toggling of metric selection through the UI
 - Proper application of custom styling
-- Interaction between the component and its child components (MetricsToggleButton, MetricsSearch,
-  MetricsList)
+- Interaction between the component and its child components
+  (MetricsToggleButton, MetricsSearch, MetricsList)
 - Proper propagation of state changes to parent components
 
 ### Type Definitions
 
-The monitoring feature uses the following key type definitions (from `src/types/monitoring.ts`):
+The monitoring feature uses the following key type definitions (from
+`src/types/monitoring.ts`):
 
 - `CPUData`: Interface for CPU metrics data points (time, load, memory, threads)
 - `Service`: Interface for microservice information
-- `Metric`: Interface for metric configuration (id, name, dataKey, color, selected)
+- `Metric`: Interface for metric configuration (id, name, dataKey, color,
+  selected)
 
-These tests ensure that the monitoring components work correctly individually and together,
-providing a reliable system metrics visualization experience for users with proper state management,
-accessibility, and user preference persistence.
+These tests ensure that the monitoring components work correctly individually
+and together, providing a reliable system metrics visualization experience for
+users with proper state management, accessibility, and user preference
+persistence.
 
 ## Mocking Strategy
 
-We use MSW (Mock Service Worker) to intercept and mock API requests. The mock handlers are defined
-in `src/__tests__/mocks/handlers.ts`. This allows us to test components that make API requests
-without actually hitting any backend services.
+We use MSW (Mock Service Worker) to intercept and mock API requests. The mock
+handlers are defined in `src/__tests__/mocks/handlers.ts`. This allows us to
+test components that make API requests without actually hitting any backend
+services.
 
-For component tests that depend on complex hooks or child components, we use Vitest's mocking
-capabilities to isolate the component being tested.
+For component tests that depend on complex hooks or child components, we use
+Vitest's mocking capabilities to isolate the component being tested.
 
 ## Best Practices
 
-1. **Test Behavior, Not Implementation**: Focus on what the component does, not how it does it.
-2. **Use Proper Test Isolation**: Each test should be independent and not rely on the state from
-   other tests.
-3. **Mock External Dependencies**: Use mocks for API calls and other external services.
-4. **Write Descriptive Test Names**: Test names should clearly state what is being tested.
-5. **Follow the AAA Pattern**: Arrange, Act, Assert - organize tests in this logical flow.
-6. **Test Edge Cases**: Include tests for error states, empty states, loading states, etc.
+1. **Test Behavior, Not Implementation**: Focus on what the component does, not
+   how it does it.
+2. **Use Proper Test Isolation**: Each test should be independent and not rely
+   on the state from other tests.
+3. **Mock External Dependencies**: Use mocks for API calls and other external
+   services.
+4. **Write Descriptive Test Names**: Test names should clearly state what is
+   being tested.
+5. **Follow the AAA Pattern**: Arrange, Act, Assert - organize tests in this
+   logical flow.
+6. **Test Edge Cases**: Include tests for error states, empty states, loading
+   states, etc.
 7. **Keep Tests Fast**: Optimize tests to run quickly for faster feedback.
 
 ## Adding New Tests
 
-When adding new tests, follow the established patterns in the existing test files. Make sure to:
+When adding new tests, follow the established patterns in the existing test
+files. Make sure to:
 
 1. Put unit tests in the appropriate directory under `src/__tests__/unit/`
 2. Put E2E tests in the `e2e/` directory
-3. Use the custom render function from `src/__tests__/utils/test-utils.tsx` for component tests
+3. Use the custom render function from `src/__tests__/utils/test-utils.tsx` for
+   component tests
 4. Add appropriate mocks for any API calls or external dependencies
 5. Run the tests to verify they pass
 
 ## Continuous Integration
 
-Tests are automatically run as part of our CI pipeline. The pipeline is configured to:
+Tests are automatically run as part of our CI pipeline. The pipeline is
+configured to:
 
 1. Run all unit and integration tests
 2. Run E2E tests against multiple browsers

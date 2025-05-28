@@ -15,8 +15,12 @@ describe('NavigationControls Component', () => {
     );
 
     // Check if buttons are rendered
-    const upButton = screen.getByLabelText(/Navigate to previous item: Test Item 1/i);
-    const downButton = screen.getByLabelText(/Navigate to next item: Test Item 3/i);
+    const upButton = screen.getByLabelText(
+      /Navigate to previous item: Test Item 1/i,
+    );
+    const downButton = screen.getByLabelText(
+      /Navigate to next item: Test Item 3/i,
+    );
 
     expect(upButton).toBeInTheDocument();
     expect(downButton).toBeInTheDocument();

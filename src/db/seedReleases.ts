@@ -21,7 +21,8 @@ export const seedReleaseData = async () => {
       changes: [
         {
           type: 'feature',
-          description: 'Added new microservice testing capabilities with improved UI',
+          description:
+            'Added new microservice testing capabilities with improved UI',
         },
         {
           type: 'feature',
@@ -33,7 +34,8 @@ export const seedReleaseData = async () => {
         },
         {
           type: 'fix',
-          description: 'Fixed authentication issues when logging in with certain email providers',
+          description:
+            'Fixed authentication issues when logging in with certain email providers',
         },
       ],
     },

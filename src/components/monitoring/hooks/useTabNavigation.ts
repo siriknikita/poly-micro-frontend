@@ -39,13 +39,16 @@ export function useTabNavigation() {
     if (forceTestingTab === 'true') {
       return 'testing';
     }
-    return PATH_TO_TAB[location.pathname as keyof typeof PATH_TO_TAB] || 'dashboard';
+    return (
+      PATH_TO_TAB[location.pathname as keyof typeof PATH_TO_TAB] || 'dashboard'
+    );
   });
 
   // Update URL when tab changes
   useEffect(() => {
     const tabPath =
-      Object.entries(PATH_TO_TAB).find(([, tab]) => tab === activeTab)?.[0] || '/dashboard';
+      Object.entries(PATH_TO_TAB).find(([, tab]) => tab === activeTab)?.[0] ||
+      '/dashboard';
     if (location.pathname !== tabPath) {
       // Use replace: true to avoid breaking the history stack and preserve auth state
       navigate(tabPath, { replace: true });

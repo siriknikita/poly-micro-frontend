@@ -17,26 +17,32 @@ export const MonitoringDashboard: React.FC<MonitoringDashboardProps> = memo(
       useMonitoringData(selectedProjectId);
 
     // Use our custom hook for metric service selection
-    const { selectedService: selectedMetricService, setSelectedService: setSelectedMetricService } =
-      useServiceSelection({
-        projectId: selectedProjectId,
-        services: services || [],
-        initialServiceName,
-        storageKey: 'monitoring',
-      });
+    const {
+      selectedService: selectedMetricService,
+      setSelectedService: setSelectedMetricService,
+    } = useServiceSelection({
+      projectId: selectedProjectId,
+      services: services || [],
+      initialServiceName,
+      storageKey: 'monitoring',
+    });
 
     // Use our custom hook for log service selection
-    const { selectedService: selectedLogService, setSelectedService: setSelectedLogService } =
-      useServiceSelection({
-        projectId: selectedProjectId,
-        services: services || [],
-        initialServiceName,
-        storageKey: 'logs',
-      });
+    const {
+      selectedService: selectedLogService,
+      setSelectedService: setSelectedLogService,
+    } = useServiceSelection({
+      projectId: selectedProjectId,
+      services: services || [],
+      initialServiceName,
+      storageKey: 'logs',
+    });
 
     // Find the CPU data by service_name
     const cpuDataByService =
-      cpuData.find((data: CPUData) => data.service_name === selectedMetricService)?.data || [];
+      cpuData.find(
+        (data: CPUData) => data.service_name === selectedMetricService,
+      )?.data || [];
 
     return (
       <div className="space-y-6 overflow-visible">
@@ -47,7 +53,10 @@ export const MonitoringDashboard: React.FC<MonitoringDashboardProps> = memo(
           onServiceSelect={setSelectedMetricService}
           selectedProjectId={selectedProjectId}
         />
-        <ServiceStatus services={services || []} projectId={selectedProjectId} />
+        <ServiceStatus
+          services={services || []}
+          projectId={selectedProjectId}
+        />
         <LogViewer
           logs={logs}
           selectedService={selectedLogService || ''}

@@ -2,9 +2,9 @@
 
 ## Overview
 
-The Dashboard component has been refactored to use custom hooks for better separation of concerns,
-improved maintainability, and code reuse. This document provides detailed information about each
-custom hook, its purpose, and usage.
+The Dashboard component has been refactored to use custom hooks for better
+separation of concerns, improved maintainability, and code reuse. This document
+provides detailed information about each custom hook, its purpose, and usage.
 
 ## Hooks Structure
 
@@ -21,8 +21,8 @@ src/components/monitoring/hooks/
 
 ### useTabNavigation
 
-This hook manages tab navigation within the Dashboard component, synchronizing the active tab with
-the URL.
+This hook manages tab navigation within the Dashboard component, synchronizing
+the active tab with the URL.
 
 **Key Features:**
 
@@ -57,11 +57,16 @@ This hook manages project selection, persistence, and context updates.
 **Usage:**
 
 ```tsx
-const { selectedProject, handleSelectProject } = useProjectManagement(activeTab);
+const { selectedProject, handleSelectProject } =
+  useProjectManagement(activeTab);
 
 // Use selectedProject to conditionally render content
 {
-  selectedProject ? <ProjectContent project={selectedProject} /> : <NoProjectSelected />;
+  selectedProject ? (
+    <ProjectContent project={selectedProject} />
+  ) : (
+    <NoProjectSelected />
+  );
 }
 
 // Use handleSelectProject to change the selected project
@@ -115,7 +120,11 @@ const { selectedService, setSelectedService } = useServiceSelection({
 
 // Use selectedService to conditionally render content
 {
-  selectedService ? <ServiceDetails service={selectedService} /> : <NoServiceSelected />;
+  selectedService ? (
+    <ServiceDetails service={selectedService} />
+  ) : (
+    <NoServiceSelected />
+  );
 }
 
 // Use setSelectedService to change the selected service
@@ -124,7 +133,8 @@ const { selectedService, setSelectedService } = useServiceSelection({
 
 ## Integration in Dashboard Component
 
-The Dashboard component integrates these hooks to create a modular, maintainable codebase:
+The Dashboard component integrates these hooks to create a modular, maintainable
+codebase:
 
 ```tsx
 export function Dashboard() {
@@ -132,7 +142,8 @@ export function Dashboard() {
 
   // Use custom hooks to manage different aspects of the dashboard
   const { activeTab, setActiveTab } = useTabNavigation();
-  const { selectedProject, handleSelectProject } = useProjectManagement(activeTab);
+  const { selectedProject, handleSelectProject } =
+    useProjectManagement(activeTab);
   const { user, handleLogout, getLastSelectedService } = useAuthManagement();
 
   // Component rendering logic...
@@ -141,7 +152,8 @@ export function Dashboard() {
 
 ## Benefits of Hook-Based Architecture
 
-1. **Separation of Concerns**: Each hook handles a specific aspect of the Dashboard functionality
+1. **Separation of Concerns**: Each hook handles a specific aspect of the
+   Dashboard functionality
 2. **Code Reusability**: Hooks can be reused across different components
 3. **Testability**: Isolated logic is easier to test
 4. **Maintainability**: Changes to one aspect don't affect others

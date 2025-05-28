@@ -1,9 +1,9 @@
-import { TestItem } from '@/types';
+import { Service } from '@/types';
 
 export interface Project {
   id: string;
   name: string;
-  microservices?: TestItem[];
+  microservices?: Service[];
   // Add other fields as needed
 }
 

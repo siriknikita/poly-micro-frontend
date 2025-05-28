@@ -31,17 +31,25 @@ describe('HelpPage Integration', () => {
     await user.type(screen.getByTestId('help-search-input'), 'microservice');
 
     // FAQ about microservices should be visible
-    expect(screen.getByText('How do I add a new microservice to my project?')).toBeInTheDocument();
+    expect(
+      screen.getByText('How do I add a new microservice to my project?'),
+    ).toBeInTheDocument();
 
     // FAQ from other categories should not be visible
-    expect(screen.queryByText('How do I change my account password?')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('How do I change my account password?'),
+    ).not.toBeInTheDocument();
 
     // Click on a FAQ to expand it
-    await user.click(screen.getByText('How do I add a new microservice to my project?'));
+    await user.click(
+      screen.getByText('How do I add a new microservice to my project?'),
+    );
 
     // Answer should be visible
     expect(
-      screen.getByText(/Navigate to the Microservices tab, click the "Add Service" button/),
+      screen.getByText(
+        /Navigate to the Microservices tab, click the "Add Service" button/,
+      ),
     ).toBeInTheDocument();
   });
 
@@ -50,8 +58,14 @@ describe('HelpPage Integration', () => {
 
     // Fill in the question form
     await user.type(screen.getByTestId('question-name-input'), 'Test User');
-    await user.type(screen.getByTestId('question-email-input'), 'test@example.com');
-    await user.selectOptions(screen.getByTestId('question-category-select'), 'feature');
+    await user.type(
+      screen.getByTestId('question-email-input'),
+      'test@example.com',
+    );
+    await user.selectOptions(
+      screen.getByTestId('question-category-select'),
+      'feature',
+    );
     await user.type(
       screen.getByTestId('question-text-input'),
       'I would like to request a feature to export all microservice logs at once.',
@@ -83,7 +97,8 @@ describe('HelpPage Integration', () => {
         name: 'Test User',
         email: 'test@example.com',
         category: 'feature',
-        question: 'I would like to request a feature to export all microservice logs at once.',
+        question:
+          'I would like to request a feature to export all microservice logs at once.',
       }),
     );
   });
@@ -92,7 +107,10 @@ describe('HelpPage Integration', () => {
     const { user } = render(<HelpPage />);
 
     // Search for a term that doesn't exist in any FAQ
-    await user.type(screen.getByTestId('help-search-input'), 'nonexistentterm123');
+    await user.type(
+      screen.getByTestId('help-search-input'),
+      'nonexistentterm123',
+    );
 
     // No results message should be shown
     expect(screen.getByText('No results found')).toBeInTheDocument();

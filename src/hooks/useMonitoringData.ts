@@ -6,9 +6,10 @@ import { useToast } from '@/context/useToast';
 
 export default function useMonitoringData(selectedProjectId: string) {
   // Get the MongoDB ID from localStorage if available
-  const [mongoProjectId, setMongoProjectId] = useState<string>(selectedProjectId);
+  const [mongoProjectId, setMongoProjectId] =
+    useState<string>(selectedProjectId);
   const { showError } = useToast();
-  
+
   useEffect(() => {
     // If the selected project ID matches the one saved in localStorage, use the MongoDB ID
     if (selectedProjectId === localStorage.getItem('lastSelectedProject')) {
@@ -31,7 +32,8 @@ export default function useMonitoringData(selectedProjectId: string) {
     queryFn: async () => {
       try {
         const response = await metricsApi.getCpuMetrics(mongoProjectId);
-        if (!response || !response.data) throw new Error('Failed to fetch CPU data');
+        if (!response || !response.data)
+          throw new Error('Failed to fetch CPU data');
         return response.data;
       } catch (err) {
         showError('Failed to fetch CPU metrics');
@@ -51,7 +53,8 @@ export default function useMonitoringData(selectedProjectId: string) {
     queryFn: async () => {
       try {
         const response = await servicesApi.getServices(mongoProjectId);
-        if (!response || !response.data) throw new Error('Failed to fetch services');
+        if (!response || !response.data)
+          throw new Error('Failed to fetch services');
         return response.data;
       } catch (err) {
         showError('Failed to fetch services');
@@ -72,7 +75,8 @@ export default function useMonitoringData(selectedProjectId: string) {
       try {
         // If we have a selected project, fetch logs for that project specifically
         const response = await logsApi.getLogs(mongoProjectId);
-        if (!response || !response.data) throw new Error('Failed to fetch logs');
+        if (!response || !response.data)
+          throw new Error('Failed to fetch logs');
         return response.data;
       } catch (err) {
         showError('Failed to fetch logs');
@@ -90,7 +94,8 @@ export default function useMonitoringData(selectedProjectId: string) {
       : null;
 
   const [selectedLogService, setSelectedLogService] = useState<string>('All');
-  const [selectedMetricService, setSelectedMetricService] = useState<string>('');
+  const [selectedMetricService, setSelectedMetricService] =
+    useState<string>('');
   const [selectedSeverity, setSelectedSeverity] = useState<string>('All');
 
   const filteredLogs = logsData?.filter(

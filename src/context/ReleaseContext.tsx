@@ -1,4 +1,10 @@
-import React, { createContext, useState, useEffect, ReactNode, useMemo } from 'react';
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  ReactNode,
+  useMemo,
+} from 'react';
 import { db, Release } from '../db/db';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { IndexableType } from 'dexie';
@@ -15,9 +21,12 @@ interface ReleaseContextType {
 
 const ReleaseContext = createContext<ReleaseContextType | undefined>(undefined);
 
-export const ReleaseProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const ReleaseProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [isReleaseModalOpen, setIsReleaseModalOpen] = useState(false);
-  const [hasUnacknowledgedRelease, setHasUnacknowledgedRelease] = useState(false);
+  const [hasUnacknowledgedRelease, setHasUnacknowledgedRelease] =
+    useState(false);
 
   const latestRelease = useLiveQuery(
     async () => {
@@ -37,7 +46,10 @@ export const ReleaseProvider: React.FC<{ children: ReactNode }> = ({ children })
     const currentUserId = await getCurrentUserId();
     if (!currentUserId) return [];
 
-    return await db.userAcknowledgments.where('userId').equals(currentUserId).toArray();
+    return await db.userAcknowledgments
+      .where('userId')
+      .equals(currentUserId)
+      .toArray();
   });
 
   // Wrap in useMemo to avoid recreating on every render
@@ -61,7 +73,9 @@ export const ReleaseProvider: React.FC<{ children: ReactNode }> = ({ children })
       const currentUserId = await getCurrentUserId();
       if (!currentUserId) return;
 
-      const hasAcknowledged = userAcknowledgments.some((ack) => ack.releaseId === latestRelease.id);
+      const hasAcknowledged = userAcknowledgments.some(
+        (ack) => ack.releaseId === latestRelease.id,
+      );
 
       setHasUnacknowledgedRelease(!hasAcknowledged);
 

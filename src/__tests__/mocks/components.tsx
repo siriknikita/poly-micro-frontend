@@ -34,10 +34,10 @@ export const MockIconButton = ({
   onClick?: () => void;
   title?: string;
 }) => (
-  <button onClick={onClick} title={title}>
+  <button
+    onClick={onClick}
+    title={title}
+  >
     {children}
   </button>
 );
-
-// Mock TestOutputModal
-export const MockTestOutputModal = () => <div data-testid="test-output-modal"></div>;

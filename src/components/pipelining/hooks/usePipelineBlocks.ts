@@ -8,7 +8,9 @@ export interface UsePipelineBlocksOptions {
 export function usePipelineBlocks(options: UsePipelineBlocksOptions = {}) {
   const { gridSize = 40 } = options;
   const [blocks, setBlocks] = useState<BlockInstance[]>([]);
-  const [selectedBlock, setSelectedBlock] = useState<BlockInstance | null>(null);
+  const [selectedBlock, setSelectedBlock] = useState<BlockInstance | null>(
+    null,
+  );
   const [showConfigModal, setShowConfigModal] = useState(false);
 
   // Snap to grid helper
@@ -63,9 +65,14 @@ export function usePipelineBlocks(options: UsePipelineBlocksOptions = {}) {
 
   // Update block configuration
   const updateBlockConfig = useCallback(
-    (instanceId: string, config: Record<string, string | number | boolean | string[]>) => {
+    (
+      instanceId: string,
+      config: Record<string, string | number | boolean | string[]>,
+    ) => {
       setBlocks((prev) =>
-        prev.map((block) => (block.instanceId === instanceId ? { ...block, config } : block)),
+        prev.map((block) =>
+          block.instanceId === instanceId ? { ...block, config } : block,
+        ),
       );
       setShowConfigModal(false);
       setSelectedBlock(null);
@@ -76,7 +83,9 @@ export function usePipelineBlocks(options: UsePipelineBlocksOptions = {}) {
   // Delete a block
   const deleteBlock = useCallback(
     (instanceId: string) => {
-      setBlocks((prev) => prev.filter((block) => block.instanceId !== instanceId));
+      setBlocks((prev) =>
+        prev.filter((block) => block.instanceId !== instanceId),
+      );
       if (selectedBlock?.instanceId === instanceId) {
         setSelectedBlock(null);
         setShowConfigModal(false);

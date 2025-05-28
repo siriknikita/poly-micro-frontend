@@ -15,7 +15,10 @@ interface MetricsListProps {
 export const MetricsList: React.FC<MetricsListProps> = memo(
   ({ metrics, onToggleMetric, onKeyDown }) => {
     return (
-      <ul className="py-1 overflow-auto max-h-60" role="listbox">
+      <ul
+        className="py-1 overflow-auto max-h-60"
+        role="listbox"
+      >
         {metrics.length > 0 ? (
           metrics.map((metric) => (
             <MetricItem

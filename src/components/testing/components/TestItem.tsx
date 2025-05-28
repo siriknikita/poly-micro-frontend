@@ -1,5 +1,12 @@
 import { memo } from 'react';
-import { ChevronRight, ChevronDown, Zap, Play, Eye, BrainCircuit } from 'lucide-react';
+import {
+  ChevronRight,
+  ChevronDown,
+  Zap,
+  Play,
+  Eye,
+  BrainCircuit,
+} from 'lucide-react';
 import { TestItem as TestItemType } from '@/types';
 import { CSS_CLASSES, TEST_ITEM_TYPES } from '../constants';
 import { IconButton } from './IconButton';
@@ -38,11 +45,14 @@ export const TestItemComponent = memo<TestItemProps>(
   }) => {
     const hasChildren = item.children && item.children.length > 0;
     const paddingLeft = `${depth * 1.25 + 0.5}rem`;
-    const showResult = showResults && item.type === TEST_ITEM_TYPES.FUNCTION && result;
+    const showResult =
+      showResults && item.type === TEST_ITEM_TYPES.FUNCTION && result;
 
     // Get the background color based on depth
     const depthStyle =
-      CSS_CLASSES.DEPTH_STYLES[depth as keyof typeof CSS_CLASSES.DEPTH_STYLES] || '';
+      CSS_CLASSES.DEPTH_STYLES[
+        depth as keyof typeof CSS_CLASSES.DEPTH_STYLES
+      ] || '';
 
     return (
       <div
@@ -50,7 +60,10 @@ export const TestItemComponent = memo<TestItemProps>(
         data-testid={`test-item-${item.id}`}
       >
         <div className={`flex flex-col ${depthStyle}`}>
-          <div className="flex items-center p-3" style={{ paddingLeft }}>
+          <div
+            className="flex items-center p-3"
+            style={{ paddingLeft }}
+          >
             {hasChildren ? (
               <button
                 onClick={() => onToggleExpand(item.id)}
@@ -68,7 +81,9 @@ export const TestItemComponent = memo<TestItemProps>(
               <div className="w-6" />
             )}
 
-            <span className="flex-1 ml-2 text-gray-900 dark:text-gray-100">{item.name}</span>
+            <span className="flex-1 ml-2 text-gray-900 dark:text-gray-100">
+              {item.name}
+            </span>
 
             {item.type === TEST_ITEM_TYPES.FUNCTION && (
               <div className="flex space-x-2">
@@ -116,7 +131,10 @@ export const TestItemComponent = memo<TestItemProps>(
             <div className="ml-6 mr-4 mb-3 p-3 bg-gray-100 dark:bg-gray-800 rounded font-mono text-sm whitespace-pre-wrap text-gray-700 dark:text-gray-300">
               {result}
               {testRunId && item.type === TEST_ITEM_TYPES.FUNCTION && (
-                <TestAnalysis testId={item.id} testRunId={testRunId} />
+                <TestAnalysis
+                  testId={item.id}
+                  testRunId={testRunId}
+                />
               )}
             </div>
           )}

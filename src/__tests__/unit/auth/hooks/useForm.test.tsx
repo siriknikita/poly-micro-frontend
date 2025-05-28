@@ -47,16 +47,21 @@ describe('useForm', () => {
       },
       password: (value: unknown) => {
         if (!value) return 'Password is required';
-        if ((value as string).length < 6) return 'Password must be at least 6 characters';
+        if ((value as string).length < 6)
+          return 'Password must be at least 6 characters';
         return undefined;
       },
     };
 
-    const { result } = renderHook(() => useForm(initialValues, validationRules));
+    const { result } = renderHook(() =>
+      useForm(initialValues, validationRules),
+    );
 
     // Submit the form to trigger validation
     act(() => {
-      result.current.handleSubmit({ preventDefault: vi.fn() } as unknown as React.FormEvent);
+      result.current.handleSubmit({
+        preventDefault: vi.fn(),
+      } as unknown as React.FormEvent);
     });
 
     // Check validation errors
@@ -76,11 +81,15 @@ describe('useForm', () => {
       },
     };
 
-    const { result } = renderHook(() => useForm(initialValues, validationRules));
+    const { result } = renderHook(() =>
+      useForm(initialValues, validationRules),
+    );
 
     // Submit to trigger validation and set errors
     act(() => {
-      result.current.handleSubmit({ preventDefault: vi.fn() } as unknown as React.FormEvent);
+      result.current.handleSubmit({
+        preventDefault: vi.fn(),
+      } as unknown as React.FormEvent);
     });
 
     // Verify error is set
@@ -102,10 +111,14 @@ describe('useForm', () => {
     const initialValues = { username: 'testuser', password: 'password123' };
     const onSubmit = vi.fn().mockResolvedValue(undefined);
 
-    const { result } = renderHook(() => useForm(initialValues, undefined, onSubmit));
+    const { result } = renderHook(() =>
+      useForm(initialValues, undefined, onSubmit),
+    );
 
     await act(async () => {
-      await result.current.handleSubmit({ preventDefault: vi.fn() } as unknown as React.FormEvent);
+      await result.current.handleSubmit({
+        preventDefault: vi.fn(),
+      } as unknown as React.FormEvent);
     });
 
     expect(onSubmit).toHaveBeenCalledWith(initialValues);
@@ -118,10 +131,14 @@ describe('useForm', () => {
     const errorMessage = 'Submission failed';
     const onSubmit = vi.fn().mockRejectedValue(new Error(errorMessage));
 
-    const { result } = renderHook(() => useForm(initialValues, undefined, onSubmit));
+    const { result } = renderHook(() =>
+      useForm(initialValues, undefined, onSubmit),
+    );
 
     await act(async () => {
-      await result.current.handleSubmit({ preventDefault: vi.fn() } as unknown as React.FormEvent);
+      await result.current.handleSubmit({
+        preventDefault: vi.fn(),
+      } as unknown as React.FormEvent);
     });
 
     expect(onSubmit).toHaveBeenCalledWith(initialValues);

@@ -17,7 +17,11 @@ const PIPELINE_BLOCKS: PipelineBlock[] = [
     description: 'Schedule pipeline execution',
     category: 'triggers',
     configSchema: {
-      schedule: { type: 'cron', label: 'Schedule (cron)', default: '0 0 * * *' },
+      schedule: {
+        type: 'cron',
+        label: 'Schedule (cron)',
+        default: '0 0 * * *',
+      },
       timezone: { type: 'string', label: 'Timezone', default: 'UTC' },
     },
   },
@@ -98,10 +102,13 @@ export const PipelineToolbox = memo<PipelineToolboxProps>(
     isSimulating,
   }) => {
     // Handle drag start for pipeline blocks
-    const handleDragStart = useCallback((e: DragEvent<HTMLDivElement>, block: PipelineBlock) => {
-      e.dataTransfer.setData('application/json', JSON.stringify(block));
-      e.dataTransfer.effectAllowed = 'copy';
-    }, []);
+    const handleDragStart = useCallback(
+      (e: DragEvent<HTMLDivElement>, block: PipelineBlock) => {
+        e.dataTransfer.setData('application/json', JSON.stringify(block));
+        e.dataTransfer.effectAllowed = 'copy';
+      },
+      [],
+    );
 
     return (
       <div
@@ -109,7 +116,9 @@ export const PipelineToolbox = memo<PipelineToolboxProps>(
         ${position === 'float' ? 'absolute left-4 top-4 rounded-lg shadow-lg' : ''}`}
       >
         <div className="p-4 border-b dark:border-gray-700 flex items-center justify-between">
-          <h3 className="font-semibold text-gray-900 dark:text-gray-100">Toolbox</h3>
+          <h3 className="font-semibold text-gray-900 dark:text-gray-100">
+            Toolbox
+          </h3>
         </div>
 
         <div className="flex-1 overflow-y-auto p-4">

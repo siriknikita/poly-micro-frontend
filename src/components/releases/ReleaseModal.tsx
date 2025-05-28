@@ -7,8 +7,13 @@ import { useRelease } from '@/hooks/useRelease';
 
 const ReleaseModal: React.FC = () => {
   const { darkMode } = useTheme();
-  const { latestRelease, isReleaseModalOpen, closeReleaseModal, acknowledgeRelease, allReleases } =
-    useRelease();
+  const {
+    latestRelease,
+    isReleaseModalOpen,
+    closeReleaseModal,
+    acknowledgeRelease,
+    allReleases,
+  } = useRelease();
   const [showAllReleases, setShowAllReleases] = useState(false);
   const [expandedReleases, setExpandedReleases] = useState<IndexableType[]>([]);
 
@@ -18,7 +23,9 @@ const ReleaseModal: React.FC = () => {
     if (!releaseId) return;
 
     setExpandedReleases((prev) =>
-      prev.includes(releaseId) ? prev.filter((id) => id !== releaseId) : [...prev, releaseId],
+      prev.includes(releaseId)
+        ? prev.filter((id) => id !== releaseId)
+        : [...prev, releaseId],
     );
   };
 
@@ -55,7 +62,10 @@ const ReleaseModal: React.FC = () => {
     return (
       <ul className="mt-2 space-y-1">
         {changes.map((change, index) => (
-          <li key={index} className="flex items-start gap-2">
+          <li
+            key={index}
+            className="flex items-start gap-2"
+          >
             <span className="mt-0.5">{getChangeTypeIcon(change.type)}</span>
             <span>{change.description}</span>
           </li>
@@ -64,10 +74,15 @@ const ReleaseModal: React.FC = () => {
     );
   };
 
-  const renderReleaseCard = (release: typeof latestRelease, isLatest: boolean = false) => {
+  const renderReleaseCard = (
+    release: typeof latestRelease,
+    isLatest: boolean = false,
+  ) => {
     if (!release) return null;
 
-    const isExpanded = release.id ? expandedReleases.includes(release.id) : false;
+    const isExpanded = release.id
+      ? expandedReleases.includes(release.id)
+      : false;
 
     return (
       <div
@@ -106,13 +121,17 @@ const ReleaseModal: React.FC = () => {
           </button>
         </div>
 
-        <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'} mt-1`}>
+        <div
+          className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'} mt-1`}
+        >
           Released on {formatDate(release.releaseDate)}
         </div>
 
         {isExpanded && (
           <div className="mt-3">
-            <p className={darkMode ? 'text-gray-300' : 'text-gray-700'}>{release.description}</p>
+            <p className={darkMode ? 'text-gray-300' : 'text-gray-700'}>
+              {release.description}
+            </p>
             {renderReleaseChanges(release.changes)}
           </div>
         )}
@@ -150,7 +169,9 @@ const ReleaseModal: React.FC = () => {
               onClick={() => setShowAllReleases(!showAllReleases)}
               className={`w-full text-center ${darkMode ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'} py-2`}
             >
-              {showAllReleases ? 'Hide previous releases' : 'Show previous releases'}
+              {showAllReleases
+                ? 'Hide previous releases'
+                : 'Show previous releases'}
             </button>
           )}
         </div>

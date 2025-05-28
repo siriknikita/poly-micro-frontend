@@ -74,7 +74,11 @@ describe('TablePagination', () => {
 
   it('should call handlePageChange with correct page number when previous button is clicked', () => {
     render(
-      <TablePagination currentPage={3} totalPages={5} handlePageChange={mockHandlePageChange} />,
+      <TablePagination
+        currentPage={3}
+        totalPages={5}
+        handlePageChange={mockHandlePageChange}
+      />,
     );
 
     const prevButton = screen.getByLabelText('Previous page');
@@ -85,7 +89,11 @@ describe('TablePagination', () => {
 
   it('should call handlePageChange with correct page number when next button is clicked', () => {
     render(
-      <TablePagination currentPage={3} totalPages={5} handlePageChange={mockHandlePageChange} />,
+      <TablePagination
+        currentPage={3}
+        totalPages={5}
+        handlePageChange={mockHandlePageChange}
+      />,
     );
 
     const nextButton = screen.getByLabelText('Next page');
@@ -96,7 +104,11 @@ describe('TablePagination', () => {
 
   it('should disable previous button on first page', () => {
     render(
-      <TablePagination currentPage={1} totalPages={5} handlePageChange={mockHandlePageChange} />,
+      <TablePagination
+        currentPage={1}
+        totalPages={5}
+        handlePageChange={mockHandlePageChange}
+      />,
     );
 
     const prevButton = screen.getByLabelText('Previous page');
@@ -105,7 +117,11 @@ describe('TablePagination', () => {
 
   it('should disable next button on last page', () => {
     render(
-      <TablePagination currentPage={5} totalPages={5} handlePageChange={mockHandlePageChange} />,
+      <TablePagination
+        currentPage={5}
+        totalPages={5}
+        handlePageChange={mockHandlePageChange}
+      />,
     );
 
     const nextButton = screen.getByLabelText('Next page');
@@ -129,7 +145,11 @@ describe('TablePagination', () => {
 
   it('should handle case when totalPages is 0', () => {
     render(
-      <TablePagination currentPage={1} totalPages={0} handlePageChange={mockHandlePageChange} />,
+      <TablePagination
+        currentPage={1}
+        totalPages={0}
+        handlePageChange={mockHandlePageChange}
+      />,
     );
 
     // When totalPages is 0, the dropdown shouldn't be shown

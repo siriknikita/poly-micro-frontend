@@ -21,7 +21,11 @@ const getSizeClasses = (size: 'sm' | 'md' | 'lg'): string => {
   }
 };
 
-export const Logo: React.FC<LogoProps> = ({ className = '', size = 'md', linkEnabled = true }) => {
+export const Logo: React.FC<LogoProps> = ({
+  className = '',
+  size = 'md',
+  linkEnabled = true,
+}) => {
   const logoContent = (
     <>
       <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur opacity-0 group-hover:opacity-75 transition duration-500"></div>

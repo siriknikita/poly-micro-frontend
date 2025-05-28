@@ -27,6 +27,9 @@ export function mockReturnValue<T>(value: T) {
 /**
  * Helper function to mock a module
  */
-export function mockModule(modulePath: string, mockImplementation: Record<string, unknown>) {
+export function mockModule(
+  modulePath: string,
+  mockImplementation: Record<string, unknown>,
+) {
   vi.mock(modulePath, () => mockImplementation);
 }

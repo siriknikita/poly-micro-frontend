@@ -1,5 +1,9 @@
 import React from 'react';
-import { Dropdown, DropdownOption, DropdownSectionProps } from '@/components/shared/Dropdown';
+import {
+  Dropdown,
+  DropdownOption,
+  DropdownSectionProps,
+} from '@/components/shared/Dropdown';
 import { ROWS_PER_PAGE_OPTIONS } from '@constants';
 
 interface RowsPerPageSelectorProps {

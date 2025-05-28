@@ -5,12 +5,14 @@ This project's documentation is available on GitHub Pages at:
 
 ## About the Documentation
 
-The documentation is automatically deployed to GitHub Pages whenever changes are made to files in
-the `docs/` directory on the main branch. This is handled by a GitHub Actions workflow.
+The documentation is automatically deployed to GitHub Pages whenever changes are
+made to files in the `docs/` directory on the main branch. This is handled by a
+GitHub Actions workflow.
 
 ## Local Development
 
-There are several ways to run the documentation locally for development purposes:
+There are several ways to run the documentation locally for development
+purposes:
 
 ### Option 1: Using npx (Recommended)
 
@@ -47,7 +49,8 @@ cd docs
 docsify serve
 ```
 
-After running any of these commands, open your browser and navigate to `http://localhost:3000`
+After running any of these commands, open your browser and navigate to
+`http://localhost:3000`
 
 ## Documentation Structure
 
@@ -83,10 +86,11 @@ If the documentation is not updating after pushing changes:
 
 #### "Get Pages site failed" or "Not Found" Error
 
-This error occurs when GitHub Pages hasn't been properly enabled in your repository settings. To fix
-this:
+This error occurs when GitHub Pages hasn't been properly enabled in your
+repository settings. To fix this:
 
-1. Go to your GitHub repository: `https://github.com/siriknikita/poly-micro-frontend-demo`
+1. Go to your GitHub repository:
+   `https://github.com/siriknikita/poly-micro-frontend-demo`
 2. Click on "Settings" (tab at the top)
 3. Scroll down to the "Pages" section in the left sidebar
 4. Under "Build and deployment":
@@ -96,12 +100,14 @@ this:
    - Go to the "Actions" tab in your repository
    - Find the failed workflow run
    - Click "Re-run all jobs"
-   - If needed, create a small change to any file in the `docs/` directory to trigger a new workflow
-     run
+   - If needed, create a small change to any file in the `docs/` directory to
+     trigger a new workflow run
 
-Note: GitHub Pages might take a few minutes to set up after enabling it for the first time.
+Note: GitHub Pages might take a few minutes to set up after enabling it for the
+first time.
 
 #### Permission Issues with npm Install
 
-If you encounter permission issues when running `npm install -g docsify-cli` locally, use one of the
-alternative methods described in the "Local Development" section above.
+If you encounter permission issues when running `npm install -g docsify-cli`
+locally, use one of the alternative methods described in the "Local Development"
+section above.

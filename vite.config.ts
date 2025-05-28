@@ -14,16 +14,18 @@ export default defineConfig({
   build: {
     rollupOptions: {
       // Externalize Tauri modules in web builds to prevent build errors
-      external: isTauriBuild ? [] : [
-        '@tauri-apps/api',
-        '@tauri-apps/api/os',
-        '@tauri-apps/api/window',
-        '@tauri-apps/api/path',
-        '@tauri-apps/api/fs',
-        '@tauri-apps/api/shell',
-        '@tauri-apps/api/event',
-      ]
-    }
+      external: isTauriBuild
+        ? []
+        : [
+            '@tauri-apps/api',
+            '@tauri-apps/api/os',
+            '@tauri-apps/api/window',
+            '@tauri-apps/api/path',
+            '@tauri-apps/api/fs',
+            '@tauri-apps/api/shell',
+            '@tauri-apps/api/event',
+          ],
+    },
   },
   server: {
     port: 5174,

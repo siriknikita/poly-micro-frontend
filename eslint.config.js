@@ -8,7 +8,17 @@ import prettierConfig from 'eslint-config-prettier';
 
 export default tseslint.config(
   prettierConfig,
-  { ignores: ['dist', 'coverage', 'coverage/**/*', 'node_modules', 'build', '.github', '.vscode'] },
+  {
+    ignores: [
+      'dist',
+      'coverage',
+      'coverage/**/*',
+      'node_modules',
+      'build',
+      '.github',
+      '.vscode',
+    ],
+  },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],
@@ -26,7 +36,10 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
       'prettier/prettier': 'error',
     },
   },

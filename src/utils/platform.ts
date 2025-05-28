@@ -1,13 +1,16 @@
 /**
  * Platform detection utilities
- * 
+ *
  * This file provides utilities for detecting the platform environment
  * and handling conditional imports for Tauri vs Web environments.
  */
 
 // Check if we're in a Tauri environment
 export const isTauriEnvironment = (): boolean => {
-  return typeof window !== 'undefined' && 'object' === typeof (window as any).__TAURI__;
+  return (
+    typeof window !== 'undefined' &&
+    'object' === typeof (window as any).__TAURI__
+  );
 };
 
 // Get platform info (only works in Tauri)
@@ -15,7 +18,7 @@ export const getPlatformInfo = async (): Promise<string | null> => {
   if (!isTauriEnvironment()) {
     return null;
   }
-  
+
   try {
     // Only import Tauri modules if we're in a Tauri environment
     if (isTauriEnvironment()) {

@@ -7,8 +7,20 @@ import { CPUData, Service } from '@/types';
 vi.mock('../../../components/monitoring/hooks', () => ({
   useMetricsSelection: vi.fn(() => ({
     metrics: [
-      { id: 'load', name: 'CPU Load %', dataKey: 'load', color: '#4f46e5', selected: true },
-      { id: 'memory', name: 'Memory Usage %', dataKey: 'memory', color: '#059669', selected: true },
+      {
+        id: 'load',
+        name: 'CPU Load %',
+        dataKey: 'load',
+        color: '#4f46e5',
+        selected: true,
+      },
+      {
+        id: 'memory',
+        name: 'Memory Usage %',
+        dataKey: 'memory',
+        color: '#059669',
+        selected: true,
+      },
       {
         id: 'threads',
         name: 'Active Threads',
@@ -40,7 +52,10 @@ vi.mock('../../../components/monitoring/shared/ServiceSelector', () => ({
       >
         <option value="">Select a service</option>
         {services.map((service) => (
-          <option key={service.id} value={service.id}>
+          <option
+            key={service.id}
+            value={service.id}
+          >
             {service.name}
           </option>
         ))}
@@ -54,12 +69,21 @@ vi.mock('../../../components/monitoring/shared/MetricsSelector', () => ({
     metrics,
     onMetricsChange,
   }: {
-    metrics: Array<{ id: string; name: string; dataKey: string; color: string; selected: boolean }>;
+    metrics: Array<{
+      id: string;
+      name: string;
+      dataKey: string;
+      color: string;
+      selected: boolean;
+    }>;
     onMetricsChange: (ids: string[]) => void;
   }) => (
     <div data-testid="metrics-selector">
       {metrics.map((metric) => (
-        <div key={metric.id} data-testid={`metric-${metric.id}`}>
+        <div
+          key={metric.id}
+          data-testid={`metric-${metric.id}`}
+        >
           <input
             type="checkbox"
             checked={metric.selected}
@@ -88,8 +112,20 @@ vi.mock('recharts', () => {
     LineChart: ({ children }: { children: React.ReactNode }) => (
       <div data-testid="line-chart">{children}</div>
     ),
-    Line: ({ dataKey, stroke, name }: { dataKey: string; stroke: string; name: string }) => (
-      <div data-testid={`line-${dataKey}`} style={{ stroke }} data-name={name}></div>
+    Line: ({
+      dataKey,
+      stroke,
+      name,
+    }: {
+      dataKey: string;
+      stroke: string;
+      name: string;
+    }) => (
+      <div
+        data-testid={`line-${dataKey}`}
+        style={{ stroke }}
+        data-name={name}
+      ></div>
     ),
     CartesianGrid: () => <div data-testid="cartesian-grid"></div>,
     XAxis: () => <div data-testid="x-axis"></div>,
@@ -145,7 +181,9 @@ describe('CPUChart Component', () => {
       />,
     );
 
-    expect(screen.getByText('No metrics available for this service')).toBeInTheDocument();
+    expect(
+      screen.getByText('No metrics available for this service'),
+    ).toBeInTheDocument();
   });
 
   it('renders the chart when service is selected and data is available', () => {

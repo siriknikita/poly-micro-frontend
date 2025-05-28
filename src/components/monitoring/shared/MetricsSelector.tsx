@@ -43,7 +43,10 @@ export const MetricsSelector: React.FC<MetricsSelectorProps> = memo(
     } = useMetricsDropdown({ metrics, onMetricsChange });
 
     return (
-      <div className={`relative ${className}`} ref={dropdownRef}>
+      <div
+        className={`relative ${className}`}
+        ref={dropdownRef}
+      >
         <MetricsToggleButton
           selectedCount={selectedCount}
           onClick={toggleDropdown}

@@ -122,7 +122,10 @@ describe('useAuthManagement', () => {
 
     const { result } = renderHook(() => useAuthManagement(), { wrapper });
 
-    const lastSelected = result.current.getLastSelectedService(projectId, tabName);
+    const lastSelected = result.current.getLastSelectedService(
+      projectId,
+      tabName,
+    );
 
     expect(mockLocalStorage.getItem).toHaveBeenCalledWith(expectedKey);
     expect(lastSelected).toBe(serviceId);

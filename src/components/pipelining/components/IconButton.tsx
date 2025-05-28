@@ -23,11 +23,14 @@ export const IconButton = ({
   const variantClasses = {
     primary:
       'bg-indigo-600 text-white hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600',
-    secondary: 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700',
+    secondary:
+      'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700',
     outline:
       'border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800',
-    danger: 'text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20',
-    success: 'bg-green-600 text-white hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600',
+    danger:
+      'text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20',
+    success:
+      'bg-green-600 text-white hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600',
   };
 
   const sizeClasses = {

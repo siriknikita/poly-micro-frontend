@@ -28,7 +28,8 @@ export const IconButton = memo<IconButtonProps>(
       BUTTON_VARIANTS.OUTLINE;
 
     // Get the size class
-    const sizeClass = size === 'sm' ? 'p-2' : size === 'md' ? 'px-4 py-2' : 'px-6 py-3';
+    const sizeClass =
+      size === 'sm' ? 'p-2' : size === 'md' ? 'px-4 py-2' : 'px-6 py-3';
 
     // Determine if it's an icon-only button or icon with label
     const isIconOnly = !label;

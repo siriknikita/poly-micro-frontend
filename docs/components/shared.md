@@ -2,9 +2,10 @@
 
 ## Overview
 
-The Shared Components module provides reusable UI components that are used across multiple features
-in the Poly Micro Manager application. These components ensure consistency in the user interface and
-reduce code duplication by centralizing common UI elements.
+The Shared Components module provides reusable UI components that are used
+across multiple features in the Poly Micro Manager application. These components
+ensure consistency in the user interface and reduce code duplication by
+centralizing common UI elements.
 
 ## Components Structure
 
@@ -22,7 +23,8 @@ src/components/shared/
 
 ### ProjectSelector.tsx
 
-A dropdown component for selecting and switching between different projects/microservice ecosystems.
+A dropdown component for selecting and switching between different
+projects/microservice ecosystems.
 
 **Key Features:**
 
@@ -47,7 +49,8 @@ const MyComponent = () => (
 
 ### BoxedWrapper.tsx
 
-A wrapper component that provides consistent styling for boxed content throughout the application.
+A wrapper component that provides consistent styling for boxed content
+throughout the application.
 
 **Key Features:**
 
@@ -107,11 +110,14 @@ The shared components follow these design principles:
 When using shared components, follow these guidelines:
 
 1. **Import from index.ts**: Always import shared components from the index file
-2. **Respect prop interfaces**: Provide all required props and use optional props as needed
-3. **Avoid direct styling**: Use the provided props for customization rather than direct styling
-4. **Maintain consistency**: Use shared components instead of creating similar one-off components
-5. **Extend responsibly**: If a shared component needs new functionality, consider extending it
-   rather than creating a new one
+2. **Respect prop interfaces**: Provide all required props and use optional
+   props as needed
+3. **Avoid direct styling**: Use the provided props for customization rather
+   than direct styling
+4. **Maintain consistency**: Use shared components instead of creating similar
+   one-off components
+5. **Extend responsibly**: If a shared component needs new functionality,
+   consider extending it rather than creating a new one
 
 ## Integration with Other Features
 

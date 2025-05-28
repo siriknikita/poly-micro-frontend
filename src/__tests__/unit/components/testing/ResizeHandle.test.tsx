@@ -15,13 +15,21 @@ describe('ResizeHandle Component', () => {
     const handleMouseDown = vi.fn();
     const { user } = render(<ResizeHandle onResizeStart={handleMouseDown} />);
 
-    await user.pointer({ target: screen.getByRole('separator'), keys: '[MouseLeft>]' });
+    await user.pointer({
+      target: screen.getByRole('separator'),
+      keys: '[MouseLeft>]',
+    });
 
     expect(handleMouseDown).toHaveBeenCalled();
   });
 
   it('renders with custom className when provided', () => {
-    render(<ResizeHandle onResizeStart={() => {}} className="custom-class" />);
+    render(
+      <ResizeHandle
+        onResizeStart={() => {}}
+        className="custom-class"
+      />,
+    );
 
     expect(screen.getByRole('separator')).toHaveClass('custom-class');
   });

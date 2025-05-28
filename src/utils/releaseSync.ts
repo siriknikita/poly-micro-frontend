@@ -31,7 +31,9 @@ export const fetchReleaseData = async (
     const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch release data from GitHub: ${response.statusText}`);
+      throw new Error(
+        `Failed to fetch release data from GitHub: ${response.statusText}`,
+      );
     }
 
     return await response.json();
@@ -66,7 +68,9 @@ export const syncReleasesToDatabase = async (
     const existingVersions = new Set(existingReleases.map((r) => r.version));
 
     // Find new releases
-    const newReleases = releaseData.releases.filter((r) => !existingVersions.has(r.version));
+    const newReleases = releaseData.releases.filter(
+      (r) => !existingVersions.has(r.version),
+    );
 
     if (newReleases.length === 0) {
       console.log('No new releases to sync');
@@ -116,7 +120,10 @@ export const syncReleasesToDatabase = async (
 
     // If we didn't add the latest version (it already existed), make sure it's marked as latest
     if (!newReleases.some((r) => r.version === latestVersion)) {
-      await db.releases.where('version').equals(latestVersion).modify({ isLatest: 1 });
+      await db.releases
+        .where('version')
+        .equals(latestVersion)
+        .modify({ isLatest: 1 });
 
       console.log(`Updated existing release ${latestVersion} to be the latest`);
     }
@@ -133,7 +140,8 @@ export const syncReleasesToDatabase = async (
  */
 export const autoSyncReleases = async (): Promise<void> => {
   try {
-    const githubPath = 'siriknikita/poly-micro-frontend-demo/main/releases/releases.json';
+    const githubPath =
+      'siriknikita/poly-micro-frontend-demo/main/releases/releases.json';
     await syncReleasesToDatabase('github', githubPath);
   } catch (error) {
     console.error('Auto sync failed:', error);

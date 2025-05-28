@@ -32,7 +32,9 @@ export default defineConfig({
 
       // Suppress experimental feature warnings
       if (
-        log.includes('Testing types with tsc and vue-tsc is an experimental feature') ||
+        log.includes(
+          'Testing types with tsc and vue-tsc is an experimental feature',
+        ) ||
         log.includes('Breaking changes might not follow SemVer')
       ) {
         return false;

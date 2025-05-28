@@ -20,7 +20,12 @@ describe('FAQSection Component', () => {
   ];
 
   it('renders the section title and FAQs', () => {
-    render(<FAQSection title="Test Section" faqs={mockFaqs} />);
+    render(
+      <FAQSection
+        title="Test Section"
+        faqs={mockFaqs}
+      />,
+    );
 
     // Check for section title
     expect(screen.getByText('Test Section')).toBeInTheDocument();
@@ -35,7 +40,12 @@ describe('FAQSection Component', () => {
   });
 
   it('expands and collapses FAQs when clicked', async () => {
-    const { user } = render(<FAQSection title="Test Section" faqs={mockFaqs} />);
+    const { user } = render(
+      <FAQSection
+        title="Test Section"
+        faqs={mockFaqs}
+      />,
+    );
 
     // Click to expand the first FAQ
     await user.click(screen.getByText('Test Question 1'));
@@ -54,7 +64,12 @@ describe('FAQSection Component', () => {
   });
 
   it('handles multiple FAQ expansions independently', async () => {
-    const { user } = render(<FAQSection title="Test Section" faqs={mockFaqs} />);
+    const { user } = render(
+      <FAQSection
+        title="Test Section"
+        faqs={mockFaqs}
+      />,
+    );
 
     // Expand first FAQ
     await user.click(screen.getByText('Test Question 1'));
@@ -76,7 +91,12 @@ describe('FAQSection Component', () => {
   });
 
   it('returns null if no FAQs are provided', () => {
-    const { queryByText } = render(<FAQSection title="Empty Section" faqs={[]} />);
+    const { queryByText } = render(
+      <FAQSection
+        title="Empty Section"
+        faqs={[]}
+      />,
+    );
     // Check that the title is not rendered, which means the component returned null
     expect(queryByText('Empty Section')).not.toBeInTheDocument();
   });

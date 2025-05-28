@@ -1,20 +1,23 @@
 # SonarQube & SonarScanner Integration
 
-This documentation provides detailed information about the SonarQube and SonarScanner integration in
-the Poly Micro Manager frontend application.
+This documentation provides detailed information about the SonarQube and
+SonarScanner integration in the Poly Micro Manager frontend application.
 
 ## Recent Update
 
-Unfortunately, the SonarQube and SonarScanner integration has been removed from the project. This
-was done because currently it does not support TypeScript v5 integration (since year 2023). No
-further updates will be made to this documentation.
+Unfortunately, the SonarQube and SonarScanner integration has been removed from
+the project. This was done because currently it does not support TypeScript v5
+integration (since year 2023). No further updates will be made to this
+documentation.
 
 ## Overview
 
-[SonarQube](https://www.sonarqube.org/) is an open-source platform for continuous inspection of code
-quality to perform automatic reviews with static analysis of code to detect bugs, code smells, and
-security vulnerabilities. Our setup runs SonarQube and SonarScanner in Docker containers, making it
-easy to analyze code quality without installing additional software on your local machine.
+[SonarQube](https://www.sonarqube.org/) is an open-source platform for
+continuous inspection of code quality to perform automatic reviews with static
+analysis of code to detect bugs, code smells, and security vulnerabilities. Our
+setup runs SonarQube and SonarScanner in Docker containers, making it easy to
+analyze code quality without installing additional software on your local
+machine.
 
 ## Features
 
@@ -28,12 +31,13 @@ easy to analyze code quality without installing additional software on your loca
 
 The setup consists of two main components:
 
-1. **SonarQube Server**: Runs the SonarQube application that stores analysis results and provides a
-   web interface to view them.
-2. **SonarScanner**: Analyzes the codebase and sends the results to the SonarQube server.
+1. **SonarQube Server**: Runs the SonarQube application that stores analysis
+   results and provides a web interface to view them.
+2. **SonarScanner**: Analyzes the codebase and sends the results to the
+   SonarQube server.
 
-Both components run in separate Docker containers, defined in the `docker-compose.sonarqube.yml`
-file.
+Both components run in separate Docker containers, defined in the
+`docker-compose.sonarqube.yml` file.
 
 ## Prerequisites
 
@@ -44,11 +48,14 @@ file.
 
 ## Files Structure
 
-- `docker-compose.sonarqube.yml` - Docker Compose configuration for SonarQube and SonarScanner
+- `docker-compose.sonarqube.yml` - Docker Compose configuration for SonarQube
+  and SonarScanner
 - `Dockerfile.sonarscanner` - Dockerfile for building the SonarScanner image
 - `sonar-project.properties` - SonarQube project configuration
-- `scripts/wait-for-sonarqube.sh` - Script to wait for SonarQube to be ready before running analysis
-- `scripts/run-sonarqube.sh` - Convenience script to run the entire analysis process
+- `scripts/wait-for-sonarqube.sh` - Script to wait for SonarQube to be ready
+  before running analysis
+- `scripts/run-sonarqube.sh` - Convenience script to run the entire analysis
+  process
 
 ## Setup Instructions
 
@@ -85,7 +92,8 @@ You'll be prompted to change the password on first login.
 
 ### Option C: Self-hosted SonarQube (For enterprise environments)
 
-1. Download SonarQube from the [official website](https://www.sonarqube.org/downloads/)
+1. Download SonarQube from the
+   [official website](https://www.sonarqube.org/downloads/)
 2. Install and run SonarQube following the
    [installation guide](https://docs.sonarqube.org/latest/setup/install-server/)
 3. Access SonarQube at `http://localhost:9000` (default)
@@ -151,8 +159,8 @@ This configuration:
 
 ## GitHub Actions Integration
 
-To automatically run SonarQube analysis on every pull request and push to the main branch, add the
-following GitHub Actions workflow file:
+To automatically run SonarQube analysis on every pull request and push to the
+main branch, add the following GitHub Actions workflow file:
 
 ```yaml
 name: SonarQube Analysis
@@ -219,8 +227,8 @@ SonarQube provides several metrics to assess your code quality:
 
 ### 1. Quality Gate
 
-The Quality Gate is a set of conditions that determines whether your code meets the quality
-requirements. It can be:
+The Quality Gate is a set of conditions that determines whether your code meets
+the quality requirements. It can be:
 
 - **Passed**: Your code meets all conditions
 - **Failed**: Your code doesn't meet one or more conditions
@@ -256,8 +264,8 @@ To add custom rules:
 
 ### Excluding Files
 
-To exclude additional files from analysis, modify the `sonar.exclusions` property in
-`sonar-project.properties`:
+To exclude additional files from analysis, modify the `sonar.exclusions`
+property in `sonar-project.properties`:
 
 ```properties
 sonar.exclusions=**/node_modules/**,**/*.test.tsx,**/*.test.ts,**/e2e/**,**/coverage/**,**/dist/**,**/your-excluded-path/**
@@ -275,13 +283,17 @@ Quality Gates determine when a project is considered passing or failing:
 
 ## Best Practices
 
-1. **Run analysis regularly**: Incorporate SonarQube analysis into your daily development workflow
-2. **Fix issues incrementally**: Address issues systematically, focusing on high-severity ones first
+1. **Run analysis regularly**: Incorporate SonarQube analysis into your daily
+   development workflow
+2. **Fix issues incrementally**: Address issues systematically, focusing on
+   high-severity ones first
 3. **Maintain high test coverage**: Aim for at least 80% test coverage
-4. **Use Quality Gates**: Set up quality gates to prevent merging code with serious issues
-5. **Review SonarQube reports before merging**: Make SonarQube analysis part of your code review
-   process
-6. **Set up custom rules**: Configure SonarQube to match your project's specific requirements
+4. **Use Quality Gates**: Set up quality gates to prevent merging code with
+   serious issues
+5. **Review SonarQube reports before merging**: Make SonarQube analysis part of
+   your code review process
+6. **Set up custom rules**: Configure SonarQube to match your project's specific
+   requirements
 
 ## Troubleshooting
 
@@ -308,9 +320,11 @@ docker-compose -f docker-compose.sonarqube.yml logs sonarscanner
 
 Common issues:
 
-- SonarQube not ready: The wait script should handle this, but you might need to increase wait time
+- SonarQube not ready: The wait script should handle this, but you might need to
+  increase wait time
 - Missing coverage reports: Ensure tests are run before analysis
-- Permission issues: Check that Docker has permission to access your project files
+- Permission issues: Check that Docker has permission to access your project
+  files
 
 ### Other Common Issues
 
@@ -336,8 +350,8 @@ To stop SonarQube and clean up resources:
 docker-compose -f docker-compose.sonarqube.yml down -v
 ```
 
-The `-v` flag removes volumes, which will delete all analysis data. Omit this flag if you want to
-preserve data between runs.
+The `-v` flag removes volumes, which will delete all analysis data. Omit this
+flag if you want to preserve data between runs.
 
 ## Continuous Integration
 
@@ -371,8 +385,9 @@ sonarqube:
 
 ## SonarQube Analysis Results
 
-This section showcases the results of our SonarQube code quality analysis, highlighting the
-project's adherence to best practices and code quality standards.
+This section showcases the results of our SonarQube code quality analysis,
+highlighting the project's adherence to best practices and code quality
+standards.
 
 ### Overall Code Quality
 
@@ -380,9 +395,9 @@ project's adherence to best practices and code quality standards.
 
 ## Conclusion
 
-This SonarQube and SonarScanner setup provides a comprehensive code quality analysis solution for
-the Poly Micro Frontend project. Regular analysis will help maintain high code quality as the
-project evolves.
+This SonarQube and SonarScanner setup provides a comprehensive code quality
+analysis solution for the Poly Micro Frontend project. Regular analysis will
+help maintain high code quality as the project evolves.
 
 ## References
 

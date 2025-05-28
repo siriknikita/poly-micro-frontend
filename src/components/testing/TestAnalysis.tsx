@@ -9,7 +9,11 @@ interface TestAnalysisProps {
   onAnalysisComplete?: (analysis: any) => void;
 }
 
-export const TestAnalysis: React.FC<TestAnalysisProps> = ({ testId, testRunId, onAnalysisComplete }) => {
+export const TestAnalysis: React.FC<TestAnalysisProps> = ({
+  testId,
+  testRunId,
+  onAnalysisComplete,
+}) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [analysis, setAnalysis] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -42,7 +46,7 @@ export const TestAnalysis: React.FC<TestAnalysisProps> = ({ testId, testRunId, o
       // Request new analysis
       const response = await testsApi.analyzeTestRun({
         test_run_id: testRunId,
-        include_logs: true
+        include_logs: true,
       });
 
       setAnalysis(response.data);
@@ -51,7 +55,9 @@ export const TestAnalysis: React.FC<TestAnalysisProps> = ({ testId, testRunId, o
       }
     } catch (err) {
       console.error('Error analyzing test results:', err);
-      setError(err instanceof Error ? err.message : 'Failed to analyze test results');
+      setError(
+        err instanceof Error ? err.message : 'Failed to analyze test results',
+      );
     } finally {
       setIsLoading(false);
     }
@@ -89,7 +95,7 @@ export const TestAnalysis: React.FC<TestAnalysisProps> = ({ testId, testRunId, o
               {isLoading ? 'Analyzing...' : 'Analyze Test'}
             </button>
           )}
-          
+
           {analysis && (
             <button
               onClick={toggleExpand}
@@ -104,7 +110,9 @@ export const TestAnalysis: React.FC<TestAnalysisProps> = ({ testId, testRunId, o
       {isLoading && (
         <div className="mt-4 flex items-center justify-center py-6">
           <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-500"></div>
-          <span className="ml-3 text-gray-600 dark:text-gray-400">Analyzing test results...</span>
+          <span className="ml-3 text-gray-600 dark:text-gray-400">
+            Analyzing test results...
+          </span>
         </div>
       )}
 
@@ -116,39 +124,52 @@ export const TestAnalysis: React.FC<TestAnalysisProps> = ({ testId, testRunId, o
       )}
 
       {analysis && (
-        <div className={`mt-4 transition-all duration-300 ${isExpanded ? 'max-h-[2000px]' : 'max-h-20 overflow-hidden'}`}>
+        <div
+          className={`mt-4 transition-all duration-300 ${isExpanded ? 'max-h-[2000px]' : 'max-h-20 overflow-hidden'}`}
+        >
           {analysis.summary && (
             <div className="mb-3 font-medium text-gray-800 dark:text-gray-200">
               {analysis.summary}
             </div>
           )}
-          
+
           {isExpanded && (
             <>
-              {analysis.issues_detected && analysis.issues_detected.length > 0 && (
-                <div className="mt-4">
-                  <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Issues Detected</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-gray-600 dark:text-gray-400">
-                    {analysis.issues_detected.map((issue: any, index: number) => (
-                      <li key={index}>{issue}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              
+              {analysis.issues_detected &&
+                analysis.issues_detected.length > 0 && (
+                  <div className="mt-4">
+                    <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                      Issues Detected
+                    </h4>
+                    <ul className="list-disc pl-5 space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                      {analysis.issues_detected.map(
+                        (issue: any, index: number) => (
+                          <li key={index}>{issue}</li>
+                        ),
+                      )}
+                    </ul>
+                  </div>
+                )}
+
               {analysis.suggestions && analysis.suggestions.length > 0 && (
                 <div className="mt-4">
-                  <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Suggestions</h4>
+                  <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                    Suggestions
+                  </h4>
                   <ul className="list-disc pl-5 space-y-1 text-sm text-gray-600 dark:text-gray-400">
-                    {analysis.suggestions.map((suggestion: string, index: number) => (
-                      <li key={index}>{suggestion}</li>
-                    ))}
+                    {analysis.suggestions.map(
+                      (suggestion: string, index: number) => (
+                        <li key={index}>{suggestion}</li>
+                      ),
+                    )}
                   </ul>
                 </div>
               )}
-              
+
               <div className="mt-4">
-                <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Detailed Analysis</h4>
+                <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                  Detailed Analysis
+                </h4>
                 <div className="text-sm text-gray-600 dark:text-gray-400 whitespace-pre-line">
                   {analysis.analysis}
                 </div>

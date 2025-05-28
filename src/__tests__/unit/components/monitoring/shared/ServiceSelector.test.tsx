@@ -26,9 +26,13 @@ describe('ServiceSelector', () => {
     );
 
     // Get the button that shows the dropdown label
-    const dropdownButton = screen.getByRole('button', { name: /select a service/i });
+    const dropdownButton = screen.getByRole('button', {
+      name: /select a service/i,
+    });
     expect(dropdownButton).toBeInTheDocument();
-    expect(within(dropdownButton).getByText('Select a service')).toBeInTheDocument();
+    expect(
+      within(dropdownButton).getByText('Select a service'),
+    ).toBeInTheDocument();
   });
 
   it('should render with custom label', () => {
@@ -43,7 +47,9 @@ describe('ServiceSelector', () => {
     );
 
     // Get the button that shows the dropdown label
-    const dropdownButton = screen.getByRole('button', { name: new RegExp(customLabel, 'i') });
+    const dropdownButton = screen.getByRole('button', {
+      name: new RegExp(customLabel, 'i'),
+    });
     expect(dropdownButton).toBeInTheDocument();
     expect(within(dropdownButton).getByText(customLabel)).toBeInTheDocument();
   });
@@ -162,7 +168,9 @@ describe('ServiceSelector', () => {
 
     // Should just render the default option in the button
     const dropdownButton = screen.getByRole('button');
-    expect(within(dropdownButton).getByText('Select a service')).toBeInTheDocument();
+    expect(
+      within(dropdownButton).getByText('Select a service'),
+    ).toBeInTheDocument();
 
     // Open the dropdown
     await userEvent.click(dropdownButton);
@@ -170,6 +178,8 @@ describe('ServiceSelector', () => {
     // Should only have the placeholder option
     const menuItems = screen.getAllByRole('menuitem');
     expect(menuItems.length).toBe(1);
-    expect(within(menuItems[0]).getByText('Select a service')).toBeInTheDocument();
+    expect(
+      within(menuItems[0]).getByText('Select a service'),
+    ).toBeInTheDocument();
   });
 });

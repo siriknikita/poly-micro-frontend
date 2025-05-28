@@ -15,7 +15,10 @@ export const useDropdown = ({ onOpen, onClose }: UseDropdownProps = {}) => {
   // Handle click outside to close dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
         onClose?.();
       }

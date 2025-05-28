@@ -11,7 +11,8 @@ interface LogAnalysisResult {
 export const useLogAnalysis = (projectId: string) => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [analysisResult, setAnalysisResult] = useState<LogAnalysisResult | null>(null);
+  const [analysisResult, setAnalysisResult] =
+    useState<LogAnalysisResult | null>(null);
   const [analysisError, setAnalysisError] = useState<string | null>(null);
 
   const analyzeProjectLogs = async () => {
@@ -44,7 +45,9 @@ export const useLogAnalysis = (projectId: string) => {
       setAnalysisResult(data);
     } catch (error) {
       console.error('Error analyzing logs:', error);
-      setAnalysisError(error instanceof Error ? error.message : 'An unknown error occurred');
+      setAnalysisError(
+        error instanceof Error ? error.message : 'An unknown error occurred',
+      );
     } finally {
       setIsAnalyzing(false);
     }

@@ -6,7 +6,15 @@ import { User } from 'lucide-react';
 describe('AuthLayout', () => {
   it('renders the layout with title and icon', () => {
     render(
-      <AuthLayout title="Test Title" icon={<User className="h-12 w-12" data-testid="test-icon" />}>
+      <AuthLayout
+        title="Test Title"
+        icon={
+          <User
+            className="h-12 w-12"
+            data-testid="test-icon"
+          />
+        }
+      >
         <div data-testid="test-content">Test Content</div>
       </AuthLayout>,
     );
@@ -24,7 +32,10 @@ describe('AuthLayout', () => {
 
   it('renders with a null icon', () => {
     render(
-      <AuthLayout title="Test Title" icon={null}>
+      <AuthLayout
+        title="Test Title"
+        icon={null}
+      >
         <div data-testid="test-content">Test Content</div>
       </AuthLayout>,
     );

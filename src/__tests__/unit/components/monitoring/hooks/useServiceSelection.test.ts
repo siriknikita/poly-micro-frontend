@@ -48,7 +48,10 @@ describe('useServiceSelection', () => {
   });
 
   it('should select the service from localStorage if initialServiceName is not provided', () => {
-    localStorageMock.setItem(`lastSelected_monitoring_${projectId}`, 'service3');
+    localStorageMock.setItem(
+      `lastSelected_monitoring_${projectId}`,
+      'service3',
+    );
 
     const { result } = renderHook(() =>
       useServiceSelection({

@@ -17,8 +17,10 @@ describe('useResizablePanel', () => {
     addEventListenerSpy = vi.fn();
     removeEventListenerSpy = vi.fn();
 
-    document.addEventListener = addEventListenerSpy as typeof document.addEventListener;
-    document.removeEventListener = removeEventListenerSpy as typeof document.removeEventListener;
+    document.addEventListener =
+      addEventListenerSpy as typeof document.addEventListener;
+    document.removeEventListener =
+      removeEventListenerSpy as typeof document.removeEventListener;
 
     // Mock document.body.classList methods
     document.body.classList.add = vi.fn();
@@ -77,11 +79,19 @@ describe('useResizablePanel', () => {
     });
 
     // Should add mousemove and mouseup event listeners
-    expect(addEventListenerSpy).toHaveBeenCalledWith('mousemove', expect.any(Function));
-    expect(addEventListenerSpy).toHaveBeenCalledWith('mouseup', expect.any(Function));
+    expect(addEventListenerSpy).toHaveBeenCalledWith(
+      'mousemove',
+      expect.any(Function),
+    );
+    expect(addEventListenerSpy).toHaveBeenCalledWith(
+      'mouseup',
+      expect.any(Function),
+    );
 
     // Should add no-select class to body
-    expect(document.body.classList.add).toHaveBeenCalledWith('resize-no-select');
+    expect(document.body.classList.add).toHaveBeenCalledWith(
+      'resize-no-select',
+    );
   });
 
   it('cleans up event listeners when unmounted', () => {
@@ -97,8 +107,16 @@ describe('useResizablePanel', () => {
     unmount();
 
     // Should remove event listeners and classes
-    expect(removeEventListenerSpy).toHaveBeenCalledWith('mousemove', expect.any(Function));
-    expect(removeEventListenerSpy).toHaveBeenCalledWith('mouseup', expect.any(Function));
-    expect(document.body.classList.remove).toHaveBeenCalledWith('resize-no-select');
+    expect(removeEventListenerSpy).toHaveBeenCalledWith(
+      'mousemove',
+      expect.any(Function),
+    );
+    expect(removeEventListenerSpy).toHaveBeenCalledWith(
+      'mouseup',
+      expect.any(Function),
+    );
+    expect(document.body.classList.remove).toHaveBeenCalledWith(
+      'resize-no-select',
+    );
   });
 });

@@ -30,7 +30,9 @@ export const useServiceSelection = ({
     }
 
     // Try to get from localStorage
-    const savedService = localStorage.getItem(`lastSelected_${storageKey}_${projectId}`);
+    const savedService = localStorage.getItem(
+      `lastSelected_${storageKey}_${projectId}`,
+    );
     if (savedService) {
       const service = services.find((s) => s.name === savedService);
       if (service) {
@@ -48,7 +50,10 @@ export const useServiceSelection = ({
   // Save selected service to localStorage when it changes
   useEffect(() => {
     if (selectedService && projectId) {
-      localStorage.setItem(`lastSelected_${storageKey}_${projectId}`, selectedService);
+      localStorage.setItem(
+        `lastSelected_${storageKey}_${projectId}`,
+        selectedService,
+      );
     }
   }, [selectedService, projectId, storageKey]);
 

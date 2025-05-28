@@ -1,12 +1,12 @@
 # User Behavior Diagrams
 
-This document contains UML diagrams illustrating the expected user behavior and flow through the
-Poly Micro Manager application.
+This document contains UML diagrams illustrating the expected user behavior and
+flow through the Poly Micro Manager application.
 
 ## Monitoring Dashboard Flow
 
-The monitoring dashboard is a crucial component allowing users to observe and manage microservices
-in real-time.
+The monitoring dashboard is a crucial component allowing users to observe and
+manage microservices in real-time.
 
 ### Metric Exploration Flow
 
@@ -139,4 +139,5 @@ flowchart TD
     K --> L[End]
 ```
 
-More diagrams will be added to document additional user flows as the application evolves.
+More diagrams will be added to document additional user flows as the application
+evolves.

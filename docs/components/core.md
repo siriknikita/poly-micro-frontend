@@ -2,10 +2,10 @@
 
 ## Overview
 
-The Core and Layout Components are the main structural elements of the Poly Micro Manager
-application. They provide the application's layout, navigation functionality, and core application
-logic. These components serve as the foundation upon which the feature-specific components are
-built.
+The Core and Layout Components are the main structural elements of the Poly
+Micro Manager application. They provide the application's layout, navigation
+functionality, and core application logic. These components serve as the
+foundation upon which the feature-specific components are built.
 
 ## Project Structure
 
@@ -38,8 +38,9 @@ src/
 
 ### Dashboard.tsx
 
-The main dashboard component that serves as the landing page after authentication. It provides an
-overview of the microservices ecosystem and quick access to key features.
+The main dashboard component that serves as the landing page after
+authentication. It provides an overview of the microservices ecosystem and quick
+access to key features.
 
 **Key Features:**
 
@@ -50,7 +51,8 @@ overview of the microservices ecosystem and quick access to key features.
 
 ### Sidebar.tsx
 
-The main navigation component that provides access to all features of the application.
+The main navigation component that provides access to all features of the
+application.
 
 **Key Features:**
 
@@ -74,7 +76,8 @@ The top navigation bar that provides global actions and information.
 
 ### ProjectSelector.tsx
 
-Component for selecting and switching between different projects/microservice ecosystems.
+Component for selecting and switching between different projects/microservice
+ecosystems.
 
 **Key Features:**
 
@@ -105,7 +108,8 @@ A toggle component for switching between light and dark themes.
 
 ## Integration with Feature Components
 
-- **Auth**: Authentication state determines what's visible in the core components
+- **Auth**: Authentication state determines what's visible in the core
+  components
 - **Testing**: Testing features are accessed through the Sidebar
 - **Monitoring**: Monitoring data is summarized in the Dashboard
 - **Pipelining**: Pipeline status is displayed in the Dashboard

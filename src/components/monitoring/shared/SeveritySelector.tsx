@@ -1,5 +1,9 @@
 import React from 'react';
-import { Dropdown, DropdownOption, DropdownSectionProps } from '@/components/shared/Dropdown';
+import {
+  Dropdown,
+  DropdownOption,
+  DropdownSectionProps,
+} from '@/components/shared/Dropdown';
 import { SEVERITY_LEVELS, TEXT_COLORS_BY_SEVERITY } from '@/helpers/constants';
 
 interface SeveritySelectorProps {
@@ -19,12 +23,17 @@ export const SeveritySelector: React.FC<SeveritySelectorProps> = ({
   const severityOptions: DropdownOption[] = SEVERITY_LEVELS.map((severity) => ({
     id: severity,
     label: severity,
-    colorClass: TEXT_COLORS_BY_SEVERITY[severity as keyof typeof TEXT_COLORS_BY_SEVERITY],
+    colorClass:
+      TEXT_COLORS_BY_SEVERITY[severity as keyof typeof TEXT_COLORS_BY_SEVERITY],
   }));
 
   // Add 'All' option
   const allOption: DropdownOption[] = [
-    { id: 'All', label: 'All Severities', colorClass: TEXT_COLORS_BY_SEVERITY.All },
+    {
+      id: 'All',
+      label: 'All Severities',
+      colorClass: TEXT_COLORS_BY_SEVERITY.All,
+    },
   ];
 
   // Create sections for the dropdown

@@ -10,7 +10,12 @@ describe('AskQuestionForm Component', () => {
   });
 
   it('renders the form with all fields', () => {
-    render(<AskQuestionForm onSubmit={mockSubmit} isSubmitting={false} />);
+    render(
+      <AskQuestionForm
+        onSubmit={mockSubmit}
+        isSubmitting={false}
+      />,
+    );
 
     // Check for form fields
     expect(screen.getByLabelText('Name')).toBeInTheDocument();
@@ -21,7 +26,12 @@ describe('AskQuestionForm Component', () => {
   });
 
   it('validates form fields and shows error messages', async () => {
-    const { user } = render(<AskQuestionForm onSubmit={mockSubmit} isSubmitting={false} />);
+    const { user } = render(
+      <AskQuestionForm
+        onSubmit={mockSubmit}
+        isSubmitting={false}
+      />,
+    );
 
     // Try to submit without filling in any fields
     await user.click(screen.getByText('Submit Question'));
@@ -38,7 +48,12 @@ describe('AskQuestionForm Component', () => {
 
   it('validates email format', async () => {
     // Mock the validateForm function to directly test email validation
-    const { user } = render(<AskQuestionForm onSubmit={mockSubmit} isSubmitting={false} />);
+    const { user } = render(
+      <AskQuestionForm
+        onSubmit={mockSubmit}
+        isSubmitting={false}
+      />,
+    );
 
     // Fill in all required fields with valid data
     await user.type(screen.getByLabelText('Name'), 'Test User');
@@ -76,7 +91,12 @@ describe('AskQuestionForm Component', () => {
   });
 
   it('validates question length', async () => {
-    const { user } = render(<AskQuestionForm onSubmit={mockSubmit} isSubmitting={false} />);
+    const { user } = render(
+      <AskQuestionForm
+        onSubmit={mockSubmit}
+        isSubmitting={false}
+      />,
+    );
 
     // Fill in required fields except question
     await user.type(screen.getByLabelText('Name'), 'Test User');
@@ -90,14 +110,21 @@ describe('AskQuestionForm Component', () => {
     await user.click(screen.getByText('Submit Question'));
 
     // Question length error message should be displayed
-    expect(screen.getByText('Question must be at least 10 characters long')).toBeInTheDocument();
+    expect(
+      screen.getByText('Question must be at least 10 characters long'),
+    ).toBeInTheDocument();
 
     // Form should not be submitted
     expect(mockSubmit).not.toHaveBeenCalled();
   });
 
   it('submits the form when all fields are valid', async () => {
-    const { user } = render(<AskQuestionForm onSubmit={mockSubmit} isSubmitting={false} />);
+    const { user } = render(
+      <AskQuestionForm
+        onSubmit={mockSubmit}
+        isSubmitting={false}
+      />,
+    );
 
     // Fill in all required fields
     await user.type(screen.getByLabelText('Name'), 'Test User');
@@ -117,19 +144,30 @@ describe('AskQuestionForm Component', () => {
       name: 'Test User',
       email: 'test@example.com',
       category: 'general',
-      question: 'This is a test question that is long enough to pass validation.',
+      question:
+        'This is a test question that is long enough to pass validation.',
     });
   });
 
   it('disables the submit button when isSubmitting is true', () => {
-    render(<AskQuestionForm onSubmit={mockSubmit} isSubmitting={true} />);
+    render(
+      <AskQuestionForm
+        onSubmit={mockSubmit}
+        isSubmitting={true}
+      />,
+    );
 
     // Submit button should be disabled
     expect(screen.getByTestId('submit-question-button')).toBeDisabled();
   });
 
   it('shows success message after form submission', async () => {
-    const { user } = render(<AskQuestionForm onSubmit={mockSubmit} isSubmitting={false} />);
+    const { user } = render(
+      <AskQuestionForm
+        onSubmit={mockSubmit}
+        isSubmitting={false}
+      />,
+    );
 
     // Fill in all required fields
     await user.type(screen.getByLabelText('Name'), 'Test User');
@@ -158,7 +196,12 @@ describe('AskQuestionForm Component', () => {
   });
 
   it('allows asking another question after submission', async () => {
-    const { user } = render(<AskQuestionForm onSubmit={mockSubmit} isSubmitting={false} />);
+    const { user } = render(
+      <AskQuestionForm
+        onSubmit={mockSubmit}
+        isSubmitting={false}
+      />,
+    );
 
     // Fill in all required fields
     await user.type(screen.getByLabelText('Name'), 'Test User');

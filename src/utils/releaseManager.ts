@@ -53,7 +53,9 @@ export const getLatestRelease = async (): Promise<Release | null> => {
  * @param userId User ID to check
  * @returns True if the user has acknowledged the latest release
  */
-export const hasUserAcknowledgedLatestRelease = async (userId: IndexableType): Promise<boolean> => {
+export const hasUserAcknowledgedLatestRelease = async (
+  userId: IndexableType,
+): Promise<boolean> => {
   const latestRelease = await getLatestRelease();
   if (!latestRelease || !latestRelease.id) return true; // No release to acknowledge
 

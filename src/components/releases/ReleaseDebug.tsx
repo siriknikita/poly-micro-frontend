@@ -74,11 +74,16 @@ const ReleaseDebug: React.FC = () => {
           <div className="mb-4">
             <h4 className="font-semibold mb-1">Releases ({releases.length})</h4>
             {releases.length === 0 ? (
-              <p className="text-red-500 text-sm">No releases found in database!</p>
+              <p className="text-red-500 text-sm">
+                No releases found in database!
+              </p>
             ) : (
               <ul className="text-sm space-y-2">
                 {releases.map((release, index) => (
-                  <li key={index} className="border-b pb-2">
+                  <li
+                    key={index}
+                    className="border-b pb-2"
+                  >
                     <div>
                       <strong>Version:</strong> {release.version}
                     </div>
@@ -86,13 +91,16 @@ const ReleaseDebug: React.FC = () => {
                       <strong>Title:</strong> {release.title}
                     </div>
                     <div>
-                      <strong>isLatest:</strong> {release.isLatest === 1 ? 'Yes' : 'No'}
+                      <strong>isLatest:</strong>{' '}
+                      {release.isLatest === 1 ? 'Yes' : 'No'}
                     </div>
                     <div>
-                      <strong>ID:</strong> {release.id ? String(release.id) : 'undefined'}
+                      <strong>ID:</strong>{' '}
+                      {release.id ? String(release.id) : 'undefined'}
                     </div>
                     <div>
-                      <strong>Date:</strong> {release.releaseDate.toLocaleString()}
+                      <strong>Date:</strong>{' '}
+                      {release.releaseDate.toLocaleString()}
                     </div>
                     <div>
                       <strong>Changes:</strong> {release.changes.length}
@@ -104,14 +112,17 @@ const ReleaseDebug: React.FC = () => {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-1">Acknowledgments ({acknowledgments.length})</h4>
+            <h4 className="font-semibold mb-1">
+              Acknowledgments ({acknowledgments.length})
+            </h4>
             {acknowledgments.length === 0 ? (
               <p className="text-gray-500 text-sm">No acknowledgments found.</p>
             ) : (
               <ul className="text-sm">
                 {acknowledgments.map((ack, index) => (
                   <li key={index}>
-                    User {String(ack.userId)} acknowledged release {String(ack.releaseId)} at{' '}
+                    User {String(ack.userId)} acknowledged release{' '}
+                    {String(ack.releaseId)} at{' '}
                     {ack.acknowledgedAt.toLocaleString()}
                   </li>
                 ))}

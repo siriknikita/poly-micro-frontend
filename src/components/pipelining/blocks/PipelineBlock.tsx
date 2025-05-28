@@ -72,7 +72,8 @@ export const PipelineBlock = memo<PipelineBlockProps>(
       setPosition(block.position);
     }, [block.position]);
 
-    const IconComponent = AVAILABLE_BLOCKS_MAP[block.name as keyof typeof AVAILABLE_BLOCKS_MAP];
+    const IconComponent =
+      AVAILABLE_BLOCKS_MAP[block.name as keyof typeof AVAILABLE_BLOCKS_MAP];
 
     return (
       <div
@@ -97,11 +98,16 @@ export const PipelineBlock = memo<PipelineBlockProps>(
             <IconComponent className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
           )}
           <div className="flex-1">
-            <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100">{block.name}</h4>
+            <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100">
+              {block.name}
+            </h4>
             {Object.entries(block.config).length > 0 && (
               <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
                 {Object.entries(block.config).map(([key, value]) => (
-                  <div key={key} className="truncate">
+                  <div
+                    key={key}
+                    className="truncate"
+                  >
                     <span className="font-medium">{key}:</span> {String(value)}
                   </div>
                 ))}

@@ -18,7 +18,10 @@ jest.mock('@/components/monitoring/shared/ServiceFilterDialog', () => ({
       operator: string;
       conditions: Array<{ field: string; value: string }>;
     }) => void;
-    initialFilterGroup?: { operator: string; conditions: Array<{ field: string; value: string }> };
+    initialFilterGroup?: {
+      operator: string;
+      conditions: Array<{ field: string; value: string }>;
+    };
   }) => {
     if (!isOpen) return null;
 
@@ -66,8 +69,13 @@ jest.mock('@/components/monitoring/shared/ServiceFilterDialog', () => ({
           </div>
 
           {/* Hidden element to help with testing */}
-          <div data-testid="dialog-initial-filter" style={{ display: 'none' }}>
-            {initialFilterGroup ? JSON.stringify(initialFilterGroup) : 'no-initial-filter'}
+          <div
+            data-testid="dialog-initial-filter"
+            style={{ display: 'none' }}
+          >
+            {initialFilterGroup
+              ? JSON.stringify(initialFilterGroup)
+              : 'no-initial-filter'}
           </div>
 
           <div className="mb-4">
@@ -77,7 +85,9 @@ jest.mock('@/components/monitoring/shared/ServiceFilterDialog', () => ({
             <select className="w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400">
               <option value="AND">AND (All conditions must match)</option>
               <option value="OR">OR (Any condition can match)</option>
-              <option value="NOT">NOT (None of the conditions should match)</option>
+              <option value="NOT">
+                NOT (None of the conditions should match)
+              </option>
             </select>
           </div>
 
@@ -155,10 +165,18 @@ describe('ServiceFilters', () => {
   });
 
   it('should render add filter button when no filters exist', () => {
-    render(<ServiceFilters services={mockServices} filterGroups={[]} {...mockHandlers} />);
+    render(
+      <ServiceFilters
+        services={mockServices}
+        filterGroups={[]}
+        {...mockHandlers}
+      />,
+    );
 
     // Check for the filter icon SVG
-    const filterIcon = screen.getByRole('button', { name: /add filter/i }).querySelector('svg');
+    const filterIcon = screen
+      .getByRole('button', { name: /add filter/i })
+      .querySelector('svg');
     expect(filterIcon).toBeInTheDocument();
     expect(screen.getByText('Add Filter')).toBeInTheDocument();
     expect(screen.queryByTestId('active-filters')).not.toBeInTheDocument();
@@ -166,7 +184,11 @@ describe('ServiceFilters', () => {
 
   it('should render active filters when filters exist', () => {
     render(
-      <ServiceFilters services={mockServices} filterGroups={mockFilterGroups} {...mockHandlers} />,
+      <ServiceFilters
+        services={mockServices}
+        filterGroups={mockFilterGroups}
+        {...mockHandlers}
+      />,
     );
 
     expect(screen.getByTestId('active-filters')).toBeInTheDocument();
@@ -179,7 +201,11 @@ describe('ServiceFilters', () => {
 
   it('should show clear all button when filters exist', () => {
     render(
-      <ServiceFilters services={mockServices} filterGroups={mockFilterGroups} {...mockHandlers} />,
+      <ServiceFilters
+        services={mockServices}
+        filterGroups={mockFilterGroups}
+        {...mockHandlers}
+      />,
     );
 
     expect(screen.getByText('Clear all')).toBeInTheDocument();
@@ -190,7 +216,13 @@ describe('ServiceFilters', () => {
   });
 
   it('should open filter dialog when add filter button is clicked', () => {
-    render(<ServiceFilters services={mockServices} filterGroups={[]} {...mockHandlers} />);
+    render(
+      <ServiceFilters
+        services={mockServices}
+        filterGroups={[]}
+        {...mockHandlers}
+      />,
+    );
 
     // Initially dialog should not be visible
     expect(screen.queryByTestId('filter-dialog')).not.toBeInTheDocument();
@@ -212,7 +244,13 @@ describe('ServiceFilters', () => {
   });
 
   it('should close dialog when close button is clicked', () => {
-    render(<ServiceFilters services={mockServices} filterGroups={[]} {...mockHandlers} />);
+    render(
+      <ServiceFilters
+        services={mockServices}
+        filterGroups={[]}
+        {...mockHandlers}
+      />,
+    );
 
     // Open dialog
     fireEvent.click(screen.getByText('Add Filter'));
@@ -225,7 +263,11 @@ describe('ServiceFilters', () => {
 
   it('should remove a filter when remove button is clicked', () => {
     render(
-      <ServiceFilters services={mockServices} filterGroups={mockFilterGroups} {...mockHandlers} />,
+      <ServiceFilters
+        services={mockServices}
+        filterGroups={mockFilterGroups}
+        {...mockHandlers}
+      />,
     );
 
     // Get all remove buttons (X icons)
@@ -243,7 +285,11 @@ describe('ServiceFilters', () => {
 
   it('should open edit dialog with correct filter when edit button is clicked', () => {
     render(
-      <ServiceFilters services={mockServices} filterGroups={mockFilterGroups} {...mockHandlers} />,
+      <ServiceFilters
+        services={mockServices}
+        filterGroups={mockFilterGroups}
+        {...mockHandlers}
+      />,
     );
 
     // Get all edit buttons

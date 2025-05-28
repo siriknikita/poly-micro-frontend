@@ -17,7 +17,9 @@ describe('useMicroserviceNavigation', () => {
   });
 
   it('selects the first microservice by default', () => {
-    const projectMicroservices = mockMicroservices.filter((ms) => ms.projectId === 'project1');
+    const projectMicroservices = mockMicroservices.filter(
+      (ms) => ms.projectId === 'project1',
+    );
 
     const { result } = renderHook(() =>
       useMicroserviceNavigation({
@@ -25,11 +27,15 @@ describe('useMicroserviceNavigation', () => {
       }),
     );
 
-    expect(result.current.selectedMicroservice).toEqual(projectMicroservices[0]);
+    expect(result.current.selectedMicroservice).toEqual(
+      projectMicroservices[0],
+    );
   });
 
   it('uses initialMicroservice when provided', () => {
-    const projectMicroservices = mockMicroservices.filter((ms) => ms.projectId === 'project1');
+    const projectMicroservices = mockMicroservices.filter(
+      (ms) => ms.projectId === 'project1',
+    );
     const initialMicroservice = projectMicroservices[1]; // User Service
 
     const { result } = renderHook(() =>
@@ -43,7 +49,9 @@ describe('useMicroserviceNavigation', () => {
   });
 
   it('changes the selected microservice', () => {
-    const projectMicroservices = mockMicroservices.filter((ms) => ms.projectId === 'project1');
+    const projectMicroservices = mockMicroservices.filter(
+      (ms) => ms.projectId === 'project1',
+    );
 
     const { result } = renderHook(() =>
       useMicroserviceNavigation({
@@ -56,29 +64,44 @@ describe('useMicroserviceNavigation', () => {
       result.current.setSelectedMicroservice(projectMicroservices[1]);
     });
 
-    expect(result.current.selectedMicroservice).toEqual(projectMicroservices[1]);
+    expect(result.current.selectedMicroservice).toEqual(
+      projectMicroservices[1],
+    );
   });
 
   it('resets selected microservice when microservices array changes', () => {
-    const project1Microservices = mockMicroservices.filter((ms) => ms.projectId === 'project1');
+    const project1Microservices = mockMicroservices.filter(
+      (ms) => ms.projectId === 'project1',
+    );
 
-    const { result, rerender } = renderHook((props) => useMicroserviceNavigation(props), {
-      initialProps: { microservices: project1Microservices },
-    });
+    const { result, rerender } = renderHook(
+      (props) => useMicroserviceNavigation(props),
+      {
+        initialProps: { microservices: project1Microservices },
+      },
+    );
 
     // Initially selects first microservice from project1
-    expect(result.current.selectedMicroservice).toEqual(project1Microservices[0]);
+    expect(result.current.selectedMicroservice).toEqual(
+      project1Microservices[0],
+    );
 
     // Change to project2 microservices
-    const project2Microservices = mockMicroservices.filter((ms) => ms.projectId === 'project2');
+    const project2Microservices = mockMicroservices.filter(
+      (ms) => ms.projectId === 'project2',
+    );
     rerender({ microservices: project2Microservices });
 
     // Should reset to first microservice in project2
-    expect(result.current.selectedMicroservice).toEqual(project2Microservices[0]);
+    expect(result.current.selectedMicroservice).toEqual(
+      project2Microservices[0],
+    );
   });
 
   it('handles filtering microservices by search query', () => {
-    const projectMicroservices = mockMicroservices.filter((ms) => ms.projectId === 'project1');
+    const projectMicroservices = mockMicroservices.filter(
+      (ms) => ms.projectId === 'project1',
+    );
 
     const { result } = renderHook(() =>
       useMicroserviceNavigation({
@@ -97,7 +120,9 @@ describe('useMicroserviceNavigation', () => {
   });
 
   it('navigates to previous microservice', () => {
-    const projectMicroservices = mockMicroservices.filter((ms) => ms.projectId === 'project1');
+    const projectMicroservices = mockMicroservices.filter(
+      (ms) => ms.projectId === 'project1',
+    );
 
     const { result } = renderHook(() =>
       useMicroserviceNavigation({
@@ -106,7 +131,9 @@ describe('useMicroserviceNavigation', () => {
     );
 
     // Initially selects first microservice (Authentication Service)
-    expect(result.current.selectedMicroservice?.name).toBe('Authentication Service');
+    expect(result.current.selectedMicroservice?.name).toBe(
+      'Authentication Service',
+    );
 
     // Navigate up (should wrap around to the last item)
     act(() => {
@@ -118,7 +145,9 @@ describe('useMicroserviceNavigation', () => {
   });
 
   it('navigates to next microservice', () => {
-    const projectMicroservices = mockMicroservices.filter((ms) => ms.projectId === 'project1');
+    const projectMicroservices = mockMicroservices.filter(
+      (ms) => ms.projectId === 'project1',
+    );
 
     const { result } = renderHook(() =>
       useMicroserviceNavigation({
@@ -127,7 +156,9 @@ describe('useMicroserviceNavigation', () => {
     );
 
     // Initially selects first microservice (Authentication Service)
-    expect(result.current.selectedMicroservice?.name).toBe('Authentication Service');
+    expect(result.current.selectedMicroservice?.name).toBe(
+      'Authentication Service',
+    );
 
     // Navigate down
     act(() => {
@@ -139,7 +170,9 @@ describe('useMicroserviceNavigation', () => {
   });
 
   it('gets previous microservice name', () => {
-    const projectMicroservices = mockMicroservices.filter((ms) => ms.projectId === 'project1');
+    const projectMicroservices = mockMicroservices.filter(
+      (ms) => ms.projectId === 'project1',
+    );
 
     const { result } = renderHook(() =>
       useMicroserviceNavigation({
@@ -153,11 +186,15 @@ describe('useMicroserviceNavigation', () => {
     });
 
     // Previous should be Authentication Service
-    expect(result.current.getPreviousMicroserviceName()).toBe('Authentication Service');
+    expect(result.current.getPreviousMicroserviceName()).toBe(
+      'Authentication Service',
+    );
   });
 
   it('gets next microservice name', () => {
-    const projectMicroservices = mockMicroservices.filter((ms) => ms.projectId === 'project1');
+    const projectMicroservices = mockMicroservices.filter(
+      (ms) => ms.projectId === 'project1',
+    );
 
     const { result } = renderHook(() =>
       useMicroserviceNavigation({
@@ -175,11 +212,16 @@ describe('useMicroserviceNavigation', () => {
   });
 
   it('clears search query when microservices change', () => {
-    const project1Microservices = mockMicroservices.filter((ms) => ms.projectId === 'project1');
+    const project1Microservices = mockMicroservices.filter(
+      (ms) => ms.projectId === 'project1',
+    );
 
-    const { result, rerender } = renderHook((props) => useMicroserviceNavigation(props), {
-      initialProps: { microservices: project1Microservices },
-    });
+    const { result, rerender } = renderHook(
+      (props) => useMicroserviceNavigation(props),
+      {
+        initialProps: { microservices: project1Microservices },
+      },
+    );
 
     // Set a search query
     act(() => {
@@ -189,7 +231,9 @@ describe('useMicroserviceNavigation', () => {
     expect(result.current.searchQuery).toBe('user');
 
     // Change microservices
-    const project2Microservices = mockMicroservices.filter((ms) => ms.projectId === 'project2');
+    const project2Microservices = mockMicroservices.filter(
+      (ms) => ms.projectId === 'project2',
+    );
     rerender({ microservices: project2Microservices });
 
     // Search query should be cleared

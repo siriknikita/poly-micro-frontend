@@ -4,7 +4,8 @@ import useTheme from '../../hooks/useTheme';
 import { useRelease } from '@/hooks/useRelease';
 
 const ReleaseNotification: React.FC = () => {
-  const { hasUnacknowledgedRelease, openReleaseModal, latestRelease } = useRelease();
+  const { hasUnacknowledgedRelease, openReleaseModal, latestRelease } =
+    useRelease();
   const { darkMode } = useTheme();
 
   if (!hasUnacknowledgedRelease || !latestRelease) return null;

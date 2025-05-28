@@ -6,8 +6,12 @@ describe('EmptyState Integration', () => {
   it('renders with default title and message', () => {
     render(<EmptyState />);
 
-    expect(screen.getByText('No logs found for this microservice')).toBeInTheDocument();
-    expect(screen.getByText('Try triggering a pipeline to generate logs.')).toBeInTheDocument();
+    expect(
+      screen.getByText('No logs found for this microservice'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('Try triggering a pipeline to generate logs.'),
+    ).toBeInTheDocument();
   });
 
   it('renders with custom title and message', () => {
@@ -36,9 +40,15 @@ describe('EmptyState Integration', () => {
     render(<EmptyState />);
 
     // Check the container has appropriate role
-    expect(screen.getByTestId('empty-state-container')).toHaveAttribute('role', 'status');
+    expect(screen.getByTestId('empty-state-container')).toHaveAttribute(
+      'role',
+      'status',
+    );
 
     // Check if it's properly labeled
-    expect(screen.getByTestId('empty-state-container')).toHaveAttribute('aria-live', 'polite');
+    expect(screen.getByTestId('empty-state-container')).toHaveAttribute(
+      'aria-live',
+      'polite',
+    );
   });
 });

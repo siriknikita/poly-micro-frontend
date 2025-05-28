@@ -187,7 +187,11 @@ describe('useProjectManagement', () => {
       setProject: mockSetProject,
     };
 
-    return <ProjectContext.Provider value={contextValue}>{children}</ProjectContext.Provider>;
+    return (
+      <ProjectContext.Provider value={contextValue}>
+        {children}
+      </ProjectContext.Provider>
+    );
   };
 
   beforeEach(() => {
@@ -197,13 +201,17 @@ describe('useProjectManagement', () => {
   });
 
   it('should not set a project if none is saved in localStorage', () => {
-    const { result } = renderHook(() => useProjectManagement('dashboard'), { wrapper });
+    const { result } = renderHook(() => useProjectManagement('dashboard'), {
+      wrapper,
+    });
 
     expect(result.current.selectedProject).toBeNull();
   });
 
   it('should update project context with microservices when on testing tab', () => {
-    const { result } = renderHook(() => useProjectManagement('testing'), { wrapper });
+    const { result } = renderHook(() => useProjectManagement('testing'), {
+      wrapper,
+    });
 
     act(() => {
       result.current.handleSelectProject(mockProjects[0]);
@@ -216,7 +224,9 @@ describe('useProjectManagement', () => {
   });
 
   it('should update project context without microservices when not on testing tab', () => {
-    const { result } = renderHook(() => useProjectManagement('dashboard'), { wrapper });
+    const { result } = renderHook(() => useProjectManagement('dashboard'), {
+      wrapper,
+    });
 
     act(() => {
       result.current.handleSelectProject(mockProjects[0]);
@@ -229,13 +239,18 @@ describe('useProjectManagement', () => {
   });
 
   it('should save selected project to localStorage', () => {
-    const { result } = renderHook(() => useProjectManagement('dashboard'), { wrapper });
+    const { result } = renderHook(() => useProjectManagement('dashboard'), {
+      wrapper,
+    });
 
     act(() => {
       result.current.handleSelectProject(mockProjects[1]);
     });
 
-    expect(localStorageMock.setItem).toHaveBeenCalledWith('lastSelectedProject', '2');
+    expect(localStorageMock.setItem).toHaveBeenCalledWith(
+      'lastSelectedProject',
+      '2',
+    );
     expect(result.current.selectedProject).toEqual(mockProjects[1]);
   });
 });

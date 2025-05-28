@@ -22,7 +22,9 @@ export const ServiceFilters: React.FC<ServiceFiltersProps> = ({
   onClearFilters,
 }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingFilterIndex, setEditingFilterIndex] = useState<number | null>(null);
+  const [editingFilterIndex, setEditingFilterIndex] = useState<number | null>(
+    null,
+  );
 
   // Format condition for display
   const formatCondition = (field: string, value: string) => {
@@ -53,7 +55,10 @@ export const ServiceFilters: React.FC<ServiceFiltersProps> = ({
   };
 
   return (
-    <div className="mb-4" data-testid="service-filters">
+    <div
+      className="mb-4"
+      data-testid="service-filters"
+    >
       <div className="flex items-center mb-2">
         <button
           onClick={() => {
@@ -80,7 +85,10 @@ export const ServiceFilters: React.FC<ServiceFiltersProps> = ({
       </div>
 
       {filterGroups.length > 0 && (
-        <div className="flex flex-wrap gap-2" data-testid="active-filters">
+        <div
+          className="flex flex-wrap gap-2"
+          data-testid="active-filters"
+        >
           {filterGroups.map((group, groupIndex) => (
             <div
               key={groupIndex}
@@ -89,9 +97,14 @@ export const ServiceFilters: React.FC<ServiceFiltersProps> = ({
               <span className="font-medium mr-1">{group.operator}:</span>
               <div className="flex flex-wrap gap-1">
                 {group.conditions.map((condition, condIndex) => (
-                  <span key={condIndex} className="mx-1">
+                  <span
+                    key={condIndex}
+                    className="mx-1"
+                  >
                     {formatCondition(condition.field, condition.value)}
-                    {condIndex < group.conditions.length - 1 && <span className="mx-1">•</span>}
+                    {condIndex < group.conditions.length - 1 && (
+                      <span className="mx-1">•</span>
+                    )}
                   </span>
                 ))}
               </div>
@@ -101,14 +114,20 @@ export const ServiceFilters: React.FC<ServiceFiltersProps> = ({
                   className="mr-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-200"
                   aria-label="Edit filter"
                 >
-                  <Edit2 className="h-3 w-3" data-testid="edit-icon" />
+                  <Edit2
+                    className="h-3 w-3"
+                    data-testid="edit-icon"
+                  />
                 </button>
                 <button
                   onClick={() => onRemoveFilterGroup(groupIndex)}
                   className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-200"
                   aria-label="Remove filter"
                 >
-                  <X className="h-3 w-3" data-testid="x-icon" />
+                  <X
+                    className="h-3 w-3"
+                    data-testid="x-icon"
+                  />
                 </button>
               </div>
             </div>
@@ -122,7 +141,9 @@ export const ServiceFilters: React.FC<ServiceFiltersProps> = ({
         onApplyFilter={handleApplyFilter}
         services={services}
         initialFilterGroup={
-          editingFilterIndex !== null ? filterGroups[editingFilterIndex] : undefined
+          editingFilterIndex !== null
+            ? filterGroups[editingFilterIndex]
+            : undefined
         }
       />
     </div>

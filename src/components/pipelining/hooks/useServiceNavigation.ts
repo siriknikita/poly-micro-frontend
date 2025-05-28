@@ -25,7 +25,9 @@ export function useServiceNavigation({
       if (service) return service;
     }
 
-    const storedServiceName = localStorage.getItem(`lastSelected_${storageKey}_${projectId}`);
+    const storedServiceName = localStorage.getItem(
+      `lastSelected_${storageKey}_${projectId}`,
+    );
     if (storedServiceName) {
       const service = services.find((s) => s.name === storedServiceName);
       if (service) return service;
@@ -34,7 +36,9 @@ export function useServiceNavigation({
     return services[0];
   }, [services, initialServiceName, projectId, storageKey]);
 
-  const [selectedService, setSelectedService] = useState<Service | null>(findInitialService);
+  const [selectedService, setSelectedService] = useState<Service | null>(
+    findInitialService,
+  );
 
   // Update selected service when services or initialServiceName changes
   useEffect(() => {
@@ -47,7 +51,10 @@ export function useServiceNavigation({
   // Save selected service to localStorage when it changes
   useEffect(() => {
     if (selectedService && projectId) {
-      localStorage.setItem(`lastSelected_${storageKey}_${projectId}`, selectedService.name);
+      localStorage.setItem(
+        `lastSelected_${storageKey}_${projectId}`,
+        selectedService.name,
+      );
     }
   }, [selectedService, projectId, storageKey]);
 
@@ -56,7 +63,9 @@ export function useServiceNavigation({
     (direction: 'up' | 'down') => {
       if (!selectedService || services.length === 0) return;
 
-      const currentIndex = services.findIndex((s) => s.name === selectedService.name);
+      const currentIndex = services.findIndex(
+        (s) => s.name === selectedService.name,
+      );
       if (currentIndex === -1) return;
 
       const newIndex =

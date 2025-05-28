@@ -7,7 +7,9 @@ export const useHelp = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { showSuccess, showError } = useToast();
 
-  const submitQuestion = async (question: QuestionSubmission): Promise<void> => {
+  const submitQuestion = async (
+    question: QuestionSubmission,
+  ): Promise<void> => {
     setIsSubmitting(true);
 
     try {
@@ -15,7 +17,7 @@ export const useHelp = () => {
       const questionData = {
         title: question.category,
         content: question.question,
-        user_email: question.email
+        user_email: question.email,
       };
 
       // Submit question to the backend API

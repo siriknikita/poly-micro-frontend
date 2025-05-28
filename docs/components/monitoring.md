@@ -2,10 +2,11 @@
 
 ## Overview
 
-The Monitoring feature provides real-time observability and performance tracking for microservices.
-It allows users to monitor service health, view logs, track resource usage, and receive alerts for
-potential issues. The feature has been refactored to follow SOLID principles with a modular
-architecture that emphasizes separation of concerns and reusability.
+The Monitoring feature provides real-time observability and performance tracking
+for microservices. It allows users to monitor service health, view logs, track
+resource usage, and receive alerts for potential issues. The feature has been
+refactored to follow SOLID principles with a modular architecture that
+emphasizes separation of concerns and reusability.
 
 ## Components Structure
 
@@ -111,7 +112,8 @@ A comprehensive component for selecting which metrics to display on charts.
 
 ### useMetricsSelection
 
-Manages the state of selected metrics and persists user preferences to localStorage.
+Manages the state of selected metrics and persists user preferences to
+localStorage.
 
 **Key Features:**
 
@@ -123,21 +125,40 @@ Manages the state of selected metrics and persists user preferences to localStor
 **Usage Example:**
 
 ```jsx
-const { metrics, selectedMetricIds, updateMetricSelection } = useMetricsSelection({
-  projectId: 'project1',
-  serviceName: 'service1',
-  defaultMetrics: [
-    { id: 'load', name: 'CPU Load %', dataKey: 'load', color: '#4f46e5', selected: true },
-    { id: 'memory', name: 'Memory Usage %', dataKey: 'memory', color: '#059669', selected: true },
-    { id: 'threads', name: 'Active Threads', dataKey: 'threads', color: '#db2777', selected: true },
-  ],
-});
+const { metrics, selectedMetricIds, updateMetricSelection } =
+  useMetricsSelection({
+    projectId: 'project1',
+    serviceName: 'service1',
+    defaultMetrics: [
+      {
+        id: 'load',
+        name: 'CPU Load %',
+        dataKey: 'load',
+        color: '#4f46e5',
+        selected: true,
+      },
+      {
+        id: 'memory',
+        name: 'Memory Usage %',
+        dataKey: 'memory',
+        color: '#059669',
+        selected: true,
+      },
+      {
+        id: 'threads',
+        name: 'Active Threads',
+        dataKey: 'threads',
+        color: '#db2777',
+        selected: true,
+      },
+    ],
+  });
 ```
 
 ### useMetricsDropdown
 
-Manages the dropdown UI state, search functionality, and keyboard navigation for the MetricsSelector
-component.
+Manages the dropdown UI state, search functionality, and keyboard navigation for
+the MetricsSelector component.
 
 **Key Features:**
 
@@ -170,7 +191,8 @@ const {
 
 ## Type Definitions
 
-The monitoring feature uses the following key type definitions (from `src/types/monitoring.ts`):
+The monitoring feature uses the following key type definitions (from
+`src/types/monitoring.ts`):
 
 ### CPUData
 
@@ -213,11 +235,15 @@ export interface Metric {
 
 ## Data Flow
 
-1. **Service Selection**: User selects a microservice to monitor using the ServiceSelector component
-2. **Data Retrieval**: CPU and other metrics data is fetched for the selected service
-3. **Metrics Selection**: User selects which metrics to display using the MetricsSelector component
+1. **Service Selection**: User selects a microservice to monitor using the
+   ServiceSelector component
+2. **Data Retrieval**: CPU and other metrics data is fetched for the selected
+   service
+3. **Metrics Selection**: User selects which metrics to display using the
+   MetricsSelector component
 4. **Visualization**: Selected metrics are displayed on the CPUChart component
-5. **Preference Persistence**: User preferences for selected metrics are saved to localStorage
+5. **Preference Persistence**: User preferences for selected metrics are saved
+   to localStorage
 
 ## Usage Examples
 
@@ -226,8 +252,8 @@ export interface Metric {
 1. Navigate to the Monitoring section from the sidebar
 2. Select a microservice from the ServiceSelector dropdown
 3. View the CPU metrics on the CPUChart component
-4. Use the MetricsSelector to customize which metrics are displayed (CPU load, memory usage,
-   threads)
+4. Use the MetricsSelector to customize which metrics are displayed (CPU load,
+   memory usage, threads)
 5. Your metric preferences will be remembered for each service
 
 ### Customizing Metrics Display

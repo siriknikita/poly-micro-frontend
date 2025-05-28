@@ -166,7 +166,10 @@ describe('useMetricsDropdown Hook', () => {
 
     // Press Enter with specific metricId
     act(() => {
-      result.current.handleKeyDown({ key: 'Enter' } as React.KeyboardEvent, 'memory');
+      result.current.handleKeyDown(
+        { key: 'Enter' } as React.KeyboardEvent,
+        'memory',
+      );
     });
 
     // Should toggle the 'memory' metric
@@ -182,19 +185,31 @@ describe('useMetricsDropdown Hook', () => {
     );
 
     // Should add click outside listener
-    expect(mockAddEventListener).toHaveBeenCalledWith('mousedown', expect.any(Function));
+    expect(mockAddEventListener).toHaveBeenCalledWith(
+      'mousedown',
+      expect.any(Function),
+    );
 
     // Unmount
     unmount();
 
     // Should remove click outside listener
-    expect(mockRemoveEventListener).toHaveBeenCalledWith('mousedown', expect.any(Function));
+    expect(mockRemoveEventListener).toHaveBeenCalledWith(
+      'mousedown',
+      expect.any(Function),
+    );
   });
 
   it('should update metrics when props change', () => {
-    const { result, rerender } = renderHook((props) => useMetricsDropdown(props), {
-      initialProps: { metrics: mockMetrics, onMetricsChange: mockOnMetricsChange },
-    });
+    const { result, rerender } = renderHook(
+      (props) => useMetricsDropdown(props),
+      {
+        initialProps: {
+          metrics: mockMetrics,
+          onMetricsChange: mockOnMetricsChange,
+        },
+      },
+    );
 
     // Initially 2 metrics are selected
     expect(result.current.selectedCount).toBe(2);

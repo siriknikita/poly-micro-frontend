@@ -68,7 +68,10 @@ export const TablePagination: React.FC<TablePaginationProps> = memo(
     );
 
     return (
-      <div className={`flex items-center space-x-2 ${className}`} data-testid="table-pagination">
+      <div
+        className={`flex items-center space-x-2 ${className}`}
+        data-testid="table-pagination"
+      >
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}

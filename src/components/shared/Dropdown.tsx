@@ -67,7 +67,10 @@ export const Dropdown: React.FC<DropdownProps> = ({
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -92,7 +95,9 @@ export const Dropdown: React.FC<DropdownProps> = ({
         aria-expanded={isOpen}
         disabled={disabled}
       >
-        <span className={selectedOptionData.colorClass}>{selectedOptionData.label}</span>
+        <span className={selectedOptionData.colorClass}>
+          {selectedOptionData.label}
+        </span>
         <ChevronDown className="w-4 h-4 ml-2" />
       </button>
 
@@ -110,7 +115,9 @@ export const Dropdown: React.FC<DropdownProps> = ({
           {header && (
             <div className="px-4 py-3">
               {header.title && (
-                <p className="text-sm leading-5 text-gray-500 dark:text-gray-400">{header.title}</p>
+                <p className="text-sm leading-5 text-gray-500 dark:text-gray-400">
+                  {header.title}
+                </p>
               )}
               {header.subtitle && (
                 <p className="text-sm font-medium leading-5 text-gray-900 dark:text-gray-100 truncate">
@@ -121,7 +128,10 @@ export const Dropdown: React.FC<DropdownProps> = ({
           )}
 
           {sections.map((section, sectionIndex) => (
-            <div className="py-1" key={`section-${sectionIndex}`}>
+            <div
+              className="py-1"
+              key={`section-${sectionIndex}`}
+            >
               {section.options.map((option) => (
                 <button
                   key={option.id}

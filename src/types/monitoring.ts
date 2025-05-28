@@ -42,7 +42,7 @@ export interface Log {
 
 export interface Project {
   id: string;
-  _id?: string;  // MongoDB ObjectID as string
+  _id?: string; // MongoDB ObjectID as string
   mongoId?: string; // Explicit MongoDB ID for API calls
   name: string;
   path: string;

@@ -7,7 +7,11 @@ interface AuthLayoutProps {
   icon: ReactNode;
 }
 
-export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, icon }) => {
+export const AuthLayout: React.FC<AuthLayoutProps> = ({
+  children,
+  title,
+  icon,
+}) => {
   const { darkMode, setDarkMode } = useTheme();
 
   return (

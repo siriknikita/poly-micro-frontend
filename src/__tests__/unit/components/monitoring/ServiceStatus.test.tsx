@@ -36,14 +36,20 @@ jest.mock('@/components/monitoring/shared/ServiceFilters', () => ({
     onRemoveFilterGroup,
     onClearFilters,
   }: {
-    filterGroups: Array<{ operator: string; conditions: Array<{ field: string; value: string }> }>;
+    filterGroups: Array<{
+      operator: string;
+      conditions: Array<{ field: string; value: string }>;
+    }>;
     onAddFilterGroup: (filterGroup: {
       operator: string;
       conditions: Array<{ field: string; value: string }>;
     }) => void;
     onUpdateFilterGroup: (
       index: number,
-      filterGroup: { operator: string; conditions: Array<{ field: string; value: string }> },
+      filterGroup: {
+        operator: string;
+        conditions: Array<{ field: string; value: string }>;
+      },
     ) => void;
     onRemoveFilterGroup: (index: number) => void;
     onClearFilters: () => void;
@@ -56,10 +62,18 @@ jest.mock('@/components/monitoring/shared/ServiceFilters', () => ({
       {filterGroups.length > 0 && (
         <div data-testid="active-filters">
           <span>Filter Groups: {filterGroups.length}</span>
-          <button onClick={() => onAddFilterGroup({ operator: 'AND', conditions: [] })}>
+          <button
+            onClick={() =>
+              onAddFilterGroup({ operator: 'AND', conditions: [] })
+            }
+          >
             Add Filter
           </button>
-          <button onClick={() => onUpdateFilterGroup(0, { operator: 'OR', conditions: [] })}>
+          <button
+            onClick={() =>
+              onUpdateFilterGroup(0, { operator: 'OR', conditions: [] })
+            }
+          >
             Update Filter
           </button>
           <button onClick={() => onRemoveFilterGroup(0)}>Remove Filter</button>
@@ -99,7 +113,10 @@ jest.mock('lucide-react', () => ({
 jest.mock('@/components/monitoring/shared/StatusBadge', () => ({
   __esModule: true,
   default: ({ status, variant }: { status: string; variant: string }) => (
-    <span data-testid={`status-badge-${status}`} className={variant}>
+    <span
+      data-testid={`status-badge-${status}`}
+      className={variant}
+    >
       {status}
     </span>
   ),
@@ -107,11 +124,20 @@ jest.mock('@/components/monitoring/shared/StatusBadge', () => ({
 
 jest.mock('@/components/monitoring/shared/statusUtils', () => ({
   getStatusVariant: jest.fn((status) => {
-    if (status.toLowerCase().includes('healthy') || status.toLowerCase().includes('online')) {
+    if (
+      status.toLowerCase().includes('healthy') ||
+      status.toLowerCase().includes('online')
+    ) {
       return 'success';
-    } else if (status.toLowerCase().includes('warn') || status.toLowerCase().includes('degraded')) {
+    } else if (
+      status.toLowerCase().includes('warn') ||
+      status.toLowerCase().includes('degraded')
+    ) {
       return 'warning';
-    } else if (status.toLowerCase().includes('error') || status.toLowerCase().includes('offline')) {
+    } else if (
+      status.toLowerCase().includes('error') ||
+      status.toLowerCase().includes('offline')
+    ) {
       return 'error';
     }
     return 'info';
@@ -154,7 +180,12 @@ describe('ServiceStatus', () => {
   ];
 
   it('should render the component with section header', () => {
-    render(<ServiceStatus services={mockServices} projectId="test-project" />);
+    render(
+      <ServiceStatus
+        services={mockServices}
+        projectId="test-project"
+      />,
+    );
 
     expect(screen.getByTestId('boxed-wrapper')).toBeInTheDocument();
     expect(screen.getByTestId('section-header')).toBeInTheDocument();
@@ -162,7 +193,12 @@ describe('ServiceStatus', () => {
   });
 
   it('should render empty state when no services are provided', () => {
-    render(<ServiceStatus services={[]} projectId="test-project" />);
+    render(
+      <ServiceStatus
+        services={[]}
+        projectId="test-project"
+      />,
+    );
 
     // Header should still be present
     expect(screen.getByText('Services Status')).toBeInTheDocument();
@@ -174,7 +210,12 @@ describe('ServiceStatus', () => {
   });
 
   it('should render the service filters component', () => {
-    render(<ServiceStatus services={mockServices} projectId="test-project" />);
+    render(
+      <ServiceStatus
+        services={mockServices}
+        projectId="test-project"
+      />,
+    );
 
     expect(screen.getByTestId('service-filters')).toBeInTheDocument();
   });
@@ -194,7 +235,12 @@ describe('ServiceStatus', () => {
     }));
 
     // Render the component
-    render(<ServiceStatus services={mockServices} projectId="test-project" />);
+    render(
+      <ServiceStatus
+        services={mockServices}
+        projectId="test-project"
+      />,
+    );
 
     // Verify the ServiceFilters component is rendered
     expect(screen.getByTestId('service-filters')).toBeInTheDocument();
@@ -207,7 +253,12 @@ describe('ServiceStatus', () => {
 
   it('should display all services when no filters are applied', () => {
     // Default mock implementation returns all services
-    render(<ServiceStatus services={mockServices} projectId="test-project" />);
+    render(
+      <ServiceStatus
+        services={mockServices}
+        projectId="test-project"
+      />,
+    );
 
     // All services should be displayed
     expect(screen.getByText('API Gateway')).toBeInTheDocument();
@@ -217,7 +268,12 @@ describe('ServiceStatus', () => {
 
   it('should handle the empty state correctly', () => {
     // Test with empty services array
-    render(<ServiceStatus services={[]} projectId="test-project" />);
+    render(
+      <ServiceStatus
+        services={[]}
+        projectId="test-project"
+      />,
+    );
 
     // No service cards should be displayed
     expect(screen.queryByText('API Gateway')).not.toBeInTheDocument();

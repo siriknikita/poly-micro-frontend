@@ -2,12 +2,14 @@
 
 ## Architecture Overview
 
-The Service Filters feature follows the SOLID principles and React best practices outlined in the
-project's architecture guidelines. It consists of:
+The Service Filters feature follows the SOLID principles and React best
+practices outlined in the project's architecture guidelines. It consists of:
 
 1. **Custom Hook**: `useServiceFilters` for state management and business logic
-2. **UI Components**: `ServiceFilters` and `ServiceFilterDialog` for user interaction
-3. **Integration**: With the `ServiceStatus` component in the monitoring dashboard
+2. **UI Components**: `ServiceFilters` and `ServiceFilterDialog` for user
+   interaction
+3. **Integration**: With the `ServiceStatus` component in the monitoring
+   dashboard
 
 ## Component Structure
 
@@ -29,7 +31,10 @@ The `useServiceFilters` hook manages filter state and persistence:
 
 ```typescript
 // Key features
-export const useServiceFilters = ({ projectId, services }: UseServiceFiltersProps) => {
+export const useServiceFilters = ({
+  projectId,
+  services,
+}: UseServiceFiltersProps) => {
   const [filterGroups, setFilterGroups] = useState<FilterGroup[]>([]);
   const [filteredServices, setFilteredServices] = useState<Service[]>(services);
 
@@ -90,7 +95,9 @@ export const ServiceFilters: React.FC<ServiceFiltersProps> = ({
   onClearFilters,
 }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingFilterIndex, setEditingFilterIndex] = useState<number | null>(null);
+  const [editingFilterIndex, setEditingFilterIndex] = useState<number | null>(
+    null,
+  );
 
   // Handler functions
   const handleDialogClose = () => {
@@ -121,7 +128,9 @@ export const ServiceFilterDialog: React.FC<ServiceFilterDialogProps> = ({
   initialFilterGroup,
 }) => {
   // State management
-  const [operator, setOperator] = useState<FilterOperator>(initialFilterGroup?.operator || 'AND');
+  const [operator, setOperator] = useState<FilterOperator>(
+    initialFilterGroup?.operator || 'AND',
+  );
   const [conditions, setConditions] = useState<FilterCondition[]>(
     initialFilterGroup?.conditions || [{ field: 'status', value: '' }],
   );
@@ -185,7 +194,10 @@ Filters are persisted in localStorage with project-specific keys:
 
 ```typescript
 // Save filters
-localStorage.setItem(`serviceFilters_${projectId}`, JSON.stringify(filterGroups));
+localStorage.setItem(
+  `serviceFilters_${projectId}`,
+  JSON.stringify(filterGroups),
+);
 
 // Load filters
 const savedFilters = localStorage.getItem(`serviceFilters_${projectId}`);
@@ -278,7 +290,8 @@ When writing tests for the Service Filters feature, consider:
 
 Potential enhancements to consider:
 
-1. **Server-side persistence**: Store filters in a database for cross-device access
+1. **Server-side persistence**: Store filters in a database for cross-device
+   access
 2. **Filter presets**: Allow saving and loading common filter configurations
 3. **Advanced filtering**: Support more complex conditions and operators
 4. **Filter sharing**: Enable sharing filter configurations between users

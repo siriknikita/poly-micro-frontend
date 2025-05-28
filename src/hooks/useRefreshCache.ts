@@ -17,14 +17,14 @@ export const useRefreshCache = () => {
     try {
       // Invalidate all queries in the cache
       queryClient.invalidateQueries();
-      
+
       // Show success toast
       if (toast) {
         toast.showSuccess('Application data refreshed successfully');
       }
     } catch (error) {
       console.error('Error refreshing application data:', error);
-      
+
       // Show error toast
       if (toast) {
         toast.showError('Failed to refresh application data');

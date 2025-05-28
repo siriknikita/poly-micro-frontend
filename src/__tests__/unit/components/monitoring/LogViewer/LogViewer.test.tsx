@@ -4,7 +4,9 @@ import { LogViewer } from '@/components/monitoring/LogViewer/LogViewer';
 import { Log, Service } from '@/types';
 
 // Mock dependencies
-const mockUsePagination = jest.fn().mockImplementation(() => mockPaginationReturn);
+const mockUsePagination = jest
+  .fn()
+  .mockImplementation(() => mockPaginationReturn);
 jest.mock('@hooks/index', () => ({
   usePagination: mockUsePagination,
 }));
@@ -34,14 +36,23 @@ jest.mock('lucide-react', () => ({
   AlertCircle: () => <span data-testid="alert-circle-icon">AlertCircle</span>,
 }));
 
-jest.mock('../../../../../../../src/components/monitoring/LogViewer/TablePagination', () => ({
-  __esModule: true,
-  TablePagination: ({ currentPage, totalPages }: { currentPage: number; totalPages: number }) => (
-    <div data-testid="table-pagination">
-      Table Pagination: Page {currentPage} of {totalPages}
-    </div>
-  ),
-}));
+jest.mock(
+  '../../../../../../../src/components/monitoring/LogViewer/TablePagination',
+  () => ({
+    __esModule: true,
+    TablePagination: ({
+      currentPage,
+      totalPages,
+    }: {
+      currentPage: number;
+      totalPages: number;
+    }) => (
+      <div data-testid="table-pagination">
+        Table Pagination: Page {currentPage} of {totalPages}
+      </div>
+    ),
+  }),
+);
 
 // Mock the shared components
 jest.mock('@/components/monitoring/shared', () => {
@@ -55,12 +66,20 @@ jest.mock('@/components/monitoring/shared', () => {
     onServiceSelect: (service: string) => void;
   }) => (
     <div data-testid="service-selector">
-      <div data-testid="service-display">{selectedService || 'All Services'}</div>
+      <div data-testid="service-display">
+        {selectedService || 'All Services'}
+      </div>
       <div className="dropdown-menu">
-        <button data-testid="dropdown-option-service1" onClick={() => onServiceSelect('service1')}>
+        <button
+          data-testid="dropdown-option-service1"
+          onClick={() => onServiceSelect('service1')}
+        >
           Service 1
         </button>
-        <button data-testid="dropdown-option-All" onClick={() => onServiceSelect('All')}>
+        <button
+          data-testid="dropdown-option-All"
+          onClick={() => onServiceSelect('All')}
+        >
           All Services
         </button>
       </div>
@@ -75,18 +94,32 @@ jest.mock('@/components/monitoring/shared', () => {
     onSeverityChange: (severity: string) => void;
   }) => (
     <div data-testid="severity-selector">
-      <div data-testid="severity-display">{selectedSeverity || 'All Severities'}</div>
+      <div data-testid="severity-display">
+        {selectedSeverity || 'All Severities'}
+      </div>
       <div className="dropdown-menu">
-        <button data-testid="dropdown-option-error" onClick={() => onSeverityChange('error')}>
+        <button
+          data-testid="dropdown-option-error"
+          onClick={() => onSeverityChange('error')}
+        >
           ERROR
         </button>
-        <button data-testid="dropdown-option-info" onClick={() => onSeverityChange('info')}>
+        <button
+          data-testid="dropdown-option-info"
+          onClick={() => onSeverityChange('info')}
+        >
           INFO
         </button>
-        <button data-testid="dropdown-option-warn" onClick={() => onSeverityChange('warn')}>
+        <button
+          data-testid="dropdown-option-warn"
+          onClick={() => onSeverityChange('warn')}
+        >
           WARN
         </button>
-        <button data-testid="dropdown-option-all" onClick={() => onSeverityChange('all')}>
+        <button
+          data-testid="dropdown-option-all"
+          onClick={() => onSeverityChange('all')}
+        >
           All Severities
         </button>
       </div>
@@ -107,12 +140,20 @@ jest.mock('@/components/monitoring/shared', () => {
 
     return (
       <div data-testid="rows-per-page-selector">
-        <div data-testid="rows-per-page-selector-display">{itemsPerPage} per page</div>
+        <div data-testid="rows-per-page-selector-display">
+          {itemsPerPage} per page
+        </div>
         <div className="dropdown-menu">
-          <button data-testid="dropdown-option-10" onClick={() => handleChange(10)}>
+          <button
+            data-testid="dropdown-option-10"
+            onClick={() => handleChange(10)}
+          >
             10 per page
           </button>
-          <button data-testid="dropdown-option-25" onClick={() => handleChange(25)}>
+          <button
+            data-testid="dropdown-option-25"
+            onClick={() => handleChange(25)}
+          >
             25 per page
           </button>
         </div>
@@ -125,7 +166,10 @@ jest.mock('@/components/monitoring/shared', () => {
     SeveritySelector,
     RowsPerPageSelector,
     StatusBadge: ({ status, variant }: { status: string; variant: string }) => (
-      <span data-testid={`status-badge-${status}`} className={variant}>
+      <span
+        data-testid={`status-badge-${status}`}
+        className={variant}
+      >
         {status}
       </span>
     ),
@@ -341,7 +385,9 @@ describe('LogViewer', () => {
       />,
     );
 
-    expect(screen.getByText('No logs found matching the current filters')).toBeInTheDocument();
+    expect(
+      screen.getByText('No logs found matching the current filters'),
+    ).toBeInTheDocument();
     expect(screen.queryByTestId('table-pagination')).not.toBeInTheDocument();
   });
 

@@ -29,7 +29,9 @@ describe('TestItemComponent', () => {
     const mockToggleExpand = vi.fn();
     const testItemWithChildren: TestItem = {
       ...mockTestItem,
-      children: [{ id: 'child1', name: 'Child Test', type: 'function' as const }],
+      children: [
+        { id: 'child1', name: 'Child Test', type: 'function' as const },
+      ],
     };
 
     const { user } = render(
@@ -77,7 +79,9 @@ describe('TestItemComponent', () => {
       />,
     );
 
-    await user.click(screen.getByRole('generateButton', { name: /generate test/i }));
+    await user.click(
+      screen.getByRole('generateButton', { name: /generate test/i }),
+    );
 
     expect(mockGenerateTest).toHaveBeenCalledWith(mockTestItem);
   });

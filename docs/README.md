@@ -1,12 +1,12 @@
 # Poly Micro Manager - Frontend Documentation
 
-This documentation provides detailed information about the features, components, and architecture of
-the Poly Micro Manager frontend application.
+This documentation provides detailed information about the features, components,
+and architecture of the Poly Micro Manager frontend application.
 
 ## Overview
 
-The Poly Micro Manager is a comprehensive tool designed to manage microservices architecture. It
-provides features for:
+The Poly Micro Manager is a comprehensive tool designed to manage microservices
+architecture. It provides features for:
 
 - **Authentication**: User login and registration
 - **Testing**: Automated testing of microservices
@@ -16,8 +16,8 @@ provides features for:
 
 ## Project Structure
 
-The application follows a modular architecture with components organized by feature and
-functionality:
+The application follows a modular architecture with components organized by
+feature and functionality:
 
 ```
 src/
@@ -56,18 +56,20 @@ src/
 
 ## For Developers
 
-We provide specialized documentation for developers working on the Poly Micro Manager project:
+We provide specialized documentation for developers working on the Poly Micro
+Manager project:
 
-- [Running Tests](./for-developers/RUN_TESTS.md) - Instructions for running unit and integration
-  tests
-- [Release Management](./for-developers/README-RELEASE-MANAGEMENT.md) - Documentation for the
-  automatic release management system
-- [SonarQube Setup](./for-developers/SONARQUBE.md) - Guide for setting up SonarQube and SonarScanner
-  for code quality analysis
-- [Testing Strategy](./for-developers/TESTING.md) - Comprehensive overview of the testing strategy
-  and approach
+- [Running Tests](./for-developers/RUN_TESTS.md) - Instructions for running unit
+  and integration tests
+- [Release Management](./for-developers/README-RELEASE-MANAGEMENT.md) -
+  Documentation for the automatic release management system
+- [SonarQube Setup](./for-developers/SONARQUBE.md) - Guide for setting up
+  SonarQube and SonarScanner for code quality analysis
+- [Testing Strategy](./for-developers/TESTING.md) - Comprehensive overview of
+  the testing strategy and approach
 
-For more detailed information, visit the [For Developers](./for-developers/README.md) section.
+For more detailed information, visit the
+[For Developers](./for-developers/README.md) section.
 
 ## Feature Documentation
 
@@ -83,26 +85,30 @@ Detailed documentation for each feature can be found in the following sections:
 
 ## User Guide
 
-A comprehensive user guide is available to help you understand and use the application effectively:
+A comprehensive user guide is available to help you understand and use the
+application effectively:
 
-- [User Guide](./user-guide.md) - Detailed instructions for using all features of the application
+- [User Guide](./user-guide.md) - Detailed instructions for using all features
+  of the application
 
 ## Implementation Details
 
 For developers, we provide detailed implementation documentation:
 
-- [Service Filters Implementation](./implementation/service-filters-implementation.md) - Technical
-  details of the service filtering system
-- [Architecture Patterns](./architecture/patterns.md) - Detailed documentation of design patterns
-  and architectural approaches used in the project
+- [Service Filters Implementation](./implementation/service-filters-implementation.md) -
+  Technical details of the service filtering system
+- [Architecture Patterns](./architecture/patterns.md) - Detailed documentation
+  of design patterns and architectural approaches used in the project
 
 ## Getting Started
 
-To understand how these components work together, start with the [User Guide](./user-guide.md) for a
-high-level overview, then explore the [Core Components](./components/core.md) documentation, which
-explains the main application structure and navigation flow.
+To understand how these components work together, start with the
+[User Guide](./user-guide.md) for a high-level overview, then explore the
+[Core Components](./components/core.md) documentation, which explains the main
+application structure and navigation flow.
 
 ## Online Documentation
 
-This documentation is also available online through GitHub Pages. For more information on accessing
-and using the online documentation, see [GitHub Pages Documentation](./github-pages.md).
+This documentation is also available online through GitHub Pages. For more
+information on accessing and using the online documentation, see
+[GitHub Pages Documentation](./github-pages.md).

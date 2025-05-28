@@ -1,7 +1,7 @@
 # Running Tests
 
-Before running the tests, you need to make sure all dependencies are installed. Run the following
-command:
+Before running the tests, you need to make sure all dependencies are installed.
+Run the following command:
 
 ```bash
 npm install
@@ -80,5 +80,5 @@ If you encounter any issues, try the following:
    npx vitest --clearCache
    ```
 
-5. If you see TypeScript errors related to paths or imports, check that the path aliases in
-   `tsconfig.app.json` and `vitest.config.ts` match.
+5. If you see TypeScript errors related to paths or imports, check that the path
+   aliases in `tsconfig.app.json` and `vitest.config.ts` match.

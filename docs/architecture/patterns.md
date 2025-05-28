@@ -1,35 +1,32 @@
 # Design Patterns and Architecture
 
-This document outlines the key design patterns and architectural approaches used in the Poly Micro
-Manager frontend application.
+This document outlines the key design patterns and architectural approaches used
+in the Poly Micro Manager frontend application.
 
 ## 1. 🏛️ Architecture Principles: SOLID in React
 
 The application follows SOLID principles adapted for React:
 
 - **S — Single Responsibility Principle**:  
-  Each component has **one purpose** only.  
-  _Example_: The `TestList` component only renders test items, while the logic for managing test
-  items is extracted into the `useTestItems` hook.
+  Each component has **one purpose** only.
 
 - **O — Open/Closed Principle**:  
   Components are **open for extension**, but **closed for modification**.  
-  _Example_: Components accept props for customization instead of hardcoding behavior.
+  _Example_: Components accept props for customization instead of hardcoding
+  behavior.
 
 - **L — Liskov Substitution Principle**:  
   Every derived component is replaceable without breaking parent components.  
-  _Example_: Specialized button components like `IconButton` can be used anywhere a regular button
-  is used.
+  _Example_: Specialized button components like `IconButton` can be used
+  anywhere a regular button is used.
 
 - **I — Interface Segregation Principle**:  
-  Props are broken into smaller focused interfaces.  
-  _Example_: Components like `TestList` have specific prop interfaces that only include what they
-  need.
+  Props are broken into smaller focused interfaces.
 
 - **D — Dependency Inversion Principle**:  
   Components depend on **abstractions**, not on concretions.  
-  _Example_: Custom hooks like `useServiceSelection` abstract away the implementation details of
-  service selection.
+  _Example_: Custom hooks like `useServiceSelection` abstract away the
+  implementation details of service selection.
 
 ## 2. 🌱 Component Structure and Organization
 
@@ -68,7 +65,8 @@ Custom hooks are extensively used to separate logic from UI components:
 
 ### Types of Hooks
 
-- **Feature-specific hooks**: Located in feature directories (e.g., `useTestItems` in testing)
+- **Feature-specific hooks**: Located in feature directories (e.g.,
+  `useTestItems` in testing)
 - **Shared hooks**: Located in the root hooks directory (e.g., `useForm`)
 - **Context hooks**: For accessing context (e.g., `useToast`, `useProject`)
 
@@ -77,7 +75,8 @@ Custom hooks are extensively used to separate logic from UI components:
 - **State Management**: Hooks like `useForm` manage complex state logic
 - **Side Effects**: Hooks handle side effects like API calls and localStorage
 - **UI Behavior**: Hooks like `useResizablePanel` manage UI interactions
-- **Feature Logic**: Hooks like `useServiceSelection` encapsulate feature-specific logic
+- **Feature Logic**: Hooks like `useServiceSelection` encapsulate
+  feature-specific logic
 
 ## 4. 📚 Testing Patterns
 
@@ -179,6 +178,7 @@ Both patterns are used where appropriate:
 
 ## Conclusion
 
-These patterns and architectural approaches help maintain a clean, maintainable, and scalable
-codebase. By following these patterns consistently, the application remains flexible and adaptable
-to changing requirements while maintaining high code quality.
+These patterns and architectural approaches help maintain a clean, maintainable,
+and scalable codebase. By following these patterns consistently, the application
+remains flexible and adaptable to changing requirements while maintaining high
+code quality.

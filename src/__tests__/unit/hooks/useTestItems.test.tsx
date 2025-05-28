@@ -178,7 +178,11 @@ describe('useTestItems', () => {
   });
 
   it('collapses all items', () => {
-    const result = useTestItems([createTestMicroservice('ms1')], 'project1', 'ms1');
+    const result = useTestItems(
+      [createTestMicroservice('ms1')],
+      'project1',
+      'ms1',
+    );
 
     // Make sure result is defined before accessing properties
     expect(result).toBeDefined();
@@ -192,7 +196,11 @@ describe('useTestItems', () => {
   });
 
   it('toggles results visibility', () => {
-    const result = useTestItems([createTestMicroservice('ms1')], 'project1', 'ms1');
+    const result = useTestItems(
+      [createTestMicroservice('ms1')],
+      'project1',
+      'ms1',
+    );
 
     // Make sure result is defined before accessing properties
     expect(result).toBeDefined();
@@ -206,7 +214,11 @@ describe('useTestItems', () => {
   });
 
   it('handles viewing test output', () => {
-    const result = useTestItems([createTestMicroservice('ms1')], 'project1', 'ms1');
+    const result = useTestItems(
+      [createTestMicroservice('ms1')],
+      'project1',
+      'ms1',
+    );
 
     // Make sure result is defined before accessing properties
     expect(result).toBeDefined();

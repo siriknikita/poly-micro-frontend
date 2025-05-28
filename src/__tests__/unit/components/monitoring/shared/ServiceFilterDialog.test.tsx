@@ -30,14 +30,26 @@ describe('ServiceFilterDialog', () => {
   });
 
   it('should not render when isOpen is false', () => {
-    render(<ServiceFilterDialog isOpen={false} services={mockServices} {...mockHandlers} />);
+    render(
+      <ServiceFilterDialog
+        isOpen={false}
+        services={mockServices}
+        {...mockHandlers}
+      />,
+    );
 
     expect(screen.queryByText('Add Filter')).not.toBeInTheDocument();
     expect(screen.queryByText('Filter Operator')).not.toBeInTheDocument();
   });
 
   it('should render with default values when opened for adding', () => {
-    render(<ServiceFilterDialog isOpen={true} services={mockServices} {...mockHandlers} />);
+    render(
+      <ServiceFilterDialog
+        isOpen={true}
+        services={mockServices}
+        {...mockHandlers}
+      />,
+    );
 
     // Check title
     expect(screen.getByText('Add Filter')).toBeInTheDocument();
@@ -83,7 +95,9 @@ describe('ServiceFilterDialog', () => {
     // Check that values are pre-selected
     const operatorDropdown = screen.getByTestId('filter-operator-dropdown');
     const operatorButton = within(operatorDropdown).getByRole('button');
-    expect(operatorButton).toHaveTextContent('NOT (None of the conditions should match)');
+    expect(operatorButton).toHaveTextContent(
+      'NOT (None of the conditions should match)',
+    );
 
     // Check that the field is pre-selected
     const fieldDropdown = screen.getByTestId('field-dropdown-0');
@@ -97,7 +111,13 @@ describe('ServiceFilterDialog', () => {
   });
 
   it('should close when X button is clicked', () => {
-    render(<ServiceFilterDialog isOpen={true} services={mockServices} {...mockHandlers} />);
+    render(
+      <ServiceFilterDialog
+        isOpen={true}
+        services={mockServices}
+        {...mockHandlers}
+      />,
+    );
 
     // Click close button
     fireEvent.click(screen.getByLabelText('Close'));
@@ -105,7 +125,13 @@ describe('ServiceFilterDialog', () => {
   });
 
   it('should add a new condition when Add condition button is clicked', () => {
-    render(<ServiceFilterDialog isOpen={true} services={mockServices} {...mockHandlers} />);
+    render(
+      <ServiceFilterDialog
+        isOpen={true}
+        services={mockServices}
+        {...mockHandlers}
+      />,
+    );
 
     // Initially should have one field dropdown
     expect(screen.getAllByTestId(/field-dropdown-\d+/)).toHaveLength(1);
@@ -118,7 +144,13 @@ describe('ServiceFilterDialog', () => {
   });
 
   it('should remove a condition when remove button is clicked', () => {
-    render(<ServiceFilterDialog isOpen={true} services={mockServices} {...mockHandlers} />);
+    render(
+      <ServiceFilterDialog
+        isOpen={true}
+        services={mockServices}
+        {...mockHandlers}
+      />,
+    );
 
     // Add a second condition
     fireEvent.click(screen.getByText('Add condition'));
@@ -136,7 +168,13 @@ describe('ServiceFilterDialog', () => {
   });
 
   it('should not remove the last condition', () => {
-    render(<ServiceFilterDialog isOpen={true} services={mockServices} {...mockHandlers} />);
+    render(
+      <ServiceFilterDialog
+        isOpen={true}
+        services={mockServices}
+        {...mockHandlers}
+      />,
+    );
 
     // Get the remove button by aria-label
     const removeButton = screen.getByLabelText('Remove condition');
@@ -152,7 +190,13 @@ describe('ServiceFilterDialog', () => {
   });
 
   it('should update operator when changed', () => {
-    render(<ServiceFilterDialog isOpen={true} services={mockServices} {...mockHandlers} />);
+    render(
+      <ServiceFilterDialog
+        isOpen={true}
+        services={mockServices}
+        {...mockHandlers}
+      />,
+    );
 
     // Get the operator dropdown
     const operatorDropdown = screen.getByTestId('filter-operator-dropdown');
@@ -161,17 +205,27 @@ describe('ServiceFilterDialog', () => {
     fireEvent.click(within(operatorDropdown).getByRole('button'));
     fireEvent.click(screen.getByTestId('dropdown-option-OR'));
     const operatorButtonAfterOR = within(operatorDropdown).getByRole('button');
-    expect(operatorButtonAfterOR).toHaveTextContent('OR (Any condition can match)');
+    expect(operatorButtonAfterOR).toHaveTextContent(
+      'OR (Any condition can match)',
+    );
 
     // Change to NOT
     fireEvent.click(within(operatorDropdown).getByRole('button'));
     fireEvent.click(screen.getByTestId('dropdown-option-NOT'));
     const operatorButtonAfterNOT = within(operatorDropdown).getByRole('button');
-    expect(operatorButtonAfterNOT).toHaveTextContent('NOT (None of the conditions should match)');
+    expect(operatorButtonAfterNOT).toHaveTextContent(
+      'NOT (None of the conditions should match)',
+    );
   });
 
   it('should update field and value when changed', () => {
-    render(<ServiceFilterDialog isOpen={true} services={mockServices} {...mockHandlers} />);
+    render(
+      <ServiceFilterDialog
+        isOpen={true}
+        services={mockServices}
+        {...mockHandlers}
+      />,
+    );
 
     // Open the field dropdown and select 'Health'
     const fieldDropdownButton = screen.getByTestId('field-dropdown-0');
@@ -194,7 +248,13 @@ describe('ServiceFilterDialog', () => {
   });
 
   it('should reset form when Reset button is clicked', () => {
-    render(<ServiceFilterDialog isOpen={true} services={mockServices} {...mockHandlers} />);
+    render(
+      <ServiceFilterDialog
+        isOpen={true}
+        services={mockServices}
+        {...mockHandlers}
+      />,
+    );
 
     // Change operator to NOT
     const operatorDropdown = screen.getByTestId('filter-operator-dropdown');
@@ -213,9 +273,15 @@ describe('ServiceFilterDialog', () => {
     fireEvent.click(screen.getByText('Reset'));
 
     // Should reset to default values
-    const resetOperatorDropdown = screen.getByTestId('filter-operator-dropdown');
-    const resetOperatorButton = within(resetOperatorDropdown).getByRole('button');
-    expect(resetOperatorButton).toHaveTextContent('AND (All conditions must match)');
+    const resetOperatorDropdown = screen.getByTestId(
+      'filter-operator-dropdown',
+    );
+    const resetOperatorButton = within(resetOperatorDropdown).getByRole(
+      'button',
+    );
+    expect(resetOperatorButton).toHaveTextContent(
+      'AND (All conditions must match)',
+    );
     expect(screen.getAllByTestId(/field-dropdown-\d+/)).toHaveLength(1);
   });
 
@@ -243,13 +309,25 @@ describe('ServiceFilterDialog', () => {
     fireEvent.click(screen.getByText('Reset'));
 
     // Should reset to initial values
-    const resetOperatorDropdown = screen.getByTestId('filter-operator-dropdown');
-    const resetOperatorButton = within(resetOperatorDropdown).getByRole('button');
-    expect(resetOperatorButton).toHaveTextContent('NOT (None of the conditions should match)');
+    const resetOperatorDropdown = screen.getByTestId(
+      'filter-operator-dropdown',
+    );
+    const resetOperatorButton = within(resetOperatorDropdown).getByRole(
+      'button',
+    );
+    expect(resetOperatorButton).toHaveTextContent(
+      'NOT (None of the conditions should match)',
+    );
   });
 
   it('should apply filter when Apply Filter button is clicked', () => {
-    render(<ServiceFilterDialog isOpen={true} services={mockServices} {...mockHandlers} />);
+    render(
+      <ServiceFilterDialog
+        isOpen={true}
+        services={mockServices}
+        {...mockHandlers}
+      />,
+    );
 
     // Change operator to OR
     const operatorDropdown = screen.getByTestId('filter-operator-dropdown');
@@ -274,7 +352,13 @@ describe('ServiceFilterDialog', () => {
   });
 
   it('should not apply filter with empty values', () => {
-    render(<ServiceFilterDialog isOpen={true} services={mockServices} {...mockHandlers} />);
+    render(
+      <ServiceFilterDialog
+        isOpen={true}
+        services={mockServices}
+        {...mockHandlers}
+      />,
+    );
 
     // Apply the filter without selecting any values
     fireEvent.click(screen.getByText('Apply Filter'));

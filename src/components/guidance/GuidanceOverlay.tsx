@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { X, ArrowRight, ArrowLeft, CheckCircle, HelpCircle } from 'lucide-react';
+import {
+  X,
+  ArrowRight,
+  ArrowLeft,
+  CheckCircle,
+  HelpCircle,
+} from 'lucide-react';
 import { useGuidance } from '@/context/GuidanceContext';
 import { createPortal } from 'react-dom';
 
@@ -200,7 +206,10 @@ export const GuidanceOverlay: React.FC = () => {
 
     // Set up an observer to detect theme changes
     const observer = new MutationObserver(detectTheme);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
 
     // Also listen for system preference changes
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -233,7 +242,9 @@ export const GuidanceOverlay: React.FC = () => {
   useEffect(() => {
     // Highlight target element and position tooltip
     if (isGuidanceVisible && currentGuidance.targetSelector) {
-      const targetElement = document.querySelector(currentGuidance.targetSelector);
+      const targetElement = document.querySelector(
+        currentGuidance.targetSelector,
+      );
       if (targetElement) {
         targetElement.classList.add('guidance-highlight');
 
@@ -248,7 +259,10 @@ export const GuidanceOverlay: React.FC = () => {
         switch (currentGuidance.position) {
           case 'left':
             position.top = rect.top + rect.height / 2 - tooltipHeight / 2;
-            position.left = Math.max(padding, rect.left - tooltipWidth - padding);
+            position.left = Math.max(
+              padding,
+              rect.left - tooltipWidth - padding,
+            );
 
             // If would go off screen left, flip to right
             if (position.left < padding) {
@@ -262,12 +276,18 @@ export const GuidanceOverlay: React.FC = () => {
 
             // If would go off screen right, flip to left
             if (position.left + tooltipWidth > window.innerWidth - padding) {
-              position.left = Math.max(padding, rect.left - tooltipWidth - padding);
+              position.left = Math.max(
+                padding,
+                rect.left - tooltipWidth - padding,
+              );
             }
             break;
 
           case 'top':
-            position.top = Math.max(padding, rect.top - tooltipHeight - padding);
+            position.top = Math.max(
+              padding,
+              rect.top - tooltipHeight - padding,
+            );
             position.left = rect.left + rect.width / 2 - tooltipWidth / 2;
 
             // If would go off screen top, flip to bottom
@@ -282,7 +302,10 @@ export const GuidanceOverlay: React.FC = () => {
 
             // If would go off screen bottom, flip to top
             if (position.top + tooltipHeight > window.innerHeight - padding) {
-              position.top = Math.max(padding, rect.top - tooltipHeight - padding);
+              position.top = Math.max(
+                padding,
+                rect.top - tooltipHeight - padding,
+              );
             }
             break;
 
@@ -374,7 +397,10 @@ export const GuidanceOverlay: React.FC = () => {
               onClick={prevStep}
               className={`flex items-center justify-center px-2 py-1 border rounded-md text-xs font-medium ${isDarkMode ? 'border-gray-600 text-gray-200 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
             >
-              <ArrowLeft size={12} className="mr-1" />
+              <ArrowLeft
+                size={12}
+                className="mr-1"
+              />
               Prev
             </button>
           )}
@@ -385,7 +411,10 @@ export const GuidanceOverlay: React.FC = () => {
               className="flex items-center justify-center px-2 py-1 bg-indigo-600 border border-transparent rounded-md text-xs font-medium text-white hover:bg-indigo-700"
             >
               Next
-              <ArrowRight size={12} className="ml-1" />
+              <ArrowRight
+                size={12}
+                className="ml-1"
+              />
             </button>
           ) : (
             <button
@@ -393,7 +422,10 @@ export const GuidanceOverlay: React.FC = () => {
               className="flex items-center justify-center px-2 py-1 bg-green-600 border border-transparent rounded-md text-xs font-medium text-white hover:bg-green-700"
             >
               Done
-              <CheckCircle size={12} className="ml-1" />
+              <CheckCircle
+                size={12}
+                className="ml-1"
+              />
             </button>
           )}
         </div>
@@ -420,7 +452,10 @@ export const HelpButton: React.FC = () => {
     detectTheme();
 
     const observer = new MutationObserver(detectTheme);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     mediaQuery.addEventListener('change', detectTheme);

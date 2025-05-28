@@ -52,12 +52,16 @@ interface SidebarProps {
     name: string;
     email: string;
     avatar?: string;
-    businessName?: string;
+    full_name?: string;
     username?: string;
   };
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, user }) => {
+export const Sidebar: React.FC<SidebarProps> = ({
+  activeTab,
+  onTabChange,
+  user,
+}) => {
   const navigate = useNavigate();
   const [isExpanded, setIsExpanded] = useState(true);
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -93,7 +97,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, user }
           onClick={() => setIsExpanded(!isExpanded)}
           className="w-full flex items-center justify-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 mt-1"
         >
-          {isExpanded ? <ChevronLeft className="h-6 w-6" /> : <ChevronRight className="h-6 w-6" />}
+          {isExpanded ? (
+            <ChevronLeft className="h-6 w-6" />
+          ) : (
+            <ChevronRight className="h-6 w-6" />
+          )}
         </button>
       </div>
 
@@ -130,7 +138,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, user }
         </GuidanceTooltip>
       </div>
 
-      <div className="p-3 border-t border-gray-200 dark:border-gray-700" ref={menuRef}>
+      <div
+        className="p-3 border-t border-gray-200 dark:border-gray-700"
+        ref={menuRef}
+      >
         <div className="relative">
           <button
             onClick={() => setShowUserMenu(!showUserMenu)}
@@ -139,8 +150,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, user }
             <User className="h-6 w-6 flex-shrink-0" />
             {isExpanded && (
               <div className="flex-1 text-left">
-                <p className="font-medium truncate">{user.businessName}</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{user.username}</p>
+                <p className="font-medium truncate">{user.full_name}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                  {user.username}
+                </p>
               </div>
             )}
           </button>

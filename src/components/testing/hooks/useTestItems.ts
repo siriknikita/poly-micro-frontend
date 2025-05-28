@@ -27,7 +27,9 @@ const storage = {
       if (!storedData) return defaultValue;
 
       const parsedData = JSON.parse(storedData) as Record<string, unknown>;
-      return microserviceId in parsedData ? (parsedData[microserviceId] as T) : defaultValue;
+      return microserviceId in parsedData
+        ? (parsedData[microserviceId] as T)
+        : defaultValue;
     } catch (error) {
       console.error(`Failed to load data from localStorage (${key}):`, error);
       return defaultValue;
@@ -36,9 +38,12 @@ const storage = {
 };
 
 const STORAGE_KEYS = {
-  expandedItems: (projectId: string) => `poly-micro-manager-expanded-items:${projectId}`,
-  functionResults: (projectId: string) => `poly-micro-manager-function-results:${projectId}`,
-  showResults: (projectId: string) => `poly-micro-manager-show-results:${projectId}`,
+  expandedItems: (projectId: string) =>
+    `poly-micro-manager-expanded-items:${projectId}`,
+  functionResults: (projectId: string) =>
+    `poly-micro-manager-function-results:${projectId}`,
+  showResults: (projectId: string) =>
+    `poly-micro-manager-show-results:${projectId}`,
 };
 
 /**
@@ -50,8 +55,12 @@ export const useTestItems = (
   microserviceId: string,
 ) => {
   // Create state for expanded items, function results, and results visibility
-  const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({});
-  const [functionResults, setFunctionResults] = useState<Record<string, string>>({});
+  const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>(
+    {},
+  );
+  const [functionResults, setFunctionResults] = useState<
+    Record<string, string>
+  >({});
   const [showResults, setShowResults] = useState<boolean>(true);
 
   // State for the current microservice ID
@@ -80,19 +89,19 @@ export const useTestItems = (
     const loadedExpandedItems = storage.load<Record<string, boolean>>(
       STORAGE_KEYS.expandedItems(projectId),
       currentMicroserviceId,
-      {}
+      {},
     );
 
     const loadedFunctionResults = storage.load<Record<string, string>>(
       STORAGE_KEYS.functionResults(projectId),
       currentMicroserviceId,
-      {}
+      {},
     );
 
     const loadedShowResults = storage.load<boolean>(
       STORAGE_KEYS.showResults(projectId),
       currentMicroserviceId,
-      true
+      true,
     );
 
     setExpandedItems(loadedExpandedItems);
@@ -103,99 +112,109 @@ export const useTestItems = (
   /**
    * Poll for test completion
    */
-  const pollForTestCompletion = useCallback((testId: string, testRunId: string) => {
-    if (pollIntervalRef.current) {
-      clearInterval(pollIntervalRef.current);
-    }
-
-    let pollCount = 0;
-    const maxPolls = 30;
-
-    pollIntervalRef.current = setInterval(async () => {
-      try {
-        if (pollCount >= maxPolls) {
-          if (pollIntervalRef.current) {
-            clearInterval(pollIntervalRef.current);
-          }
-          setRunningTests((prev) => prev.filter(id => id !== testId));
-          setAllTestsComplete(true);
-          setIsLoading(false);
-          return;
-        }
-
-        const response = await testsApi.getTestRun(testRunId);
-        const testRun = response.data;
-
-        if (testRun.status !== 'pending' && testRun.status !== 'running') {
-          // Test has completed, update the results
-          const resultText = `Test ${testRun.name} ${testRun.status} (${testRun.passed || 0}/${testRun.total || 0} passed)`;
-          setFunctionResults((prev) => {
-            const updated = { ...prev };
-            updated[testId] = resultText;
-            storage.save(STORAGE_KEYS.functionResults(projectId), currentMicroserviceId, updated);
-            return updated;
-          });
-
-          // Clean up
-          if (pollIntervalRef.current) {
-            clearInterval(pollIntervalRef.current);
-          }
-          setRunningTests((prev) => prev.filter(id => id !== testId));
-          setAllTestsComplete(true);
-          setIsLoading(false);
-        }
-
-        pollCount++;
-      } catch (error) {
-        console.error('Error polling test status:', error);
-        if (pollIntervalRef.current) {
-          clearInterval(pollIntervalRef.current);
-        }
-        setRunningTests((prev) => prev.filter(id => id !== testId));
-        setAllTestsComplete(true);
-        setIsLoading(false);
+  const pollForTestCompletion = useCallback(
+    (testId: string, testRunId: string) => {
+      if (pollIntervalRef.current) {
+        clearInterval(pollIntervalRef.current);
       }
-    }, 2000); // Poll every 2 seconds
-  }, [projectId, currentMicroserviceId]);
+
+      let pollCount = 0;
+      const maxPolls = 30;
+
+      pollIntervalRef.current = setInterval(async () => {
+        try {
+          if (pollCount >= maxPolls) {
+            if (pollIntervalRef.current) {
+              clearInterval(pollIntervalRef.current);
+            }
+            setRunningTests((prev) => prev.filter((id) => id !== testId));
+            setAllTestsComplete(true);
+            setIsLoading(false);
+            return;
+          }
+
+          const response = await testsApi.getTestRun(testRunId);
+          const testRun = response.data;
+
+          if (testRun.status !== 'pending' && testRun.status !== 'running') {
+            // Test has completed, update the results
+            const resultText = `Test ${testRun.name} ${testRun.status} (${testRun.passed || 0}/${testRun.total || 0} passed)`;
+            setFunctionResults((prev) => {
+              const updated = { ...prev };
+              updated[testId] = resultText;
+              storage.save(
+                STORAGE_KEYS.functionResults(projectId),
+                currentMicroserviceId,
+                updated,
+              );
+              return updated;
+            });
+
+            // Clean up
+            if (pollIntervalRef.current) {
+              clearInterval(pollIntervalRef.current);
+            }
+            setRunningTests((prev) => prev.filter((id) => id !== testId));
+            setAllTestsComplete(true);
+            setIsLoading(false);
+          }
+
+          pollCount++;
+        } catch (error) {
+          console.error('Error polling test status:', error);
+          if (pollIntervalRef.current) {
+            clearInterval(pollIntervalRef.current);
+          }
+          setRunningTests((prev) => prev.filter((id) => id !== testId));
+          setAllTestsComplete(true);
+          setIsLoading(false);
+        }
+      }, 2000); // Poll every 2 seconds
+    },
+    [projectId, currentMicroserviceId],
+  );
 
   /**
    * Execute a single test by ID
    */
-  const executeTest = useCallback(async (testId: string): Promise<void> => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      setRunningTests((prev) => [...prev, testId]);
-      setAllTestsComplete(false);
+  const executeTest = useCallback(
+    async (testId: string): Promise<void> => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        setRunningTests((prev) => [...prev, testId]);
+        setAllTestsComplete(false);
 
-      const test = tests.find((t) => t.id === testId);
+        const test = tests.find((t) => t.id === testId);
 
-      if (!test) {
-        throw new Error(`Test with ID ${testId} not found`);
+        if (!test) {
+          throw new Error(`Test with ID ${testId} not found`);
+        }
+
+        const response = await testsApi.runTest({
+          project_id: projectId,
+          service_id: currentMicroserviceId,
+          test_path: `tests/${testId}.py`, // Required by API
+          test_id: testId,
+        });
+
+        setTestRunIds((prev) => ({
+          ...prev,
+          [testId]: response.data.id,
+        }));
+
+        pollForTestCompletion(testId, response.data.id);
+      } catch (error) {
+        console.error(`Error executing test ${testId}:`, error);
+        setError(error instanceof Error ? error : new Error(String(error)));
+        setRunningTests((prev) => prev.filter((id) => id !== testId));
+        setAllTestsComplete(true);
+      } finally {
+        setIsLoading(false);
       }
-
-      const response = await testsApi.runTest({
-        project_id: projectId,
-        service_id: currentMicroserviceId,
-        test_path: `tests/${testId}.py`, // Required by API
-        test_id: testId
-      });
-
-      setTestRunIds((prev) => ({
-        ...prev,
-        [testId]: response.data.id
-      }));
-
-      pollForTestCompletion(testId, response.data.id);
-    } catch (error) {
-      console.error(`Error executing test ${testId}:`, error);
-      setError(error instanceof Error ? error : new Error(String(error)));
-      setRunningTests((prev) => prev.filter((id) => id !== testId));
-      setAllTestsComplete(true);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [tests, projectId, currentMicroserviceId, pollForTestCompletion]);
+    },
+    [tests, projectId, currentMicroserviceId, pollForTestCompletion],
+  );
 
   /**
    * Run a single test by ID
@@ -204,41 +223,44 @@ export const useTestItems = (
     async (testId: string) => {
       await executeTest(testId);
     },
-    [executeTest]
+    [executeTest],
   );
 
   /**
    * Analyze test results using AI
    */
-  const analyzeTestResult = useCallback(async (testId: string) => {
-    try {
-      setIsAnalyzing(true);
+  const analyzeTestResult = useCallback(
+    async (testId: string) => {
+      try {
+        setIsAnalyzing(true);
 
-      const testRunId = testRunIds[testId];
-      if (!testRunId) {
-        throw new Error(`No test run ID found for test ${testId}`);
+        const testRunId = testRunIds[testId];
+        if (!testRunId) {
+          throw new Error(`No test run ID found for test ${testId}`);
+        }
+
+        const response = await testsApi.analyzeTestRun({
+          test_run_id: testRunId,
+          include_logs: true,
+        });
+
+        const analysisResult = response.data;
+
+        setTestAnalysis((prev) => ({
+          ...prev,
+          [testId]: analysisResult,
+        }));
+
+        return analysisResult;
+      } catch (error) {
+        console.error(`Error analyzing test ${testId}:`, error);
+        throw error;
+      } finally {
+        setIsAnalyzing(false);
       }
-
-      const response = await testsApi.analyzeTestRun({
-        test_run_id: testRunId,
-        include_logs: true
-      });
-
-      const analysisResult = response.data;
-
-      setTestAnalysis((prev) => ({
-        ...prev,
-        [testId]: analysisResult,
-      }));
-
-      return analysisResult;
-    } catch (error) {
-      console.error(`Error analyzing test ${testId}:`, error);
-      throw error;
-    } finally {
-      setIsAnalyzing(false);
-    }
-  }, [testRunIds]);
+    },
+    [testRunIds],
+  );
 
   /**
    * Run all automatable tests for the current microservice
@@ -269,7 +291,7 @@ export const useTestItems = (
 
     try {
       // Mark all as running
-      const testIds = functions.map(func => func.id);
+      const testIds = functions.map((func) => func.id);
       setRunningTests(testIds);
 
       // Run all tests in parallel
@@ -280,7 +302,7 @@ export const useTestItems = (
           } catch (error) {
             console.error(`Error running test ${func.id}:`, error);
           }
-        })
+        }),
       );
     } catch (error) {
       console.error('Error running all tests:', error);
@@ -295,10 +317,14 @@ export const useTestItems = (
    */
   const toggleResultsVisibility = useCallback(() => {
     if (!currentMicroserviceId) return;
-    
+
     setShowResults((prev) => {
       const next = !prev;
-      storage.save(STORAGE_KEYS.showResults(projectId), currentMicroserviceId, next);
+      storage.save(
+        STORAGE_KEYS.showResults(projectId),
+        currentMicroserviceId,
+        next,
+      );
       return next;
     });
   }, [currentMicroserviceId, projectId]);
@@ -329,11 +355,15 @@ export const useTestItems = (
           ...prev,
           [id]: !prev[id],
         };
-        storage.save(STORAGE_KEYS.expandedItems(projectId), currentMicroserviceId, newState);
+        storage.save(
+          STORAGE_KEYS.expandedItems(projectId),
+          currentMicroserviceId,
+          newState,
+        );
         return newState;
       });
     },
-    [currentMicroserviceId, projectId]
+    [currentMicroserviceId, projectId],
   );
 
   /**
@@ -351,7 +381,11 @@ export const useTestItems = (
     };
     processItems(tests);
     setExpandedItems(expandedState);
-    storage.save(STORAGE_KEYS.expandedItems(projectId), currentMicroserviceId, expandedState);
+    storage.save(
+      STORAGE_KEYS.expandedItems(projectId),
+      currentMicroserviceId,
+      expandedState,
+    );
   }, [tests, currentMicroserviceId, projectId]);
 
   /**
@@ -359,7 +393,11 @@ export const useTestItems = (
    */
   const collapseAll = useCallback(() => {
     setExpandedItems({});
-    storage.save(STORAGE_KEYS.expandedItems(projectId), currentMicroserviceId, {});
+    storage.save(
+      STORAGE_KEYS.expandedItems(projectId),
+      currentMicroserviceId,
+      {},
+    );
   }, [currentMicroserviceId, projectId]);
 
   // Clean up on unmount

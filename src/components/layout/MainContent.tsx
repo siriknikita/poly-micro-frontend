@@ -74,19 +74,28 @@ export const MainContent: React.FC<MainContentProps> = ({
             {activeTab === TABS.DASHBOARD && (
               <MonitoringDashboard
                 selectedProjectId={selectedProject.id}
-                initialServiceName={getLastSelectedService(selectedProject.id, TABS.DASHBOARD)}
+                initialServiceName={getLastSelectedService(
+                  selectedProject.id,
+                  TABS.DASHBOARD,
+                )}
               />
             )}
             {activeTab === TABS.MONITORING && (
               <MonitoringDashboard
                 selectedProjectId={selectedProject.id}
-                initialServiceName={getLastSelectedService(selectedProject.id, TABS.MONITORING)}
+                initialServiceName={getLastSelectedService(
+                  selectedProject.id,
+                  TABS.MONITORING,
+                )}
               />
             )}
             {activeTab === TABS.CICD && (
               <CICDPipeline
                 selectedProjectId={selectedProject.id}
-                initialServiceName={getLastSelectedService(selectedProject.id, TABS.CICD)}
+                initialServiceName={getLastSelectedService(
+                  selectedProject.id,
+                  TABS.CICD,
+                )}
               />
             )}
             {activeTab === TABS.TESTING && (

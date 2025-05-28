@@ -10,7 +10,9 @@ interface UsePipelineVariablesOptions {
   initialVariables?: PipelineVariable[];
 }
 
-export function usePipelineVariables({ initialVariables = [] }: UsePipelineVariablesOptions = {}) {
+export function usePipelineVariables({
+  initialVariables = [],
+}: UsePipelineVariablesOptions = {}) {
   const [variables, setVariables] = useState<PipelineVariable[]>(
     initialVariables.length > 0
       ? initialVariables
@@ -45,12 +47,15 @@ export function usePipelineVariables({ initialVariables = [] }: UsePipelineVaria
     [newVariable],
   );
 
-  const updateNewVariable = useCallback((field: keyof PipelineVariable, value: string) => {
-    setNewVariable((prev) => ({
-      ...prev,
-      [field]: field === 'scope' ? (value as 'local' | 'global') : value,
-    }));
-  }, []);
+  const updateNewVariable = useCallback(
+    (field: keyof PipelineVariable, value: string) => {
+      setNewVariable((prev) => ({
+        ...prev,
+        [field]: field === 'scope' ? (value as 'local' | 'global') : value,
+      }));
+    },
+    [],
+  );
 
   const deleteVariable = useCallback((index: number) => {
     setVariables((prev) => prev.filter((_, i) => i !== index));
@@ -63,7 +68,8 @@ export function usePipelineVariables({ initialVariables = [] }: UsePipelineVaria
           i === index
             ? {
                 ...variable,
-                [field]: field === 'scope' ? (value as 'local' | 'global') : value,
+                [field]:
+                  field === 'scope' ? (value as 'local' | 'global') : value,
               }
             : variable,
         ),
