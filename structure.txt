@@ -1,0 +1,125 @@
+.
+├── docs
+│   ├── architecture
+│   │   ├── patterns.md
+│   │   └── user-behavior-diagrams.md
+│   ├── assets
+│   │   └── sonarqube
+│   ├── components
+│   │   ├── help
+│   │   ├── monitoring
+│   │   ├── auth.md
+│   │   ├── core.md
+│   │   ├── import-guide.md
+│   │   ├── monitoring.md
+│   │   ├── pipelining.md
+│   │   ├── shared.md
+│   │   └── testing.md
+│   ├── for-developers
+│   │   ├── README.md
+│   │   ├── README-RELEASE-MANAGEMENT.md
+│   │   ├── RUN_TESTS.md
+│   │   ├── SONARQUBE.md
+│   │   └── TESTING.md
+│   ├── implementation
+│   │   ├── service-filters-implementation.md
+│   │   └── test-execution-feature.md
+│   ├── templates
+│   │   └── docsify-template.html
+│   ├── github-pages.md
+│   ├── README.md
+│   ├── release-management.md
+│   ├── _sidebar.md
+│   └── user-guide.md
+├── public
+│   └── logo.png
+├── releases
+│   ├── changes.json
+│   └── releases.json
+├── src
+│   ├── components
+│   │   ├── auth
+│   │   ├── common
+│   │   ├── guidance
+│   │   ├── help
+│   │   ├── layout
+│   │   ├── monitoring
+│   │   ├── pipelining
+│   │   ├── releases
+│   │   ├── shared
+│   │   ├── testing
+│   │   ├── tests
+│   │   ├── ui
+│   │   ├── HealthCheck.tsx
+│   │   └── index.ts
+│   ├── config
+│   │   └── index.ts
+│   ├── context
+│   │   ├── GuidanceContext.tsx
+│   │   ├── ProjectContext.tsx
+│   │   ├── projectTypes.ts
+│   │   ├── ReleaseContext.tsx
+│   │   ├── ToastContext.tsx
+│   │   ├── toastTypes.ts
+│   │   ├── useProject.tsx
+│   │   └── useToast.tsx
+│   ├── data
+│   │   ├── mockData.ts
+│   │   └── mockTestData.ts
+│   ├── db
+│   │   ├── db.ts
+│   │   ├── resetDatabase.ts
+│   │   └── seedReleases.ts
+│   ├── helpers
+│   │   └── constants.tsx
+│   ├── hooks
+│   │   ├── index.ts
+│   │   ├── useLogAnalysis.ts
+│   │   ├── useMonitoringData.ts
+│   │   ├── usePagination.ts
+│   │   ├── useRefreshCache.ts
+│   │   ├── useRelease.ts
+│   │   ├── useRunServiceTests.ts
+│   │   ├── useServiceTests.ts
+│   │   └── useTheme.ts
+│   ├── lib
+│   │   └── utils.ts
+│   ├── __tests__
+│   │   ├── integration
+│   │   ├── mocks
+│   │   ├── unit
+│   │   ├── utils
+│   │   ├── global.d.ts
+│   │   ├── setup.ts
+│   │   └── test-utils.ts
+│   ├── types
+│   │   ├── index.ts
+│   │   ├── monitoring.ts
+│   │   ├── pipeline.ts
+│   │   └── testing.ts
+│   ├── utils
+│   │   ├── api.ts
+│   │   ├── platform.ts
+│   │   ├── releaseManager.ts
+│   │   └── releaseSync.ts
+│   ├── App.tsx
+│   ├── index.css
+│   ├── main.tsx
+│   ├── setupTests.ts
+│   └── vite-env.d.ts
+├── Dockerfile
+├── eslint.config.js
+├── index.html
+├── LICENSE
+├── nginx.conf
+├── package.json
+├── postcss.config.js
+├── README.md
+├── structure.txt
+├── tailwind.config.js
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+├── vercel.json
+├── vite.config.ts
+└── vitest.config.ts
